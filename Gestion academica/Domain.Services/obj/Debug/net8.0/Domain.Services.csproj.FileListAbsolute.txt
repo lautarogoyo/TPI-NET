@@ -4,3 +4,21 @@ C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo pract
 C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\ABM Docente\Domain.Services\obj\Debug\net8.0\Domain.Services.AssemblyInfo.cs
 C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\ABM Docente\Domain.Services\obj\Debug\net8.0\Domain.Services.csproj.CoreCompileInputs.cache
 C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\ABM Docente\Domain.Services\obj\Debug\net8.0\Domain.Services.sourcelink.json
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\bin\Debug\net8.0\Domain.Services.deps.json
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\bin\Debug\net8.0\Domain.Services.dll
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\bin\Debug\net8.0\Domain.Services.pdb
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\bin\Debug\net8.0\DATA.dll
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\bin\Debug\net8.0\Domain.Model.dll
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\bin\Debug\net8.0\DATA.pdb
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\bin\Debug\net8.0\Domain.Model.pdb
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\obj\Debug\net8.0\Domain.Services.csproj.AssemblyReference.cache
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\obj\Debug\net8.0\Domain.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\obj\Debug\net8.0\Domain.Services.AssemblyInfoInputs.cache
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\obj\Debug\net8.0\Domain.Services.AssemblyInfo.cs
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\obj\Debug\net8.0\Domain.Services.csproj.CoreCompileInputs.cache
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\obj\Debug\net8.0\Domain.Services.sourcelink.json
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\obj\Debug\net8.0\Domain.S.44836E94.Up2Date
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\obj\Debug\net8.0\Domain.Services.dll
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\obj\Debug\net8.0\refint\Domain.Services.dll
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\obj\Debug\net8.0\Domain.Services.pdb
+C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\Domain.Services\obj\Debug\net8.0\ref\Domain.Services.dll

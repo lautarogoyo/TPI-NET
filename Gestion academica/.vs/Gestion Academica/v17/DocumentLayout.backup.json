@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{93C498F0-4F22-4081-AFB7-1692C44DB213}|WindowsForm\\WindowsForm.csproj|c:\\users\\lauta\\dropbox\\facultad\\tecnologias de desarrollo de software\\tpi\\gestion academica\\windowsform\\windowsform.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{93C498F0-4F22-4081-AFB7-1692C44DB213}|WindowsForm\\WindowsForm.csproj|solutionrelative:windowsform\\windowsform.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AAAAA75F-6D14-4031-9798-96C730A0015B}|DATA\\DATA.csproj|c:\\users\\lauta\\dropbox\\facultad\\tecnologias de desarrollo de software\\tpi\\gestion academica\\data\\cursoinmemory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AAAAA75F-6D14-4031-9798-96C730A0015B}|DATA\\DATA.csproj|solutionrelative:data\\cursoinmemory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "WindowsForm",
+              "DocumentMoniker": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
+              "RelativeDocumentMoniker": "WindowsForm\\WindowsForm.csproj",
+              "ToolTip": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
+              "RelativeToolTip": "WindowsForm\\WindowsForm.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-08-04T22:55:17.529Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CursoInMemory.cs",
+              "DocumentMoniker": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\DATA\\CursoInMemory.cs",
+              "RelativeDocumentMoniker": "DATA\\CursoInMemory.cs",
+              "ToolTip": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\DATA\\CursoInMemory.cs",
+              "RelativeToolTip": "DATA\\CursoInMemory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-04T22:55:04.911Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

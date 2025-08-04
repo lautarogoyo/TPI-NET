@@ -8,23 +8,23 @@
     "net8.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\lauti\\.nuget\\packages\\": {},
+    "C:\\Users\\lauta\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
+      "projectUniqueName": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
       "projectName": "WindowsForm",
-      "projectPath": "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
-      "packagesPath": "C:\\Users\\lauti\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\WindowsForm\\obj\\",
+      "projectPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
+      "packagesPath": "C:\\Users\\lauta\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WindowsForm\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\lauti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lauta\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
