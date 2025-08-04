@@ -1,0 +1,138 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\ABM Profesor\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{93C498F0-4F22-4081-AFB7-1692C44DB213}|WindowsForm\\WindowsForm.csproj|c:\\users\\geron\\onedrive\\escritorio\\utn\\.net\\tp\\abm profesor\\windowsform\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{93C498F0-4F22-4081-AFB7-1692C44DB213}|WindowsForm\\WindowsForm.csproj|solutionrelative:windowsform\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{93C498F0-4F22-4081-AFB7-1692C44DB213}|WindowsForm\\WindowsForm.csproj|c:\\users\\geron\\onedrive\\escritorio\\utn\\.net\\tp\\abm profesor\\windowsform\\docentescursolista.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{93C498F0-4F22-4081-AFB7-1692C44DB213}|WindowsForm\\WindowsForm.csproj|solutionrelative:windowsform\\docentescursolista.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1BC89EE2-84F5-4416-ADC9-135A1FF64D42}|Domain.Model\\Domain.Model.csproj|c:\\users\\geron\\onedrive\\escritorio\\utn\\.net\\tp\\abm profesor\\domain.model\\profesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1BC89EE2-84F5-4416-ADC9-135A1FF64D42}|Domain.Model\\Domain.Model.csproj|solutionrelative:domain.model\\profesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{30F381B4-5A71-4A43-8F8A-8B27E87EF226}|DTOs\\DTOs.csproj|c:\\users\\geron\\onedrive\\escritorio\\utn\\.net\\tp\\abm profesor\\dtos\\profesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{30F381B4-5A71-4A43-8F8A-8B27E87EF226}|DTOs\\DTOs.csproj|solutionrelative:dtos\\profesor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47C1AE3E-F7CA-4EBF-9975-D01C773DD735}|Domain.Services\\Domain.Services.csproj|c:\\users\\geron\\onedrive\\escritorio\\utn\\.net\\tp\\abm profesor\\domain.services\\profesorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47C1AE3E-F7CA-4EBF-9975-D01C773DD735}|Domain.Services\\Domain.Services.csproj|solutionrelative:domain.services\\profesorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AAAAA75F-6D14-4031-9798-96C730A0015B}|DATA\\DATA.csproj|c:\\users\\geron\\onedrive\\escritorio\\utn\\.net\\tp\\abm profesor\\data\\profesorinmemory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AAAAA75F-6D14-4031-9798-96C730A0015B}|DATA\\DATA.csproj|solutionrelative:data\\profesorinmemory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{361138B7-462F-4E82-87DC-E72CF3ACD4E6}|WebAPI\\WebAPI.csproj|c:\\users\\geron\\onedrive\\escritorio\\utn\\.net\\tp\\abm profesor\\webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{361138B7-462F-4E82-87DC-E72CF3ACD4E6}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DocentesCursoLista.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\ABM Profesor\\WindowsForm\\DocentesCursoLista.cs",
+              "RelativeDocumentMoniker": "WindowsForm\\DocentesCursoLista.cs",
+              "ToolTip": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\ABM Profesor\\WindowsForm\\DocentesCursoLista.cs [Dise\u00F1o]",
+              "RelativeToolTip": "WindowsForm\\DocentesCursoLista.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T22:54:02.747Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\ABM Profesor\\WindowsForm\\Program.cs",
+              "RelativeDocumentMoniker": "WindowsForm\\Program.cs",
+              "ToolTip": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\ABM Profesor\\WindowsForm\\Program.cs",
+              "RelativeToolTip": "WindowsForm\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T22:40:23.599Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\ABM Profesor\\WebAPI\\Program.cs",
+              "RelativeDocumentMoniker": "WebAPI\\Program.cs",
+              "ToolTip": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\ABM Profesor\\WebAPI\\Program.cs",
+              "RelativeToolTip": "WebAPI\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T22:37:31.148Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ProfesorInMemory.cs",
+              "DocumentMoniker": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\ABM Profesor\\DATA\\ProfesorInMemory.cs",
+              "RelativeDocumentMoniker": "DATA\\ProfesorInMemory.cs",
+              "ToolTip": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\ABM Profesor\\DATA\\ProfesorInMemory.cs",
+              "RelativeToolTip": "DATA\\ProfesorInMemory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T21:59:29.011Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ProfesorService.cs",
+              "DocumentMoniker": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\ABM Profesor\\Domain.Services\\ProfesorService.cs",
+              "RelativeDocumentMoniker": "Domain.Services\\ProfesorService.cs",
+              "ToolTip": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\ABM Profesor\\Domain.Services\\ProfesorService.cs",
+              "RelativeToolTip": "Domain.Services\\ProfesorService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-21T23:20:11.092Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Profesor.cs",
+              "DocumentMoniker": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\ABM Profesor\\DTOs\\Profesor.cs",
+              "RelativeDocumentMoniker": "DTOs\\Profesor.cs",
+              "ToolTip": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\ABM Profesor\\DTOs\\Profesor.cs",
+              "RelativeToolTip": "DTOs\\Profesor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-21T23:19:29.855Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Profesor.cs",
+              "DocumentMoniker": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\ABM Profesor\\Domain.Model\\Profesor.cs",
+              "RelativeDocumentMoniker": "Domain.Model\\Profesor.cs",
+              "ToolTip": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\ABM Profesor\\Domain.Model\\Profesor.cs",
+              "RelativeToolTip": "Domain.Model\\Profesor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-21T23:13:27.145Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
