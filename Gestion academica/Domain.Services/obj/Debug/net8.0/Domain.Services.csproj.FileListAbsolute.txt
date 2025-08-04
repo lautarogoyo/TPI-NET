@@ -1,0 +1,6 @@
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\ABM Docente\Domain.Services\obj\Debug\net8.0\Domain.Services.csproj.AssemblyReference.cache
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\ABM Docente\Domain.Services\obj\Debug\net8.0\Domain.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\ABM Docente\Domain.Services\obj\Debug\net8.0\Domain.Services.AssemblyInfoInputs.cache
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\ABM Docente\Domain.Services\obj\Debug\net8.0\Domain.Services.AssemblyInfo.cs
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\ABM Docente\Domain.Services\obj\Debug\net8.0\Domain.Services.csproj.CoreCompileInputs.cache
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\ABM Docente\Domain.Services\obj\Debug\net8.0\Domain.Services.sourcelink.json

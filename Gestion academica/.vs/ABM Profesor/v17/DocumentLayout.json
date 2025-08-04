@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\lauti\\Documents\\Tecnolog\u00EDa de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\ABM Docente\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{47C1AE3E-F7CA-4EBF-9975-D01C773DD735}|Domain.Services\\Domain.Services.csproj|c:\\users\\lauti\\documents\\tecnolog\u00EDa de desarrollo de software ide\\trabajo practico\\tpi-net\\abm docente\\domain.services\\especialidadservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47C1AE3E-F7CA-4EBF-9975-D01C773DD735}|Domain.Services\\Domain.Services.csproj|solutionrelative:domain.services\\especialidadservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AAAAA75F-6D14-4031-9798-96C730A0015B}|DATA\\DATA.csproj|c:\\users\\lauti\\documents\\tecnolog\u00EDa de desarrollo de software ide\\trabajo practico\\tpi-net\\abm docente\\data\\especialidadinmemory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AAAAA75F-6D14-4031-9798-96C730A0015B}|DATA\\DATA.csproj|solutionrelative:data\\especialidadinmemory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1BC89EE2-84F5-4416-ADC9-135A1FF64D42}|Domain.Model\\Domain.Model.csproj|c:\\users\\lauti\\documents\\tecnolog\u00EDa de desarrollo de software ide\\trabajo practico\\tpi-net\\abm docente\\domain.model\\especialidad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1BC89EE2-84F5-4416-ADC9-135A1FF64D42}|Domain.Model\\Domain.Model.csproj|solutionrelative:domain.model\\especialidad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "EspecialidadService.cs",
+              "DocumentMoniker": "C:\\Users\\lauti\\Documents\\Tecnolog\u00EDa de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\ABM Docente\\Domain.Services\\EspecialidadService.cs",
+              "RelativeDocumentMoniker": "Domain.Services\\EspecialidadService.cs",
+              "ToolTip": "C:\\Users\\lauti\\Documents\\Tecnolog\u00EDa de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\ABM Docente\\Domain.Services\\EspecialidadService.cs",
+              "RelativeToolTip": "Domain.Services\\EspecialidadService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEEAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-04T22:25:36.045Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EspecialidadInMemory.cs",
+              "DocumentMoniker": "C:\\Users\\lauti\\Documents\\Tecnolog\u00EDa de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\ABM Docente\\DATA\\EspecialidadInMemory.cs",
+              "RelativeDocumentMoniker": "DATA\\EspecialidadInMemory.cs",
+              "ToolTip": "C:\\Users\\lauti\\Documents\\Tecnolog\u00EDa de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\ABM Docente\\DATA\\EspecialidadInMemory.cs",
+              "RelativeToolTip": "DATA\\EspecialidadInMemory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-04T22:16:08.878Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Especialidad.cs",
+              "DocumentMoniker": "C:\\Users\\lauti\\Documents\\Tecnolog\u00EDa de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\ABM Docente\\Domain.Model\\Especialidad.cs",
+              "RelativeDocumentMoniker": "Domain.Model\\Especialidad.cs",
+              "ToolTip": "C:\\Users\\lauti\\Documents\\Tecnolog\u00EDa de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\ABM Docente\\Domain.Model\\Especialidad.cs",
+              "RelativeToolTip": "Domain.Model\\Especialidad.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-04T22:14:28.187Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
