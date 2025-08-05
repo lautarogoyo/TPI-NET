@@ -245,4 +245,127 @@ app.MapDelete("/especialidades/{idEspecialidad}", (int idEspecialidad) =>
 .Produces(StatusCodes.Status404NotFound)
 .WithOpenApi();
 
+
+// 🔹 GET by IDComision + IDMateria
+app.MapGet("/cursos/{idComision}/{idMateria}", (int idComision, int idMateria) =>
+{
+    CursoService service = new CursoService();
+    var curso = service.Get(idComision, idMateria);
+
+    if (curso == null)
+        return Results.NotFound();
+
+    var dto = new DTOs.Curso
+    {
+        AnioCalendario = curso.AnioCalendario,
+        Cupo = curso.Cupo,
+        Descripcion = curso.Descripcion,
+        IDComision = curso.IDComision,
+        IDMateria = curso.IDMateria
+    };
+
+    return Results.Ok(dto);
+})
+.WithName("GetCurso")
+.Produces<DTOs.Curso>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+
+// 🔹 GET All
+app.MapGet("/cursos", () =>
+{
+    CursoService service = new CursoService();
+    var lista = service.GetAll();
+
+    var dtos = lista.Select(cur => new DTOs.Curso
+    {
+        AnioCalendario = cur.AnioCalendario,
+        Cupo = cur.Cupo,
+        Descripcion = cur.Descripcion,
+        IDComision = cur.IDComision,
+        IDMateria = cur.IDMateria
+    }).ToList();
+    return Results.Ok(dtos);
+})
+.WithName("GetAllCursos")
+.Produces<List<DTOs.Curso>>(StatusCodes.Status200OK)
+.WithOpenApi();
+
+// 🔹 POST
+app.MapPost("/cursos", (DTOs.Curso dto) =>
+{
+    try
+    {
+        CursoService service = new CursoService();
+
+        var model = new Domain.Model.Curso(
+            dto.AnioCalendario,
+            dto.Cupo,
+            dto.Descripcion,
+            dto.IDComision,
+            dto.IDMateria
+        );
+
+        service.Add(model);
+
+        return Results.Created(
+            $"/cursos/{dto.IDComision}/{dto.IDMateria}",
+            dto
+        );
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("AddCurso")
+.Produces<DTOs.Curso>(StatusCodes.Status201Created)
+.Produces(StatusCodes.Status400BadRequest)
+.WithOpenApi();
+
+// 🔹 PUT
+app.MapPut("/cursos", (DTOs.Curso dto) =>
+{
+    try
+    {
+        CursoService service = new CursoService();
+
+        var model = new Domain.Model.Curso(
+            dto.AnioCalendario,
+            dto.Cupo,
+            dto.Descripcion,
+            dto.IDComision,
+            dto.IDMateria
+        );
+
+        var updated = service.Update(model);
+
+        return updated ? Results.NoContent() : Results.NotFound();
+    }
+    catch (ArgumentException ex)
+    {
+        return Results.BadRequest(new { error = ex.Message });
+    }
+})
+.WithName("UpdateCurso")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status400BadRequest)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+
+// 🔹 DELETE
+app.MapDelete("/cursos/{idComision}/{idMateria}", (int idComision, int idMateria) =>
+{
+    CursoService service = new CursoService();
+
+    var deleted = service.Delete(idComision, idMateria);
+
+    return deleted ? Results.NoContent() : Results.NotFound();
+})
+.WithName("DeleteCurso")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound)
+.WithOpenApi();
+
+
 app.Run();
