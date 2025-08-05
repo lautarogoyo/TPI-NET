@@ -1,35 +1,54 @@
 {
   "version": 3,
   "targets": {
-    "net8.0-windows7.0": {}
+    "net8.0-windows7.0": {
+      "DTOs/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/DTOs.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DTOs.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "DTOs/1.0.0": {
+      "type": "project",
+      "path": "../DTOs/DTOs.csproj",
+      "msbuildProject": "../DTOs/DTOs.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net8.0-windows7.0": []
+    "net8.0-windows7.0": [
+      "DTOs >= 1.0.0"
+    ]
   },
   "packageFolders": {
-    "C:\\Users\\lauta\\.nuget\\packages\\": {},
+    "C:\\Users\\lauti\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
+      "projectUniqueName": "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
       "projectName": "WindowsForm",
-      "projectPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
-      "packagesPath": "C:\\Users\\lauta\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WindowsForm\\obj\\",
+      "projectPath": "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
+      "packagesPath": "C:\\Users\\lauti\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\WindowsForm\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\lauta\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lauti\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net8.0-windows"
+        "net8.0-windows7.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -37,8 +56,12 @@
       },
       "frameworks": {
         "net8.0-windows7.0": {
-          "targetAlias": "net8.0-windows",
-          "projectReferences": {}
+          "targetAlias": "net8.0-windows7.0",
+          "projectReferences": {
+            "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\DTOs\\DTOs.csproj": {
+              "projectPath": "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\DTOs\\DTOs.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -55,7 +78,7 @@
     },
     "frameworks": {
       "net8.0-windows7.0": {
-        "targetAlias": "net8.0-windows",
+        "targetAlias": "net8.0-windows7.0",
         "imports": [
           "net461",
           "net462",

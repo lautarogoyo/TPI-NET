@@ -1,6 +1,6 @@
 ﻿using Domain.Model;
 
-namespace DATA
+namespace Data
 {
     public class DocenteCursoInMemory
     {

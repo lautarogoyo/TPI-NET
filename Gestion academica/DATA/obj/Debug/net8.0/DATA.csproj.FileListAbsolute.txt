@@ -30,3 +30,19 @@ C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestio
 C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\DATA\obj\Debug\net8.0\refint\DATA.dll
 C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\DATA\obj\Debug\net8.0\DATA.pdb
 C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\DATA\obj\Debug\net8.0\ref\DATA.dll
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\bin\Debug\net8.0\DATA.deps.json
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\bin\Debug\net8.0\DATA.dll
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\bin\Debug\net8.0\DATA.pdb
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\bin\Debug\net8.0\Domain.Model.dll
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\bin\Debug\net8.0\Domain.Model.pdb
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\obj\Debug\net8.0\DATA.csproj.AssemblyReference.cache
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\obj\Debug\net8.0\DATA.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\obj\Debug\net8.0\DATA.AssemblyInfoInputs.cache
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\obj\Debug\net8.0\DATA.AssemblyInfo.cs
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\obj\Debug\net8.0\DATA.csproj.CoreCompileInputs.cache
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\obj\Debug\net8.0\DATA.sourcelink.json
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\obj\Debug\net8.0\DATA.csproj.Up2Date
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\obj\Debug\net8.0\DATA.dll
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\obj\Debug\net8.0\refint\DATA.dll
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\obj\Debug\net8.0\DATA.pdb
+C:\Users\lauti\Documents\Tecnología de desarrollo de software IDE\Trabajo practico\TPI-NET\Gestion academica\DATA\obj\Debug\net8.0\ref\DATA.dll

@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DATA\DATA.csproj" />
     <ProjectReference Include="..\Domain.Model\Domain.Model.csproj" />
     <ProjectReference Include="..\Domain.Services\Domain.Services.csproj" />
     <ProjectReference Include="..\DTOs\DTOs.csproj" />

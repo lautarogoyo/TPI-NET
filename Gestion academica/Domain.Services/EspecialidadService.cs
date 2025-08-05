@@ -1,9 +1,9 @@
 ﻿using Domain.Model;
-using DATA;
+using Data;
 
 namespace Domain.Services
 {
-    public class EspecialidadServices
+    public class EspecialidadService
     {
         public void Add(Especialidad especialidad)
         {
