@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\Domain.Services\\Domain.Services.csproj": {}
   },
   "projects": {
@@ -12,12 +13,29 @@
         "projectPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\DATA\\Data.csproj",
         "packagesPath": "C:\\Users\\lauta\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\DATA\\obj\\",
+=======
+    "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\Domain.Services\\Domain.Services.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\DATA\\Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\DATA\\Data.csproj",
+        "projectName": "Data",
+        "projectPath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\DATA\\Data.csproj",
+        "packagesPath": "C:\\Users\\geron\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\DATA\\obj\\",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
+<<<<<<< HEAD
           "C:\\Users\\lauta\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+          "C:\\Users\\geron\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -32,8 +50,13 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
+<<<<<<< HEAD
               "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\Domain.Model\\Domain.Model.csproj": {
                 "projectPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\Domain.Model\\Domain.Model.csproj"
+=======
+              "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\Domain.Model\\Domain.Model.csproj": {
+                "projectPath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\Domain.Model\\Domain.Model.csproj"
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
               }
             }
           }
@@ -48,7 +71,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -69,10 +92,11 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
+<<<<<<< HEAD
     "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\Domain.Model\\Domain.Model.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -81,12 +105,26 @@
         "projectPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\Domain.Model\\Domain.Model.csproj",
         "packagesPath": "C:\\Users\\lauta\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\Domain.Model\\obj\\",
+=======
+    "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\Domain.Model\\Domain.Model.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\Domain.Model\\Domain.Model.csproj",
+        "projectName": "Domain.Model",
+        "projectPath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\Domain.Model\\Domain.Model.csproj",
+        "packagesPath": "C:\\Users\\geron\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\Domain.Model\\obj\\",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
+<<<<<<< HEAD
           "C:\\Users\\lauta\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+          "C:\\Users\\geron\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -113,7 +151,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -134,10 +172,11 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
+<<<<<<< HEAD
     "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\Domain.Services\\Domain.Services.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -146,12 +185,26 @@
         "projectPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\Domain.Services\\Domain.Services.csproj",
         "packagesPath": "C:\\Users\\lauta\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\Domain.Services\\obj\\",
+=======
+    "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\Domain.Services\\Domain.Services.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\Domain.Services\\Domain.Services.csproj",
+        "projectName": "Domain.Services",
+        "projectPath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\Domain.Services\\Domain.Services.csproj",
+        "packagesPath": "C:\\Users\\geron\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\Domain.Services\\obj\\",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
+<<<<<<< HEAD
           "C:\\Users\\lauta\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+          "C:\\Users\\geron\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -166,8 +219,13 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
+<<<<<<< HEAD
               "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\DATA\\Data.csproj": {
                 "projectPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\DATA\\Data.csproj"
+=======
+              "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\DATA\\Data.csproj": {
+                "projectPath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\DATA\\Data.csproj"
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
               }
             }
           }
@@ -182,7 +240,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -203,7 +261,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -14,7 +14,11 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WindowsForm
+<<<<<<< HEAD
 build_property.ProjectDir = C:\Users\lauta\Dropbox\Facultad\Tecnologias de Desarrollo de Software\TPI\Gestion academica\WindowsForm\
+=======
+build_property.ProjectDir = C:\Users\geron\OneDrive\Escritorio\UTN\.NET\TP\TPI-NET\Gestion academica\WindowsForm\
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.CsWinRTUseWindowsUIXamlProjections = false

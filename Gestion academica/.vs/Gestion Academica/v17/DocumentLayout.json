@@ -1,5 +1,6 @@
 {
   "Version": 1,
+<<<<<<< HEAD
   "WorkspaceRootPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\",
   "Documents": [
     {
@@ -28,6 +29,24 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{47C1AE3E-F7CA-4EBF-9975-D01C773DD735}|Domain.Services\\Domain.Services.csproj|c:\\users\\lauta\\dropbox\\facultad\\tecnologias de desarrollo de software\\tpi\\gestion academica\\domain.services\\docentecurso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+=======
+  "WorkspaceRootPath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{361138B7-462F-4E82-87DC-E72CF3ACD4E6}|WebAPI\\WebAPI.csproj|c:\\users\\geron\\onedrive\\escritorio\\utn\\.net\\tp\\tpi-net\\gestion academica\\webapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{361138B7-462F-4E82-87DC-E72CF3ACD4E6}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{361138B7-462F-4E82-87DC-E72CF3ACD4E6}|WebAPI\\WebAPI.csproj|c:\\users\\geron\\onedrive\\escritorio\\utn\\.net\\tp\\tpi-net\\gestion academica\\webapi\\webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{361138B7-462F-4E82-87DC-E72CF3ACD4E6}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47C1AE3E-F7CA-4EBF-9975-D01C773DD735}|Domain.Services\\Domain.Services.csproj|c:\\users\\geron\\onedrive\\escritorio\\utn\\.net\\tp\\tpi-net\\gestion academica\\domain.services\\cursoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47C1AE3E-F7CA-4EBF-9975-D01C773DD735}|Domain.Services\\Domain.Services.csproj|solutionrelative:domain.services\\cursoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47C1AE3E-F7CA-4EBF-9975-D01C773DD735}|Domain.Services\\Domain.Services.csproj|c:\\users\\geron\\onedrive\\escritorio\\utn\\.net\\tp\\tpi-net\\gestion academica\\domain.services\\docentecurso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
       "RelativeMoniker": "D:0:0:{47C1AE3E-F7CA-4EBF-9975-D01C773DD735}|Domain.Services\\Domain.Services.csproj|solutionrelative:domain.services\\docentecurso.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -56,6 +75,7 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+<<<<<<< HEAD
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WebAPI\\Program.cs",
               "RelativeDocumentMoniker": "WebAPI\\Program.cs",
@@ -77,6 +97,16 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-05T00:41:19.701Z",
+=======
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\WebAPI\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "WebAPI\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\WebAPI\\Properties\\launchSettings.json",
+              "RelativeToolTip": "WebAPI\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAmwCIAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-05T00:02:10.476Z",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
               "EditorCaption": ""
             },
             {
@@ -96,40 +126,57 @@
               "$type": "Document",
               "DocumentIndex": 6,
               "Title": "DocenteCurso.cs",
+<<<<<<< HEAD
               "DocumentMoniker": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\Domain.Services\\DocenteCurso.cs",
               "RelativeDocumentMoniker": "Domain.Services\\DocenteCurso.cs",
               "ToolTip": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\Domain.Services\\DocenteCurso.cs",
+=======
+              "DocumentMoniker": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\Domain.Services\\DocenteCurso.cs",
+              "RelativeDocumentMoniker": "Domain.Services\\DocenteCurso.cs",
+              "ToolTip": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\Domain.Services\\DocenteCurso.cs",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
               "RelativeToolTip": "Domain.Services\\DocenteCurso.cs",
               "ViewState": "AgIAADAAAAAAAAAAAAAgPQAAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-04T23:55:22.142Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-04T23:55:22.142Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "CursoService.cs",
+<<<<<<< HEAD
               "DocumentMoniker": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\Domain.Services\\CursoService.cs",
               "RelativeDocumentMoniker": "Domain.Services\\CursoService.cs",
               "ToolTip": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\Domain.Services\\CursoService.cs",
+=======
+              "DocumentMoniker": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\Domain.Services\\CursoService.cs",
+              "RelativeDocumentMoniker": "Domain.Services\\CursoService.cs",
+              "ToolTip": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\Domain.Services\\CursoService.cs",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
               "RelativeToolTip": "Domain.Services\\CursoService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-04T23:55:14.36Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-04T23:55:14.36Z"
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 5,
               "Title": "WebAPI.csproj",
               "DocumentMoniker": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WebAPI\\WebAPI.csproj",
               "RelativeDocumentMoniker": "WebAPI\\WebAPI.csproj",
               "ToolTip": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WebAPI\\WebAPI.csproj",
+=======
+              "DocumentIndex": 1,
+              "Title": "WebAPI.csproj",
+              "DocumentMoniker": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\WebAPI\\WebAPI.csproj",
+              "RelativeDocumentMoniker": "WebAPI\\WebAPI.csproj",
+              "ToolTip": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\WebAPI\\WebAPI.csproj",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
               "RelativeToolTip": "WebAPI\\WebAPI.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-08-04T23:53:51.698Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-04T23:53:51.698Z"
             }
           ]
         }
