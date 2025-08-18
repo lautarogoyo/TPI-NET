@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "6FoN8BWclS8=",
+<<<<<<< HEAD
+  "dgSpecHash": "DM1BYv4ek28=",
   "success": true,
-  "projectFilePath": "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\DTOs\\DTOs.csproj",
+  "projectFilePath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\DTOs\\DTOs.csproj",
+=======
+  "dgSpecHash": "MlYCu/mw6io=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\DTOs\\DTOs.csproj",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
   "expectedPackageFiles": [],
   "logs": []
 }

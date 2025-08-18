@@ -1,23 +1,41 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\WindowsForm\\WindowsForm.csproj": {}
+<<<<<<< HEAD
+    "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WindowsForm\\WindowsForm.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\DTOs\\DTOs.csproj": {
+    "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\DTOs\\DTOs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\DTOs\\DTOs.csproj",
+        "projectUniqueName": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\DTOs\\DTOs.csproj",
         "projectName": "DTOs",
-        "projectPath": "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\DTOs\\DTOs.csproj",
-        "packagesPath": "C:\\Users\\lauti\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\DTOs\\obj\\",
+        "projectPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\DTOs\\DTOs.csproj",
+        "packagesPath": "C:\\Users\\lauta\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\DTOs\\obj\\",
+=======
+    "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\WindowsForm\\WindowsForm.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\DTOs\\DTOs.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\DTOs\\DTOs.csproj",
+        "projectName": "DTOs",
+        "projectPath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\DTOs\\DTOs.csproj",
+        "packagesPath": "C:\\Users\\geron\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\DTOs\\obj\\",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\lauti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+<<<<<<< HEAD
+          "C:\\Users\\lauta\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+          "C:\\Users\\geron\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,7 +62,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -65,24 +83,39 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\WindowsForm\\WindowsForm.csproj": {
+<<<<<<< HEAD
+    "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WindowsForm\\WindowsForm.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
+        "projectUniqueName": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
         "projectName": "WindowsForm",
-        "projectPath": "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
-        "packagesPath": "C:\\Users\\lauti\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\WindowsForm\\obj\\",
+        "projectPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
+        "packagesPath": "C:\\Users\\lauta\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WindowsForm\\obj\\",
+=======
+    "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\WindowsForm\\WindowsForm.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
+        "projectName": "WindowsForm",
+        "projectPath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\WindowsForm\\WindowsForm.csproj",
+        "packagesPath": "C:\\Users\\geron\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\WindowsForm\\obj\\",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\lauti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+<<<<<<< HEAD
+          "C:\\Users\\lauta\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+          "C:\\Users\\geron\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -97,8 +130,13 @@
           "net8.0-windows7.0": {
             "targetAlias": "net8.0-windows7.0",
             "projectReferences": {
-              "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\DTOs\\DTOs.csproj": {
-                "projectPath": "C:\\Users\\lauti\\Documents\\Tecnología de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\DTOs\\DTOs.csproj"
+<<<<<<< HEAD
+              "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\DTOs\\DTOs.csproj": {
+                "projectPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\DTOs\\DTOs.csproj"
+=======
+              "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\DTOs\\DTOs.csproj": {
+                "projectPath": "C:\\Users\\geron\\OneDrive\\Escritorio\\UTN\\.NET\\TP\\TPI-NET\\Gestion academica\\DTOs\\DTOs.csproj"
+>>>>>>> bb25859bcc1e14f4f6d5455526e754148d0b38c3
               }
             }
           }
@@ -113,7 +151,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0-windows7.0": {
@@ -137,7 +175,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
