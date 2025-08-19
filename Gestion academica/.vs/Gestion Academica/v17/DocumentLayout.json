@@ -1,5 +1,6 @@
 {
   "Version": 1,
+<<<<<<< HEAD
   "WorkspaceRootPath": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\",
   "Documents": [
     {
@@ -65,6 +66,13 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WebAPI\\WebAPI.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WebAPI\\WebAPI.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+=======
+  "WorkspaceRootPath": "C:\\Users\\lauti\\Documents\\Tecnolog\u00EDa de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{361138B7-462F-4E82-87DC-E72CF3ACD4E6}|WebAPI\\WebAPI.csproj|c:\\users\\lauti\\documents\\tecnolog\u00EDa de desarrollo de software ide\\trabajo practico\\tpi-net\\gestion academica\\webapi\\webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{361138B7-462F-4E82-87DC-E72CF3ACD4E6}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+>>>>>>> a7ccf915a100bf34656acc1c5644b8c9bd9ec043
     }
   ],
   "DocumentGroupContainers": [
@@ -74,6 +82,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+<<<<<<< HEAD
           "SelectedChildIndex": 4,
           "Children": [
             {
@@ -272,14 +281,30 @@
             {
               "$type": "Document",
               "DocumentIndex": 15,
+=======
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+>>>>>>> a7ccf915a100bf34656acc1c5644b8c9bd9ec043
               "Title": "WebAPI.csproj",
-              "DocumentMoniker": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WebAPI\\WebAPI.csproj",
+              "DocumentMoniker": "C:\\Users\\lauti\\Documents\\Tecnolog\u00EDa de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\WebAPI\\WebAPI.csproj",
               "RelativeDocumentMoniker": "WebAPI\\WebAPI.csproj",
+<<<<<<< HEAD
               "ToolTip": "C:\\Users\\lauta\\Dropbox\\Facultad\\Tecnologias de Desarrollo de Software\\TPI\\Gestion academica\\WebAPI\\WebAPI.csproj",
               "RelativeToolTip": "WebAPI\\WebAPI.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2025-08-18T22:10:31.183Z"
+=======
+              "ToolTip": "C:\\Users\\lauti\\Documents\\Tecnolog\u00EDa de desarrollo de software IDE\\Trabajo practico\\TPI-NET\\Gestion academica\\WebAPI\\WebAPI.csproj",
+              "RelativeToolTip": "WebAPI\\WebAPI.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-08-04T23:53:51.698Z",
+              "EditorCaption": ""
+>>>>>>> a7ccf915a100bf34656acc1c5644b8c9bd9ec043
             }
           ]
         }
