@@ -1,1 +1,16 @@
-.vs
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+*.log
+*.db
+*.sqlite
+
+# Build
+[Bb]in/
+[Oo]bj/
+
+# Archivos de usuario y launch de VS
+*.slnLaunch.user
+*.csproj.user
