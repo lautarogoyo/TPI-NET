@@ -3,6 +3,7 @@ using Domain.Model;
 using DTOs;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.OpenApi;
+using Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

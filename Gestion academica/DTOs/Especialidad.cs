@@ -1,6 +1,6 @@
 ﻿namespace DTOs
 {
-    public class Especialidad
+    public class EspecialidadDTO
     {
         public int IDEspecialidad { get; set; } 
         public string Descripcion { get; set; }
