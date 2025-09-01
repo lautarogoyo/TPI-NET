@@ -7,17 +7,17 @@ namespace Domain.Services
     {
         public void Add(Curso curso)
         {
-            CursoInMemory.Curso.Add(curso);
+            CursoRepository.Curso.Add(curso);
         }
 
         public bool Delete(int idcomision, int idmateria)
         {
-            var item = CursoInMemory.Curso
+            var item = CursoRepository.Curso
                 .FirstOrDefault(x => x.IDComision == idcomision && x.IDMateria == idmateria);
 
             if (item != null)
             {
-                CursoInMemory.Curso.Remove(item);
+                CursoRepository.Curso.Remove(item);
                 return true;
             }
 
@@ -26,18 +26,18 @@ namespace Domain.Services
 
         public Curso? Get(int idcomision, int idmateria)
         {
-            return CursoInMemory.Curso
+            return CursoRepository.Curso
                 .FirstOrDefault(x => x.IDComision == idcomision && x.IDMateria == idmateria);
         }
 
         public IEnumerable<Curso> GetAll()
         {
-            return CursoInMemory.Curso.ToList();
+            return CursoRepository.Curso.ToList();
         }
 
         public bool Update(Curso updated)
         {
-            var current = CursoInMemory.Curso
+            var current = CursoRepository.Curso
                 .FirstOrDefault(x => x.IDComision == updated.IDComision && x.IDMateria == updated.IDMateria );
 
             if (current != null)
