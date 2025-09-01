@@ -1,18 +1,28 @@
-﻿using Domain.Services;
-using Domain.Model;
-using DTOs;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.OpenApi;
-using Application.Services;
+﻿using WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpLogging(o => { });
 
+// Add CORS for Blazor WebAssembly
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorWasm",
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:7170", "http://localhost:5076")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -22,351 +32,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// 🔹 GET by IDDocente + IDCurso
-app.MapGet("/docentes-curso/{idDocente}/{idCurso}", (int idDocente, int idCurso) =>
-{
-    DocenteCursoService service = new DocenteCursoService();
-    var docenteCurso = service.Get(idDocente, idCurso);
+// Use CORS
+app.UseCors("AllowBlazorWasm");
 
-    if (docenteCurso == null)
-        return Results.NotFound();
-
-    var dto = new DTOs.DocenteCurso
-    {
-        Cargo = (DTOs.TiposCargos)docenteCurso.Cargo,
-        IDCurso = docenteCurso.IDCurso,
-        IDDocente = docenteCurso.IDDocente
-    };
-
-    return Results.Ok(dto);
-})
-.WithName("GetDocenteCurso")
-.Produces<DTOs.DocenteCurso>(StatusCodes.Status200OK)
-.Produces(StatusCodes.Status404NotFound)
-.WithOpenApi();
-
-// 🔹 GET All
-app.MapGet("/docentes-curso", () =>
-{
-    DocenteCursoService service = new DocenteCursoService();
-    var lista = service.GetAll();
-
-    var dtos = lista.Select(dc => new DTOs.DocenteCurso
-    {
-        Cargo = (DTOs.TiposCargos)dc.Cargo,
-        IDCurso = dc.IDCurso,
-        IDDocente = dc.IDDocente
-    }).ToList();
-
-    return Results.Ok(dtos);
-})
-.WithName("GetAllDocentesCurso")
-.Produces<List<DTOs.DocenteCurso>>(StatusCodes.Status200OK)
-.WithOpenApi();
-
-// 🔹 POST
-app.MapPost("/docentes-curso", (DTOs.DocenteCurso dto) =>
-{
-    try
-    {
-        DocenteCursoService service = new DocenteCursoService();
-
-        var model = new Domain.Model.DocenteCurso(
-            (Domain.Model.TiposCargos)dto.Cargo,
-            dto.IDCurso,
-            dto.IDDocente
-        );
-
-        service.Add(model);
-
-        return Results.Created(
-            $"/docentes-curso/{dto.IDDocente}/{dto.IDCurso}",
-            dto
-        );
-    }
-    catch (ArgumentException ex)
-    {
-        return Results.BadRequest(new { error = ex.Message });
-    }
-})
-.WithName("AddDocenteCurso")
-.Produces<DTOs.DocenteCurso>(StatusCodes.Status201Created)
-.Produces(StatusCodes.Status400BadRequest)
-.WithOpenApi();
-
-// 🔹 PUT
-app.MapPut("/docentes-curso", (DTOs.DocenteCurso dto) =>
-{
-    try
-    {
-        DocenteCursoService service = new DocenteCursoService();
-
-        var model = new Domain.Model.DocenteCurso(
-            (Domain.Model.TiposCargos)dto.Cargo,
-            dto.IDCurso,
-            dto.IDDocente
-        );
-
-        var updated = service.Update(model);
-
-        return updated ? Results.NoContent() : Results.NotFound();
-    }
-    catch (ArgumentException ex)
-    {
-        return Results.BadRequest(new { error = ex.Message });
-    }
-})
-.WithName("UpdateDocenteCurso")
-.Produces(StatusCodes.Status204NoContent)
-.Produces(StatusCodes.Status400BadRequest)
-.Produces(StatusCodes.Status404NotFound)
-.WithOpenApi();
-
-// 🔹 DELETE
-app.MapDelete("/docentes-curso/{idDocente}/{idCurso}", (int idDocente, int idCurso) =>
-{
-    DocenteCursoService service = new DocenteCursoService();
-
-    var deleted = service.Delete(idDocente, idCurso);
-
-    return deleted ? Results.NoContent() : Results.NotFound();
-})
-.WithName("DeleteDocenteCurso")
-.Produces(StatusCodes.Status204NoContent)
-.Produces(StatusCodes.Status404NotFound)
-.WithOpenApi();
-
-
-app.MapGet("/especialidades/{idEspecialidad}", (int idEspecialidad) =>
-{
-    EspecialidadService service = new EspecialidadService();
-    var especialidad = service.Get(idEspecialidad);
-
-    if (especialidad == null)
-        return Results.NotFound();
-
-    var dto = new DTOs.Especialidad
-    {
-        IDEspecialidad = especialidad.IDEspecialidad,
-        Descripcion = especialidad.Descripcion,
-    };
-
-    return Results.Ok(dto);
-})
-.WithName("GetEspecialidad")
-.Produces<DTOs.Especialidad>(StatusCodes.Status200OK)
-.Produces(StatusCodes.Status404NotFound)
-.WithOpenApi();
-
-// 🔹 GET All
-app.MapGet("/especialidades", () =>
-{
-    EspecialidadService service = new EspecialidadService();
-    var lista = service.GetAll();
-
-    var dtos = lista.Select(e => new DTOs.Especialidad
-    {
-        IDEspecialidad = e.IDEspecialidad,
-        Descripcion = e.Descripcion
-    }).ToList();
-
-    return Results.Ok(dtos);
-})
-.WithName("GetAllEspecialidades")
-.Produces<List<DTOs.Especialidad>>(StatusCodes.Status200OK)
-.WithOpenApi();
-
-// 🔹 POST
-app.MapPost("/especialidades", (DTOs.Especialidad dto) =>
-{
-    try
-    {
-        EspecialidadService service = new EspecialidadService();
-
-        var model = new Domain.Model.Especialidad(
-            dto.IDEspecialidad,
-            dto.Descripcion
-        );
-
-        service.Add(model);
-
-        return Results.Created(
-            $"/especialidades/{dto.IDEspecialidad}",
-            dto
-        );
-    }
-    catch (ArgumentException ex)
-    {
-        return Results.BadRequest(new { error = ex.Message });
-    }
-})
-.WithName("AddEspecialidad")
-.Produces<DTOs.Especialidad>(StatusCodes.Status201Created)
-.Produces(StatusCodes.Status400BadRequest)
-.WithOpenApi();
-
-// 🔹 PUT
-app.MapPut("/especialidades", (DTOs.Especialidad dto) =>
-{
-    try
-    {
-        EspecialidadService service = new EspecialidadService();
-
-        var model = new Domain.Model.Especialidad(
-            dto.IDEspecialidad,
-            dto.Descripcion
-        );
-
-        var updated = service.Update(model);
-
-        return updated ? Results.NoContent() : Results.NotFound();
-    }
-    catch (ArgumentException ex)
-    {
-        return Results.BadRequest(new { error = ex.Message });
-    }
-})
-.WithName("UpdateEspecialidad")
-.Produces(StatusCodes.Status204NoContent)
-.Produces(StatusCodes.Status400BadRequest)
-.Produces(StatusCodes.Status404NotFound)
-.WithOpenApi();
-
-// 🔹 DELETE
-app.MapDelete("/especialidades/{idEspecialidad}", (int idEspecialidad) =>
-{
-    EspecialidadService service = new EspecialidadService();
-
-    var deleted = service.Delete(idEspecialidad);
-
-    return deleted ? Results.NoContent() : Results.NotFound();
-})
-.WithName("DeleteEspecialidad")
-.Produces(StatusCodes.Status204NoContent)
-.Produces(StatusCodes.Status404NotFound)
-.WithOpenApi();
-
-
-// 🔹 GET by IDComision + IDMateria
-app.MapGet("/cursos/{idComision}/{idMateria}", (int idComision, int idMateria) =>
-{
-    CursoService service = new CursoService();
-    var curso = service.Get(idComision, idMateria);
-
-    if (curso == null)
-        return Results.NotFound();
-
-    var dto = new DTOs.Curso
-    {
-        AnioCalendario = curso.AnioCalendario,
-        Cupo = curso.Cupo,
-        Descripcion = curso.Descripcion,
-        IDComision = curso.IDComision,
-        IDMateria = curso.IDMateria
-    };
-
-    return Results.Ok(dto);
-})
-.WithName("GetCurso")
-.Produces<DTOs.Curso>(StatusCodes.Status200OK)
-.Produces(StatusCodes.Status404NotFound)
-.WithOpenApi();
-
-// 🔹 GET All
-app.MapGet("/cursos", () =>
-{
-    CursoService service = new CursoService();
-    var lista = service.GetAll();
-
-    var dtos = lista.Select(cur => new DTOs.Curso
-    {
-        AnioCalendario = cur.AnioCalendario,
-        Cupo = cur.Cupo,
-        Descripcion = cur.Descripcion,
-        IDComision = cur.IDComision,
-        IDMateria = cur.IDMateria
-    }).ToList();
-    return Results.Ok(dtos);
-})
-.WithName("GetAllCursos")
-.Produces<List<DTOs.Curso>>(StatusCodes.Status200OK)
-.WithOpenApi();
-
-// 🔹 POST
-app.MapPost("/cursos", (DTOs.Curso dto) =>
-{
-    try
-    {
-        CursoService service = new CursoService();
-
-        var model = new Domain.Model.Curso(
-            dto.AnioCalendario,
-            dto.Cupo,
-            dto.Descripcion,
-            dto.IDComision,
-            dto.IDMateria
-        );
-
-        service.Add(model);
-
-        return Results.Created(
-            $"/cursos/{dto.IDComision}/{dto.IDMateria}",
-            dto
-        );
-    }
-    catch (ArgumentException ex)
-    {
-        return Results.BadRequest(new { error = ex.Message });
-    }
-})
-.WithName("AddCurso")
-.Produces<DTOs.Curso>(StatusCodes.Status201Created)
-.Produces(StatusCodes.Status400BadRequest)
-.WithOpenApi();
-
-// 🔹 PUT
-app.MapPut("/cursos", (DTOs.Curso dto) =>
-{
-    try
-    {
-        CursoService service = new CursoService();
-
-        var model = new Domain.Model.Curso(
-            dto.AnioCalendario,
-            dto.Cupo,
-            dto.Descripcion,
-            dto.IDComision,
-            dto.IDMateria
-        );
-
-        var updated = service.Update(model);
-
-        return updated ? Results.NoContent() : Results.NotFound();
-    }
-    catch (ArgumentException ex)
-    {
-        return Results.BadRequest(new { error = ex.Message });
-    }
-})
-.WithName("UpdateCurso")
-.Produces(StatusCodes.Status204NoContent)
-.Produces(StatusCodes.Status400BadRequest)
-.Produces(StatusCodes.Status404NotFound)
-.WithOpenApi();
-
-// 🔹 DELETE
-app.MapDelete("/cursos/{idComision}/{idMateria}", (int idComision, int idMateria) =>
-{
-    CursoService service = new CursoService();
-
-    var deleted = service.Delete(idComision, idMateria);
-
-    return deleted ? Results.NoContent() : Results.NotFound();
-})
-.WithName("DeleteCurso")
-.Produces(StatusCodes.Status204NoContent)
-.Produces(StatusCodes.Status404NotFound)
-.WithOpenApi();
-
+// Map endpoints
+app.MapEspecialidadEndpoints();
 
 app.Run();
