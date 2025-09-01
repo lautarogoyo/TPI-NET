@@ -3,7 +3,7 @@
     public class Curso
     {
         // === PK ===
-        public int Id { get; private set; }
+        public int IdCurso { get; private set; }
 
         // === Datos ===
         public int AnioCalendario { get; private set; }

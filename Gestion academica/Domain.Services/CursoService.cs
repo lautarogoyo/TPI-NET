@@ -1,56 +1,84 @@
-﻿using Data;
-using Domain.Model;
+﻿using System.Linq;
+using Data;
+using DTOs;
 
-namespace Domain.Services
+namespace Application.Services
 {
     public class CursoService
     {
-        public void Add(Curso curso)
+        public CursoDTO Add(CursoDTO dto)
         {
-            CursoRepository.Curso.Add(curso);
+            var repo = new CursoRepository();
+
+            var curso = new Domain.Model.Curso(
+                dto.AnioCalendario,
+                dto.Cupo,
+                dto.Descripcion,
+                dto.IDComision,
+                dto.IDMateria
+            );
+
+            repo.Add(curso);
+
+            // devolver con Id asignado por EF
+            dto.IdCurso = curso.IdCurso;
+            return dto;
         }
 
-        public bool Delete(int idcomision, int idmateria)
+        public bool Delete(int idCurso)
         {
-            var item = CursoRepository.Curso
-                .FirstOrDefault(x => x.IDComision == idcomision && x.IDMateria == idmateria);
+            var repo = new CursoRepository();
+            return repo.Delete(idCurso);
+        }
 
-            if (item != null)
+        public CursoDTO? Get(int idCurso)
+        {
+            var repo = new CursoRepository();
+            var curso = repo.Get(idCurso);
+            if (curso == null) return null;
+
+            return new CursoDTO
             {
-                CursoRepository.Curso.Remove(item);
-                return true;
-            }
-
-            return false;
+                IdCurso = curso.IdCurso,
+                AnioCalendario = curso.AnioCalendario,
+                Cupo = curso.Cupo,
+                Descripcion = curso.Descripcion,
+                IDComision = curso.IDComision,
+                IDMateria = curso.IDMateria
+            };
         }
 
-        public Curso? Get(int idcomision, int idmateria)
+        public IEnumerable<CursoDTO> GetAll()
         {
-            return CursoRepository.Curso
-                .FirstOrDefault(x => x.IDComision == idcomision && x.IDMateria == idmateria);
+            var repo = new CursoRepository();
+            return repo.GetAll()
+                       .Select(c => new CursoDTO
+                       {
+                           IdCurso = c.IdCurso,
+                           AnioCalendario = c.AnioCalendario,
+                           Cupo = c.Cupo,
+                           Descripcion = c.Descripcion,
+                           IDComision = c.IDComision,
+                           IDMateria = c.IDMateria
+                       })
+                       .ToList();
         }
 
-        public IEnumerable<Curso> GetAll()
+        public bool Update(CursoDTO dto)
         {
-            return CursoRepository.Curso.ToList();
-        }
+            var repo = new CursoRepository();
 
-        public bool Update(Curso updated)
-        {
-            var current = CursoRepository.Curso
-                .FirstOrDefault(x => x.IDComision == updated.IDComision && x.IDMateria == updated.IDMateria );
+            // Recuperamos el existente para mantener el IdCurso
+            var curso = repo.Get(dto.IdCurso);
+            if (curso == null) return false;
 
-            if (current != null)
-            {
-                current.SetAnio(updated.AnioCalendario);
-                current.SetCupo(updated.Cupo);
-                current.SetDescripcion(updated.Descripcion);
-                current.SetIDComision(updated.IDComision);
-                current.SetIDMateria(updated.IDMateria);
-                return true;
-            }
+            curso.SetAnio(dto.AnioCalendario);
+            curso.SetCupo(dto.Cupo);
+            curso.SetDescripcion(dto.Descripcion);
+            curso.SetIDComision(dto.IDComision);
+            curso.SetIDMateria(dto.IDMateria);
 
-            return false;
+            return repo.Update(curso);
         }
     }
 }
