@@ -45,7 +45,7 @@ namespace Data
         public bool Update(Curso curso)
         {
             using var context = CreateContext();
-            var existingCurso = context.Cursos.Find(curso.Id);
+            var existingCurso = context.Cursos.Find(curso.IdCurso);
             if (existingCurso != null)
             {
                 existingCurso.SetAnio(curso.AnioCalendario);

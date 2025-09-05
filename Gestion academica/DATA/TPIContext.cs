@@ -49,9 +49,9 @@ namespace Data
             // --- CURSO ---
             modelBuilder.Entity<Curso>(entity =>
             {
-                entity.HasKey(e => e.Id);
+                entity.HasKey(e => e.IdCurso);
 
-                entity.Property(e => e.Id)
+                entity.Property(e => e.IdCurso)
                       .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.AnioCalendario)

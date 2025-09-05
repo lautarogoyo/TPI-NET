@@ -46,12 +46,10 @@ namespace Data
         public bool Update(Especialidad especialidad)
         {
             using var context = CreateContext();
-            var existingEspecialidad = context.Especialidades.Find(especialidad.Id);
+            var existingEspecialidad = context.Especialidades.Find(especialidad.IDEspecialidad);
             if (existingEspecialidad != null)
             {
-                existingEspecialidad.SetNombre(especialidad.Nombre);
-                existingEspecialidad.SetApellido(especialidad.Apellido);
-                existingEspecialidad.SetEmail(especialidad.Email);
+                existingEspecialidad.SetDescripcion(especialidad.Descripcion);
 
                 context.SaveChanges();
                 return true;

@@ -23,7 +23,7 @@
 
         // Navegaciones
         public Curso? Curso { get; private set; }
-        public Persona? Docente { get; private set; } // apunta a personas (tipo = Docente)
+        //public Persona? Docente { get; private set; } // apunta a personas (tipo = Docente)
 
         // EF requiere ctor vacío
         private DocenteCurso() { }

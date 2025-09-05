@@ -14,7 +14,7 @@ namespace WindowsForms
             ApplicationConfiguration.Initialize();
 
             // Lanza el formulario principal de DocentesCurso
-            Application.Run(new DocentesCursoLista());
+            Application.Run(new Home());
         }
     }
 }
