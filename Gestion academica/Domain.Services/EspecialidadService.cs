@@ -10,14 +10,17 @@ namespace Application.Services
         {
             var especialidadRepository = new EspecialidadRepository();
 
-            Especialidad especialidad = new Especialidad(0, dto.Descripcion);
+            // No le pases 0 ni ID, solo la descripción
+            var especialidad = new Especialidad(dto.Descripcion);
 
             especialidadRepository.Add(especialidad);
 
+            // Después del SaveChanges, EF completa el ID
             dto.IDEspecialidad = especialidad.IDEspecialidad;
 
             return dto;
         }
+
 
         public bool Delete(int id)
         {
@@ -52,7 +55,7 @@ namespace Application.Services
         {
             var especialidadRepository = new EspecialidadRepository();
 
-            Especialidad especialidad = new Especialidad(dto.IDEspecialidad, dto.Descripcion);
+            Especialidad especialidad = new Especialidad(dto.Descripcion);
             return especialidadRepository.Update(especialidad);
         }
     }

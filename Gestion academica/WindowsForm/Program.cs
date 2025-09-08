@@ -1,19 +1,19 @@
-using WindowsForm;
-
 namespace WindowsForms
 {
     internal static class Program
     {
         /// <summary>
-        ///  Punto de entrada principal para la aplicación.
+        ///  The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            // Configuración de DPI y fuentes predeterminadas
+            // To customize application configuration such as set high DPI settings or default font,
+            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
+            // Sólo si es .NET Framework < 4.7:
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
 
-            // Lanza el formulario principal de DocentesCurso
             Application.Run(new Home());
         }
     }

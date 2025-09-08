@@ -3,25 +3,22 @@ namespace Domain.Model
 {
     public class Especialidad
     {
-        public int IDEspecialidad { get; set; }
-        public string Descripcion { get; set; }
-        public Especialidad(int id, string descripcion)
+        public int IDEspecialidad { get; private set; }
+        public string Descripcion { get; private set; }
+
+        // Constructor para EF
+        protected Especialidad() { }
+
+        // Constructor para crear nueva
+        public Especialidad(string descripcion)
         {
-            SetID(id);
-            SetDescripcion(descripcion);
+            Descripcion = descripcion;
         }
-        public void SetID(int id)
-        {
-            if (id <= 0)
-                throw new ArgumentException("El ID debe ser mayor que 0.", nameof(id));
-            IDEspecialidad = id;
-        }
+
         public void SetDescripcion(string descripcion)
         {
-            if (string.IsNullOrWhiteSpace(descripcion))
-                throw new ArgumentException("La descripción no puede estar vacía.", nameof(descripcion));
             Descripcion = descripcion;
         }
     }
+
 }
-    
