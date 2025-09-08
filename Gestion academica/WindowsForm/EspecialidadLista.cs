@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace WindowsForm
 {
-    public partial class Especialidad : Form
+    public partial class EspecialidadLista : Form
     {
-        public Especialidad()
+        public EspecialidadLista()
         {
             InitializeComponent();
+        }
+
+        private void EspecialidadLista_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

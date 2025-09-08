@@ -19,7 +19,7 @@ namespace WindowsForm
 
         private void label1_Click(object sender, EventArgs e)
         {
-            Especialidad formEspecialidad = new Especialidad();
+            EspecialidadLista formEspecialidad = new EspecialidadLista();
 
             // Mostrar el formulario
             formEspecialidad.Show();
