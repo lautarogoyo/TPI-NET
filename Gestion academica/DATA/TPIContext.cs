@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Domain.Model;
+﻿using Domain.Model;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Numerics;
 
 namespace Data
 {
@@ -9,6 +10,9 @@ namespace Data
         public DbSet<Especialidad> Especialidades { get; set; }
         public DbSet<Curso> Cursos { get; set; }
         public DbSet<DocenteCurso> DocentesCursos { get; set; }
+        public DbSet<Persona> Personas { get; set; }
+        public DbSet<Plan> Planes { get; set; }
+
 
         internal TPIContext()
         {
@@ -70,7 +74,7 @@ namespace Data
                 entity.Property(e => e.IDMateria)
                       .IsRequired();
 
-                // (Opcional) evitar cursos duplicados para la misma comision + materia + año
+                // Evitar cursos duplicados para la misma comision + materia + año
                 entity.HasIndex(e => new { e.IDComision, e.IDMateria, e.AnioCalendario })
                       .IsUnique();
             });
@@ -80,30 +84,90 @@ namespace Data
             {
                 entity.ToTable("DocentesCursos");
 
-                // PK compuesta
                 entity.HasKey(dc => new { dc.IDCurso, dc.IDDocente });
 
                 entity.Property(dc => dc.Cargo)
                       .IsRequired()
-                      .HasConversion<string>() // guarda enum como string
+                      .HasConversion<string>()
                       .HasMaxLength(20);
 
-                // FK a Curso
                 entity.HasOne(dc => dc.Curso)
                       .WithMany(c => c.DocenteCursos)
                       .HasForeignKey(dc => dc.IDCurso)
                       .OnDelete(DeleteBehavior.Restrict);
 
-                // Si tenés una clase Persona con Docencias, podés agregar esto:
-                // entity.HasOne(dc => dc.Docente)
-                //       .WithMany(p => p.Docencias)
-                //       .HasForeignKey(dc => dc.IDDocente)
-                //       .OnDelete(DeleteBehavior.Restrict);
-
-                // Para evitar que un docente se repita en el mismo curso
                 entity.HasIndex(dc => new { dc.IDCurso, dc.IDDocente })
                       .IsUnique();
             });
+
+            // --- PERSONA --- ✅ NUEVO
+            modelBuilder.Entity<Persona>(entity =>
+            {
+                entity.HasKey(p => p.IDPersona);
+
+                entity.Property(p => p.IDPersona)
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(p => p.Nombre)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(p => p.Apellido)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(p => p.Direccion)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(p => p.Email)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(p => p.Telefono)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(p => p.FechaNac)
+                      .IsRequired();
+
+                entity.Property(p => p.Legajo)
+                      .IsRequired();
+
+                entity.Property(p => p.TipoPersona)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(p => p.IDPlan)
+                      .IsRequired();
+
+                // Relación con Plan (asegúrate de tener la clase Plan en Domain.Model)
+                entity.HasOne<Plan>()
+                      .WithMany()
+                      .HasForeignKey(p => p.IDPlan)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<Plan>(entity =>
+            {
+                entity.HasKey(p => p.IDPlan);
+
+                entity.Property(p => p.IDPlan)
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(p => p.DescPlan)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(p => p.IDEspecialidad)
+                      .IsRequired();
+
+                entity.HasOne<Especialidad>()
+                      .WithMany()
+                      .HasForeignKey(p => p.IDEspecialidad)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
         }
     }
 }
