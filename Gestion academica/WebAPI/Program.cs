@@ -39,4 +39,6 @@ app.UseCors("AllowBlazorWasm");
 // Map endpoints
 app.MapEspecialidadEndpoints();
 
+app.MapCursoEndpoints();
+
 app.Run();

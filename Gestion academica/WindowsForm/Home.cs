@@ -21,5 +21,11 @@ namespace WindowsForms
         {
 
         }
+
+        private void cursoButton_Click(object sender, EventArgs e)
+        {
+            CursoLista cursoForm = new CursoLista();
+            cursoForm.ShowDialog();
+        }
     }
 }

@@ -29,24 +29,37 @@
         private void InitializeComponent()
         {
             label1 = new Label();
+            cursoButton = new Button();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(124, 83);
+            label1.Location = new Point(142, 111);
             label1.Name = "label1";
-            label1.Size = new Size(83, 15);
+            label1.Size = new Size(107, 20);
             label1.TabIndex = 0;
             label1.Text = "Especialidades";
             label1.DoubleClick += Especialidades;
             // 
+            // cursoButton
+            // 
+            cursoButton.Location = new Point(142, 161);
+            cursoButton.Name = "cursoButton";
+            cursoButton.Size = new Size(103, 33);
+            cursoButton.TabIndex = 1;
+            cursoButton.Text = "Cursos";
+            cursoButton.UseVisualStyleBackColor = true;
+            cursoButton.Click += cursoButton_Click;
+            // 
             // Home
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(914, 600);
+            Controls.Add(cursoButton);
             Controls.Add(label1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Home";
             Text = "Home";
             Load += Home_Load;
@@ -57,5 +70,6 @@
         #endregion
 
         private Label label1;
+        private Button cursoButton;
     }
 }
