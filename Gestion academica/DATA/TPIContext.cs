@@ -1,7 +1,6 @@
 ﻿using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.Numerics;
 
 namespace Data
 {
@@ -12,9 +11,10 @@ namespace Data
         public DbSet<DocenteCurso> DocentesCursos { get; set; }
         public DbSet<Persona> Personas { get; set; }
         public DbSet<Plan> Planes { get; set; }
+        public DbSet<Materia> Materias { get; set; }         // ✅ NUEVO
+        public DbSet<Comision> Comisiones { get; set; }       // ✅ NUEVO
 
-
-        internal TPIContext()
+        public TPIContext()
         {
             this.Database.EnsureCreated();
         }
@@ -100,7 +100,7 @@ namespace Data
                       .IsUnique();
             });
 
-            // --- PERSONA --- ✅ NUEVO
+            // --- PERSONA ---
             modelBuilder.Entity<Persona>(entity =>
             {
                 entity.HasKey(p => p.IDPersona);
@@ -141,13 +141,13 @@ namespace Data
                 entity.Property(p => p.IDPlan)
                       .IsRequired();
 
-                // Relación con Plan (asegúrate de tener la clase Plan en Domain.Model)
                 entity.HasOne<Plan>()
                       .WithMany()
                       .HasForeignKey(p => p.IDPlan)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
+            // --- PLAN ---
             modelBuilder.Entity<Plan>(entity =>
             {
                 entity.HasKey(p => p.IDPlan);
@@ -168,6 +168,56 @@ namespace Data
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
+            // --- MATERIA --- ✅ NUEVO
+            modelBuilder.Entity<Materia>(entity =>
+            {
+                entity.HasKey(m => m.IDMateria);
+
+                entity.Property(m => m.IDMateria)
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(m => m.Descripcion)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(m => m.HSSemanales)
+                      .IsRequired();
+
+                entity.Property(m => m.HSTotales)
+                      .IsRequired();
+
+                entity.Property(m => m.IDPlan)
+                      .IsRequired();
+
+                entity.HasOne<Plan>()
+                      .WithMany()
+                      .HasForeignKey(m => m.IDPlan)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // --- COMISION --- ✅ NUEVO
+            modelBuilder.Entity<Comision>(entity =>
+            {
+                entity.HasKey(c => c.IDComision);
+
+                entity.Property(c => c.IDComision)
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(c => c.Descripcion)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(c => c.AnioEspecialidad)
+                      .IsRequired();
+
+                entity.Property(c => c.IDPlan)
+                      .IsRequired();
+
+                entity.HasOne<Plan>()
+                      .WithMany()
+                      .HasForeignKey(c => c.IDPlan)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
         }
     }
 }
