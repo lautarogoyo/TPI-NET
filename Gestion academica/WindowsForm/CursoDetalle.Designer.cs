@@ -66,7 +66,7 @@
             cupoTextBox.ReadOnly = true;
             cupoTextBox.Size = new Size(169, 31);
             cupoTextBox.TabIndex = 1;
-            cupoTextBox.TextChanged += textBox2_TextChanged;
+            //cupoTextBox.TextChanged += textBox2_TextChanged;
             // 
             // añocalendarioTextBox
             // 
@@ -87,7 +87,7 @@
             descripcionTextBox.ReadOnly = true;
             descripcionTextBox.Size = new Size(169, 31);
             descripcionTextBox.TabIndex = 3;
-            descripcionTextBox.TextChanged += descripcionTextBox_TextChanged;
+            //descripcionTextBox.TextChanged += descripcionTextBox_TextChanged;
             // 
             // materiaComboBox
             // 
@@ -98,7 +98,7 @@
             materiaComboBox.Name = "materiaComboBox";
             materiaComboBox.Size = new Size(169, 33);
             materiaComboBox.TabIndex = 4;
-            materiaComboBox.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            //materiaComboBox.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // comisionComboBox
             // 
@@ -119,7 +119,7 @@
             idLabel.Size = new Size(39, 25);
             idLabel.TabIndex = 6;
             idLabel.Text = "ID :";
-            idLabel.Click += label1_Click;
+            //idLabel.Click += label1_Click;
             // 
             // añoCalendarioLabel
             // 
@@ -130,7 +130,7 @@
             añoCalendarioLabel.Size = new Size(143, 25);
             añoCalendarioLabel.TabIndex = 7;
             añoCalendarioLabel.Text = "Año Calendario :";
-            añoCalendarioLabel.Click += label2_Click;
+            //añoCalendarioLabel.Click += label2_Click;
             // 
             // cupoLabel
             // 
@@ -181,7 +181,7 @@
             aceptarBoton.TabIndex = 12;
             aceptarBoton.Text = "Aceptar";
             aceptarBoton.UseVisualStyleBackColor = true;
-            aceptarBoton.Click += btnAceptar_Click;
+            //aceptarBoton.Click += btnAceptar_Click;
             // 
             // cancelarBoton
             // 
