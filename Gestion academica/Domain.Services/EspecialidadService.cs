@@ -53,10 +53,18 @@ namespace Application.Services
         }
         public bool Update(EspecialidadDTO dto)
         {
-            var especialidadRepository = new EspecialidadRepository();
+            if (dto == null) throw new ArgumentNullException(nameof(dto));
+            if (dto.IDEspecialidad <= 0) return false;
 
-            Especialidad especialidad = new Especialidad(dto.Descripcion);
-            return especialidadRepository.Update(especialidad);
+            var repo = new EspecialidadRepository();
+
+            // Opción 1: buscar y actualizar (más clara)
+            var ent = repo.Get(dto.IDEspecialidad);
+            if (ent == null) return false;
+
+            ent.SetDescripcion(dto.Descripcion?.Trim());
+            return repo.Update(ent);
         }
+
     }
 }

@@ -55,14 +55,52 @@ namespace WindowsForm
 
         }
 
-        private void modificarButton_click(object sender, EventArgs e)
+        private async void modificarButton_click(object sender, EventArgs e)
         {
+            try
+            {
+                EspecialidadDetalle especialidadDetalle = new EspecialidadDetalle();
 
+                int id = this.SelectedItem().IDEspecialidad;
+
+                EspecialidadDTO especialidad = await EspecialidadApi.GetAsync(id);
+
+                especialidadDetalle.Mode = FormMode.Update;
+                especialidadDetalle.Especialidad = especialidad;
+
+                if (especialidadDetalle.ShowDialog() == DialogResult.OK)
+                {
+                    MessageBox.Show("Especialidad actualizada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                this.GetByCriteriaAndLoad();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar cliente para modificar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void agregarButton_Click(object sender, EventArgs e)
         {
+            EspecialidadDetalle especialidadDetalle = new EspecialidadDetalle();
 
+            EspecialidadDTO especialidadNuevo = new EspecialidadDTO();
+
+            especialidadDetalle.Mode = FormMode.Add;
+            especialidadDetalle.Especialidad = especialidadNuevo;
+
+            if (especialidadDetalle.ShowDialog() == DialogResult.OK)
+            {
+                MessageBox.Show("Especialidad agregada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            this.GetByCriteriaAndLoad();
+        }
+        private EspecialidadDTO SelectedItem()
+        {
+            EspecialidadDTO especialidad;
+            especialidad = (EspecialidadDTO)especialidadesDataGridView.SelectedRows[0].DataBoundItem;
+            return especialidad;
         }
         private async void GetByCriteriaAndLoad(string texto = "")
         {

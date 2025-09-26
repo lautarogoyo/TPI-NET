@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DTOs;
 
 namespace WindowsForm
 {
@@ -29,6 +30,19 @@ namespace WindowsForm
 
         private void button2_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void agregarButton_Click(object sender, EventArgs e)
+        {
+            CursoDetalle cursoDetalle = new CursoDetalle();
+
+            CursoDTO cursoNuevo = new CursoDTO();
+
+            if (cursoDetalle.ShowDialog() == DialogResult.OK)
+            {
+                MessageBox.Show("Cliente agregado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 
         }
     }
