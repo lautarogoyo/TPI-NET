@@ -53,7 +53,7 @@ namespace Data
                 existingPersona.SetDireccion(persona.Direccion);
                 existingPersona.SetEmail(persona.Email);
                 existingPersona.SetTelefono(persona.Telefono);
-                existingPersona.SetFechaNacimiento(persona.FechaNacimiento);
+                existingPersona.SetFechaNac(persona.FechaNac);
                 existingPersona.SetLegajo(persona.Legajo);
                 existingPersona.SetTipoPersona(persona.TipoPersona);
                 existingPersona.SetIDPlan(persona.IDPlan);
