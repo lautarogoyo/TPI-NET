@@ -53,7 +53,7 @@
             IdTextBox.Location = new Point(371, 41);
             IdTextBox.Margin = new Padding(4, 4, 4, 4);
             IdTextBox.Name = "IdTextBox";
-            IdTextBox.ReadOnly = true;
+            IdTextBox.ReadOnly = false;
             IdTextBox.Size = new Size(169, 31);
             IdTextBox.TabIndex = 0;
             // 
@@ -63,7 +63,7 @@
             cupoTextBox.Location = new Point(371, 179);
             cupoTextBox.Margin = new Padding(4, 4, 4, 4);
             cupoTextBox.Name = "cupoTextBox";
-            cupoTextBox.ReadOnly = true;
+            cupoTextBox.ReadOnly = false;
             cupoTextBox.Size = new Size(169, 31);
             cupoTextBox.TabIndex = 1;
             //cupoTextBox.TextChanged += textBox2_TextChanged;
@@ -74,7 +74,7 @@
             añocalendarioTextBox.Location = new Point(371, 115);
             añocalendarioTextBox.Margin = new Padding(4, 4, 4, 4);
             añocalendarioTextBox.Name = "añocalendarioTextBox";
-            añocalendarioTextBox.ReadOnly = true;
+            añocalendarioTextBox.ReadOnly = false;
             añocalendarioTextBox.Size = new Size(169, 31);
             añocalendarioTextBox.TabIndex = 2;
             // 
@@ -84,7 +84,7 @@
             descripcionTextBox.Location = new Point(371, 245);
             descripcionTextBox.Margin = new Padding(4, 4, 4, 4);
             descripcionTextBox.Name = "descripcionTextBox";
-            descripcionTextBox.ReadOnly = true;
+            descripcionTextBox.ReadOnly = false;
             descripcionTextBox.Size = new Size(169, 31);
             descripcionTextBox.TabIndex = 3;
             //descripcionTextBox.TextChanged += descripcionTextBox_TextChanged;

@@ -1,4 +1,5 @@
-﻿using Domain.Model;
+﻿using System.Reflection.Emit;
+using Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -14,12 +15,13 @@ namespace Data
         public DbSet<Materia> Materias { get; set; }         // ✅ NUEVO
         public DbSet<Comision> Comisiones { get; set; }       // ✅ NUEVO
 
-        public TPIContext()
+        public TPIContext(DbContextOptions<TPIContext> options) : base(options) { }
+
+        internal TPIContext()
         {
             this.Database.EnsureCreated();
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
