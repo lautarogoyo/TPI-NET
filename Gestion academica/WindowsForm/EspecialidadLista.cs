@@ -50,9 +50,29 @@ namespace WindowsForm
 
         }
 
-        private void eliminarButton_Click(object sender, EventArgs e)
+        private async void eliminarButton_Click(object sender, EventArgs e)
         {
+            try
+            {
+                EspecialidadDTO especialidad = this.SelectedItem();
 
+                var confirm = MessageBox.Show(
+               "¿Desea eliminar este curso?",
+               "Confirmar eliminación",
+               MessageBoxButtons.YesNo,
+               MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    await EspecialidadApi.DeleteAsync(especialidad.IDEspecialidad);
+                    MessageBox.Show("Especialidad eliminada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.GetByCriteriaAndLoad();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al eliminar especialidad: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private async void modificarButton_click(object sender, EventArgs e)
@@ -77,7 +97,7 @@ namespace WindowsForm
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar cliente para modificar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar la especialidad para modificar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

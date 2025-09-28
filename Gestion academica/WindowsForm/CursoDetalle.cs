@@ -7,10 +7,13 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace WindowsForm
 {
-   public partial class CursoDetalle : Form
+    public partial class CursoDetalle : Form
     {
         private CursoDTO curso;
         private FormMode mode;
+        private bool _combosLoaded = false;
+        private int? _pendingIdComision;
+        private int? _pendingIdMateria;
 
         public CursoDTO Curso
         {
@@ -53,11 +56,40 @@ namespace WindowsForm
                 materiaComboBox.DisplayMember = "Descripcion";
                 materiaComboBox.ValueMember = "IDMateria";
                 materiaComboBox.SelectedIndex = -1;
+
+                _combosLoaded = true;
+                ApplyComboSelectionsFromCurso();   // ← aplicar selección ahora que hay DataSource
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al cargar combos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private void ApplyComboSelectionsFromCurso()
+        {
+            if (Curso == null) return;
+
+            if (!_combosLoaded)
+            {
+                _pendingIdComision = Curso.IDComision;
+                _pendingIdMateria = Curso.IDMateria;
+                return;
+            }
+
+            // Asegurar tipos compatibles (int en ambos lados)
+            comisionComboBox.SelectedValue = Curso.IDComision;
+            materiaComboBox.SelectedValue = Curso.IDMateria;
+
+            // Si no encontró valor (queda -1), intentar por texto (opcional)
+            if (comisionComboBox.SelectedIndex == -1 && comisionComboBox.DisplayMember == "Descripcion")
+                comisionComboBox.SelectedIndex = comisionComboBox.FindStringExact(
+                    (Curso as dynamic)?.ComisionDescripcion ?? ""
+                );
+
+            if (materiaComboBox.SelectedIndex == -1 && materiaComboBox.DisplayMember == "Descripcion")
+                materiaComboBox.SelectedIndex = materiaComboBox.FindStringExact(
+                    (Curso as dynamic)?.MateriaDescripcion ?? ""
+                );
         }
 
         private async void aceptarButton_Click(object sender, EventArgs e)
@@ -134,6 +166,16 @@ namespace WindowsForm
             cupoTextBox.Text = this.Curso.Cupo.ToString();
             comisionComboBox.SelectedValue = this.Curso.IDComision;
             materiaComboBox.SelectedValue = this.Curso.IDMateria;
+            // No intentes setear SelectedValue directo acá si los combos aún no cargaron:
+            if (_combosLoaded)
+            {
+                ApplyComboSelectionsFromCurso();
+            }
+            else
+            {
+                _pendingIdComision = this.Curso.IDComision;
+                _pendingIdMateria = this.Curso.IDMateria;
+            }
         }
 
         private bool ValidateCurso()

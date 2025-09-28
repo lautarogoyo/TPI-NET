@@ -40,16 +40,18 @@
             // buscarTextBox
             // 
             buscarTextBox.Location = new Point(0, 0);
+            buscarTextBox.Margin = new Padding(3, 2, 3, 2);
             buscarTextBox.Name = "buscarTextBox";
-            buscarTextBox.Size = new Size(277, 27);
+            buscarTextBox.Size = new Size(243, 23);
             buscarTextBox.TabIndex = 0;
             buscarTextBox.Text = "Buscar por nombre...";
             // 
             // buscarButton
             // 
-            buscarButton.Location = new Point(325, -2);
+            buscarButton.Location = new Point(284, -2);
+            buscarButton.Margin = new Padding(3, 2, 3, 2);
             buscarButton.Name = "buscarButton";
-            buscarButton.Size = new Size(114, 29);
+            buscarButton.Size = new Size(100, 22);
             buscarButton.TabIndex = 1;
             buscarButton.Text = "Buscar";
             buscarButton.UseVisualStyleBackColor = true;
@@ -57,36 +59,42 @@
             // cursosDataGridView
             // 
             cursosDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            cursosDataGridView.Location = new Point(12, 61);
+            cursosDataGridView.Location = new Point(10, 46);
+            cursosDataGridView.Margin = new Padding(3, 2, 3, 2);
             cursosDataGridView.Name = "cursosDataGridView";
             cursosDataGridView.RowHeadersWidth = 51;
-            cursosDataGridView.Size = new Size(732, 279);
+            cursosDataGridView.Size = new Size(640, 209);
             cursosDataGridView.TabIndex = 2;
             cursosDataGridView.CellContentClick += cursosDataGridView_CellContentClick;
             // 
             // eliminarButton
             // 
-            eliminarButton.Location = new Point(477, 399);
+            eliminarButton.Location = new Point(417, 299);
+            eliminarButton.Margin = new Padding(3, 2, 3, 2);
             eliminarButton.Name = "eliminarButton";
-            eliminarButton.Size = new Size(94, 29);
+            eliminarButton.Size = new Size(82, 22);
             eliminarButton.TabIndex = 3;
             eliminarButton.Text = "Eliminar";
             eliminarButton.UseVisualStyleBackColor = true;
+            eliminarButton.Click += eliminarButton_Click;
             // 
             // modificarButton
             // 
-            modificarButton.Location = new Point(577, 399);
+            modificarButton.Location = new Point(505, 299);
+            modificarButton.Margin = new Padding(3, 2, 3, 2);
             modificarButton.Name = "modificarButton";
-            modificarButton.Size = new Size(94, 29);
+            modificarButton.Size = new Size(82, 22);
             modificarButton.TabIndex = 4;
             modificarButton.Text = "Modificar";
             modificarButton.UseVisualStyleBackColor = true;
+            modificarButton.Click += modificarButton_Click;
             // 
             // agregarButton
             // 
-            agregarButton.Location = new Point(677, 399);
+            agregarButton.Location = new Point(592, 299);
+            agregarButton.Margin = new Padding(3, 2, 3, 2);
             agregarButton.Name = "agregarButton";
-            agregarButton.Size = new Size(94, 29);
+            agregarButton.Size = new Size(82, 22);
             agregarButton.TabIndex = 5;
             agregarButton.Text = "Agregar";
             agregarButton.UseVisualStyleBackColor = true;
@@ -94,15 +102,16 @@
             // 
             // CursoLista
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(700, 338);
             Controls.Add(agregarButton);
             Controls.Add(modificarButton);
             Controls.Add(eliminarButton);
             Controls.Add(cursosDataGridView);
             Controls.Add(buscarButton);
             Controls.Add(buscarTextBox);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "CursoLista";
             Text = "CursoLista";
             Load += CursoLista_Load;
