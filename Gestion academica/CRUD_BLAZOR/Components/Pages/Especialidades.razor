@@ -1,0 +1,54 @@
+﻿@page "/especialidades"
+@attribute [StreamRendering]
+@inject EspecialidadClient Api
+@using DTOs
+
+<PageTitle>Especialidades</PageTitle>
+
+<h1>Especialidades</h1>
+
+@if (especialidades is null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descripción</th>
+                <th style="width:180px"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var e in especialidades)
+            {
+                <tr>
+                    <td>@e.IDEspecialidad</td>
+                    <td>@e.Descripcion</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary" href="/especialidades/@e.IDEspecialidad">Editar</a>
+                        <button class="btn btn-sm btn-outline-danger ms-2" @onclick="() => Eliminar(e.IDEspecialidad)">Eliminar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="/especialidades/0">Nueva</a>
+}
+
+@code {
+    private List<EspecialidadDTO>? especialidades;
+
+    protected override async Task OnInitializedAsync()
+        => especialidades = await Api.GetAllAsync() ?? new();
+
+    private async Task Eliminar(int id)
+    {
+        await Api.DeleteAsync(id);
+        especialidades = await Api.GetAllAsync() ?? new();
+        StateHasChanged();
+    }
+}

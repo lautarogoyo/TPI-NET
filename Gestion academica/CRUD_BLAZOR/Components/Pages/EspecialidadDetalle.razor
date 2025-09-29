@@ -1,0 +1,64 @@
+﻿@page "/especialidades/{id:int}"
+@using DTOs
+@inject EspecialidadClient Api
+@inject NavigationManager Nav
+
+<h3>@(EsNuevo ? "Nueva Especialidad" : "Editar Especialidad")</h3>
+
+@if (cargando)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <!-- prevenimos el submit nativo del form -->
+    <EditForm EditContext="_ctx" ValidateOnInput="true" @onsubmit:preventDefault>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <InputText class="form-control" @bind-Value="model.Descripcion" />
+            <ValidationMessage For="() => model.Descripcion" />
+        </div>
+
+        <!-- OJO: type="button" para NO disparar submit -->
+        <button class="btn btn-primary me-2" type="button" @onclick="GuardarClick">Guardar</button>
+        <button class="btn btn-secondary" type="button" @onclick="Cancelar">Cancelar</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public int id { get; set; }
+    private EspecialidadDTO model = new();
+    private EditContext _ctx = default!;
+    private bool EsNuevo => id == 0;
+    private bool cargando = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!EsNuevo)
+        {
+            var dto = await Api.GetAsync(id);
+            if (dto is null) { Nav.NavigateTo("/especialidades"); return; }
+            model = dto;
+        }
+
+        _ctx = new EditContext(model);  // para validar manualmente
+        cargando = false;
+    }
+
+    private async Task GuardarClick()
+    {
+        if (!_ctx.Validate()) return; // valida DataAnnotations
+
+        model.Descripcion = model.Descripcion?.Trim();
+
+        if (EsNuevo) await Api.CreateAsync(model);    // POST /especialidades
+        else await Api.UpdateAsync(model);    // PUT  /especialidades
+
+        Nav.NavigateTo("/especialidades", forceLoad: true);
+    }
+
+    private void Cancelar() => Nav.NavigateTo("/especialidades");
+}
