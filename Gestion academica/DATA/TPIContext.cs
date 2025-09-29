@@ -182,6 +182,7 @@ namespace Data
                       .IsRequired()
                       .HasMaxLength(100);
 
+                /*
                 entity.Property(m => m.HSSemanales)
                       .IsRequired();
 
@@ -195,6 +196,7 @@ namespace Data
                       .WithMany()
                       .HasForeignKey(m => m.IDPlan)
                       .OnDelete(DeleteBehavior.Restrict);
+                */
             });
 
             // --- COMISION --- ✅ NUEVO

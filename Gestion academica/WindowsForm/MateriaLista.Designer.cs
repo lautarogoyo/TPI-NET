@@ -1,6 +1,6 @@
 ﻿namespace WindowsForm
 {
-    partial class EspecialidadLista
+    partial class MateriaLista
     {
         /// <summary>
         /// Required designer variable.
@@ -30,51 +30,45 @@
         {
             buscarTextBox = new TextBox();
             buscarButton = new Button();
-            especialidadesDataGridView = new DataGridView();
+            materiasDataGridView = new DataGridView();
             eliminarButton = new Button();
             modificarButton = new Button();
             agregarButton = new Button();
-            ((System.ComponentModel.ISupportInitialize)especialidadesDataGridView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)materiasDataGridView).BeginInit();
             SuspendLayout();
             // 
             // buscarTextBox
             // 
-            buscarTextBox.Location = new Point(24, 19);
-            buscarTextBox.Margin = new Padding(3, 4, 3, 4);
+            buscarTextBox.Location = new Point(21, 14);
             buscarTextBox.Name = "buscarTextBox";
             buscarTextBox.PlaceholderText = "Buscar por nombre...";
-            buscarTextBox.Size = new Size(204, 27);
+            buscarTextBox.Size = new Size(179, 23);
             buscarTextBox.TabIndex = 0;
-            buscarTextBox.TextChanged += buscarTextBox_TextChanged;
             // 
             // buscarButton
             // 
-            buscarButton.Location = new Point(235, 17);
-            buscarButton.Margin = new Padding(3, 4, 3, 4);
+            buscarButton.Location = new Point(206, 13);
             buscarButton.Name = "buscarButton";
-            buscarButton.Size = new Size(86, 31);
+            buscarButton.Size = new Size(75, 23);
             buscarButton.TabIndex = 1;
             buscarButton.Text = "Buscar";
             buscarButton.UseVisualStyleBackColor = true;
             buscarButton.Click += buscarButton_Click;
             // 
-            // especialidadesDataGridView
+            // materiasDataGridView
             // 
-            especialidadesDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            especialidadesDataGridView.Location = new Point(24, 57);
-            especialidadesDataGridView.Margin = new Padding(3, 4, 3, 4);
-            especialidadesDataGridView.Name = "especialidadesDataGridView";
-            especialidadesDataGridView.RowHeadersWidth = 51;
-            especialidadesDataGridView.Size = new Size(677, 245);
-            especialidadesDataGridView.TabIndex = 2;
-            especialidadesDataGridView.CellContentClick += especialidadesDataGridView_CellContentClick;
+            materiasDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            materiasDataGridView.Location = new Point(21, 43);
+            materiasDataGridView.Name = "materiasDataGridView";
+            materiasDataGridView.Size = new Size(592, 184);
+            materiasDataGridView.TabIndex = 2;
+            materiasDataGridView.CellContentClick += materiasDataGridView_CellContentClick;
             // 
             // eliminarButton
             // 
-            eliminarButton.Location = new Point(447, 347);
-            eliminarButton.Margin = new Padding(3, 4, 3, 4);
+            eliminarButton.Location = new Point(391, 260);
             eliminarButton.Name = "eliminarButton";
-            eliminarButton.Size = new Size(86, 31);
+            eliminarButton.Size = new Size(75, 23);
             eliminarButton.TabIndex = 3;
             eliminarButton.Text = "Eliminar";
             eliminarButton.UseVisualStyleBackColor = true;
@@ -82,10 +76,9 @@
             // 
             // modificarButton
             // 
-            modificarButton.Location = new Point(539, 347);
-            modificarButton.Margin = new Padding(3, 4, 3, 4);
+            modificarButton.Location = new Point(472, 260);
             modificarButton.Name = "modificarButton";
-            modificarButton.Size = new Size(86, 31);
+            modificarButton.Size = new Size(75, 23);
             modificarButton.TabIndex = 4;
             modificarButton.Text = "Modificar";
             modificarButton.UseVisualStyleBackColor = true;
@@ -93,31 +86,29 @@
             // 
             // agregarButton
             // 
-            agregarButton.Location = new Point(632, 347);
-            agregarButton.Margin = new Padding(3, 4, 3, 4);
+            agregarButton.Location = new Point(553, 260);
             agregarButton.Name = "agregarButton";
-            agregarButton.Size = new Size(86, 31);
+            agregarButton.Size = new Size(75, 23);
             agregarButton.TabIndex = 5;
             agregarButton.Text = "Agregar";
             agregarButton.UseVisualStyleBackColor = true;
             agregarButton.Click += agregarButton_Click;
             // 
-            // EspecialidadLista
+            // MateriaLista
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(738, 393);
+            ClientSize = new Size(646, 295);
             Controls.Add(agregarButton);
             Controls.Add(modificarButton);
             Controls.Add(eliminarButton);
-            Controls.Add(especialidadesDataGridView);
+            Controls.Add(materiasDataGridView);
             Controls.Add(buscarButton);
             Controls.Add(buscarTextBox);
-            Margin = new Padding(3, 4, 3, 4);
-            Name = "EspecialidadLista";
-            Text = "EspecialidadLista";
-            Load += EspecialidadLista_Load;
-            ((System.ComponentModel.ISupportInitialize)especialidadesDataGridView).EndInit();
+            Name = "MateriaLista";
+            Text = "MateriaLista";
+            Load += MateriaLista_Load;
+            ((System.ComponentModel.ISupportInitialize)materiasDataGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -126,7 +117,7 @@
 
         private TextBox buscarTextBox;
         private Button buscarButton;
-        private DataGridView especialidadesDataGridView;
+        private DataGridView materiasDataGridView;
         private Button eliminarButton;
         private Button modificarButton;
         private Button agregarButton;

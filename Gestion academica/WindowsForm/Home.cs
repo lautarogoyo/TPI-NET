@@ -27,5 +27,11 @@ namespace WindowsForms
             CursoLista cursoForm = new CursoLista();
             cursoForm.ShowDialog();
         }
+
+        private void materiaButton_Click(object sender, EventArgs e)
+        {
+            MateriaLista materiaForm = new MateriaLista();
+            materiaForm.ShowDialog();
+        }
     }
 }

@@ -57,7 +57,7 @@ namespace WindowsForm
                 EspecialidadDTO especialidad = this.SelectedItem();
 
                 var confirm = MessageBox.Show(
-               "¿Desea eliminar este curso?",
+               "¿Desea eliminar esta especialidad?",
                "Confirmar eliminación",
                MessageBoxButtons.YesNo,
                MessageBoxIcon.Warning);
@@ -156,6 +156,11 @@ namespace WindowsForm
                 this.eliminarButton.Enabled = false;
                 this.modificarButton.Enabled = false;
             }
+        }
+
+        private void buscarTextBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
