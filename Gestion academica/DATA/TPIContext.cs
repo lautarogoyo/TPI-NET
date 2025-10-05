@@ -12,8 +12,11 @@ namespace Data
         public DbSet<DocenteCurso> DocentesCursos { get; set; }
         public DbSet<Persona> Personas { get; set; }
         public DbSet<Plan> Planes { get; set; }
-        public DbSet<Materia> Materias { get; set; }         // ✅ NUEVO
-        public DbSet<Comision> Comisiones { get; set; }       // ✅ NUEVO
+        public DbSet<Materia> Materias { get; set; }         
+        public DbSet<Comision> Comisiones { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Modulo> Modulos { get; set; }
+
 
         public TPIContext(DbContextOptions<TPIContext> options) : base(options) { }
 
@@ -222,6 +225,76 @@ namespace Data
                       .HasForeignKey(c => c.IDPlan)
                       .OnDelete(DeleteBehavior.Restrict);
             });
+
+
+            // --- USUARIO ---
+            modelBuilder.Entity<Usuario>(entity =>
+            {
+                entity.ToTable("usuarios");
+
+                entity.HasKey(u => u.IDUsuario);
+
+                entity.Property(u => u.IDUsuario)
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(u => u.NombreUsuario)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(u => u.Clave)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(u => u.Habilitado)
+                      .IsRequired();
+
+                entity.Property(u => u.Nombre)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(u => u.Apellido)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(u => u.Email)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(u => u.CambiaClave)
+                      .IsRequired();
+
+                entity.Property(u => u.IDPersona)
+                      .IsRequired();
+
+                entity.HasOne<Persona>()
+                      .WithMany()
+                      .HasForeignKey(u => u.IDPersona)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+
+            // --- MODULO ---
+            modelBuilder.Entity<Modulo>(entity =>
+            {
+                entity.ToTable("modulos");
+
+                entity.HasKey(m => m.IDModulo);
+
+                entity.Property(m => m.IDModulo)
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(m => m.DescModulo)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(m => m.Ejecuta)
+                      .IsRequired()
+                      .HasMaxLength(50);
+            });
+
+
+
+
         }
     }
 }
