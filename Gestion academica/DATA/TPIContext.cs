@@ -16,6 +16,9 @@ namespace Data
         public DbSet<Comision> Comisiones { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Modulo> Modulos { get; set; }
+        public DbSet<ModuloUsuario> ModulosUsuarios { get; set; }
+        public DbSet<AlumnoInscripcion> AlumnosInscripciones { get; set; }
+
 
 
         public TPIContext(DbContextOptions<TPIContext> options) : base(options) { }
@@ -291,6 +294,65 @@ namespace Data
                       .IsRequired()
                       .HasMaxLength(50);
             });
+
+
+            // --- MODULOS_USUARIOS ---
+            modelBuilder.Entity<ModuloUsuario>(entity =>
+            {
+                entity.ToTable("modulos_usuarios");
+
+                entity.HasKey(mu => mu.IDModuloUsuario);
+
+                entity.Property(mu => mu.IDModuloUsuario)
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(mu => mu.IDModulo).IsRequired();
+                entity.Property(mu => mu.IDUsuario).IsRequired();
+                entity.Property(mu => mu.Alta).IsRequired();
+                entity.Property(mu => mu.Baja).IsRequired();
+                entity.Property(mu => mu.Modificacion).IsRequired();
+                entity.Property(mu => mu.Consulta).IsRequired();
+
+                entity.HasOne<Usuario>()
+                      .WithMany()
+                      .HasForeignKey(mu => mu.IDUsuario)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne<Modulo>()
+                      .WithMany()
+                      .HasForeignKey(mu => mu.IDModulo)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+
+            // --- ALUMNOS_INSCRIPCIONES ---
+            modelBuilder.Entity<AlumnoInscripcion>(entity =>
+            {
+                entity.ToTable("alumnos_inscripciones");
+
+                entity.HasKey(ai => ai.IDInscripcion);
+
+                entity.Property(ai => ai.IDInscripcion)
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(ai => ai.IDAlumno).IsRequired();
+                entity.Property(ai => ai.IDCurso).IsRequired();
+                entity.Property(ai => ai.Condicion)
+                      .IsRequired()
+                      .HasMaxLength(50);
+                entity.Property(ai => ai.Nota).IsRequired();
+
+                entity.HasOne<Persona>()
+                      .WithMany()
+                      .HasForeignKey(ai => ai.IDAlumno)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne<Curso>()
+                      .WithMany()
+                      .HasForeignKey(ai => ai.IDCurso)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
 
 
 
