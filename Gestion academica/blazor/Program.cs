@@ -8,6 +8,8 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddHttpClient("WebApi", c => c.BaseAddress = new Uri("https://localhost:7111"));
 builder.Services.AddScoped<API.Clients.EspecialidadApi>();
+builder.Services.AddScoped<API.Clients.MateriaApi>();
+builder.Services.AddScoped<API.Clients.ComisionApi>();
 
 
 var app = builder.Build();

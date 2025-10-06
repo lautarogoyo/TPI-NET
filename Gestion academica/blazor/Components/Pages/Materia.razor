@@ -1,0 +1,152 @@
+﻿@page "/materias"
+@using DTOs
+@using API.Clients
+@inject IJSRuntime JSRuntime
+@inject MateriaApi MateriaApi
+@rendermode InteractiveServer
+
+
+<PageTitle>Materias</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h3>Materias</h3>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @errorMessage
+                    <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @successMessage
+                    <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
+                </div>
+            }
+
+            <div class="mb-3">
+                <button class="btn btn-primary" @onclick="OpenAddModal">
+                    <i class="fas fa-plus"></i> Agregar
+                </button>
+            </div>
+
+            @if (loading)
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Descripción</th>
+                                <th style="width:160px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (materias is { Count: > 0 })
+                            {
+                                @foreach (var mat in materias)
+                                {
+                                    <tr>
+                                        <td>@mat.IDMateria</td>
+                                        <td>@mat.Descripcion</td>
+                                        <td class="text-end">
+                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(mat)">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(mat)">
+                                                <i class="fas fa-trash"></i> Eliminar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center text-muted">No hay materias.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<MateriaModal @ref="modal"
+                   OnMateriaChanged="LoadMaterias"
+                   OnSuccess="ShowSuccess"
+                   OnError="ShowError" />
+
+@code {
+    private List<MateriaDTO>? materias;
+    private bool loading = true;
+    private string errorMessage = string.Empty;
+    private string successMessage = string.Empty;
+    private MateriaModal modal = null!;
+
+    protected override async Task OnInitializedAsync()
+        => await LoadMaterias();
+
+    private async Task LoadMaterias()
+    {
+        try
+        {
+            loading = true;
+            errorMessage = string.Empty;
+            materias = (await MateriaApi.GetAllAsync())?.ToList() ?? new();
+            successMessage = string.Empty; // limpio el success al recargar
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al cargar materias: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private Task OpenAddModal() => modal.ShowAddModal();
+
+    private Task OpenEditModal(MateriaDTO mat) => modal.ShowEditModal(mat);
+
+    private async Task ConfirmDelete(MateriaDTO mat)
+    {
+        var ok = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"¿Está seguro que desea eliminar el materia \"{mat.Descripcion}\" (ID {mat.IDMateria})?");
+        if (ok)
+            await DeleteMateria(mat.IDMateria);
+    }
+
+    private async Task DeleteMateria(int id)
+    {
+        try
+        {
+            await MateriaApi.DeleteAsync(id);
+            successMessage = "Materia eliminada exitosamente.";
+            await LoadMaterias();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al eliminar: {ex.Message}";
+        }
+    }
+
+    private void ShowSuccess(string msg) => successMessage = msg;
+    private void ShowError(string msg) => errorMessage = msg;
+}

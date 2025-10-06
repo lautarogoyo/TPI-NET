@@ -1,0 +1,187 @@
+﻿@page "/comisiones"
+@using DTOs
+@using API.Clients
+@inject IJSRuntime JSRuntime
+@inject ComisionApi ComisionApi
+@inject IHttpClientFactory HttpFactory
+@rendermode InteractiveServer
+
+<PageTitle>Comisiones</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h3>Comisiones</h3>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @errorMessage
+                    <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @successMessage
+                    <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
+                </div>
+            }
+
+            <div class="mb-3">
+                <button class="btn btn-primary" @onclick="OpenAddModal">
+                    <i class="fas fa-plus"></i> Agregar
+                </button>
+            </div>
+
+            @if (loading)
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Descripción</th>
+                                <th>Año especialidad</th>
+                                <th>Plan</th>
+                                <th style="width:180px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (comisiones is { Count: > 0 })
+                            {
+                                @foreach (var c in comisiones)
+                                {
+                                    <tr>
+                                        <td>@c.IDComision</td>
+                                        <td>@c.Descripcion</td>
+                                        <td>@c.AnioEspecialidad</td>
+                                        <td>@GetPlanNombre(c.IDPlan)</td>
+                                        <td class="text-end">
+                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(c)">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(c)">
+                                                <i class="fas fa-trash"></i> Eliminar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">No hay comisiones.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<ComisionModal @ref="modal"
+               planes="@planes"
+               OnComisionChanged="LoadComisiones"
+               OnSuccess="ShowSuccess"
+               OnError="ShowError" />
+
+@code {
+    private List<ComisionDTO>? comisiones;
+    private List<PlanDTO> planes = new();
+    private bool loading = true;
+    private string errorMessage = string.Empty;
+    private string successMessage = string.Empty;
+    private ComisionModal? modal;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadPlanes();         // ← carga desde DB
+        await LoadComisiones();
+    }
+    private async Task LoadComisiones()
+    {
+        try
+        {
+            loading = true;
+            errorMessage = string.Empty;
+
+            comisiones = (await ComisionApi.GetAllAsync())?.ToList() ?? new();
+            successMessage = string.Empty;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al cargar comisiones: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+    private async Task LoadPlanes()
+    {
+        try
+        {
+            var http = HttpFactory.CreateClient("WebApi");
+            // Cambiá "planes" por el endpoint real (ej: "api/planes")
+            planes = await http.GetFromJsonAsync<List<PlanDTO>>("api/planes") ?? new();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al cargar planes: {ex.Message}";
+            planes = new();
+        }
+    }
+
+    private string GetPlanNombre(int idPlan)
+            => planes.FirstOrDefault(p => p.IDPlan == idPlan)?.DescPlan ?? $"ID {idPlan}";
+
+    private Task OpenAddModal() => modal?.ShowAddModal() ?? Task.CompletedTask;
+
+    private Task OpenEditModal(ComisionDTO c) => modal?.ShowEditModal(c) ?? Task.CompletedTask;
+
+    private async Task ConfirmDelete(ComisionDTO c)
+    {
+        var ok = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"¿Eliminar la comisión \"{c.Descripcion}\" (ID {c.IDComision})?");
+        if (ok)
+            await DeleteComision(c.IDComision);
+    }
+
+    private async Task DeleteComision(int id)
+    {
+        try
+        {
+            await ComisionApi.DeleteAsync(id);
+            successMessage = "Comisión eliminada exitosamente.";
+            await LoadComisiones();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al eliminar: {ex.Message}";
+        }
+    }
+
+    private static string GetEnumDisplayName(int value)
+    {
+        var mem = typeof(int).GetMember(value.ToString()).FirstOrDefault();
+        var display = mem?.GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute), false)
+                         .Cast<System.ComponentModel.DataAnnotations.DisplayAttribute>()
+                         .FirstOrDefault();
+        return display?.Name ?? value.ToString();
+    }
+
+    private void ShowSuccess(string msg) => successMessage = msg;
+    private void ShowError(string msg) => errorMessage = msg;
+}

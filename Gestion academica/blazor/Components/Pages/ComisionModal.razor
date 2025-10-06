@@ -1,0 +1,162 @@
+﻿@using DTOs
+@using API.Clients
+@inject ComisionApi ComisionApi
+
+@if (visible)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@title</h5>
+                    <button type="button" class="btn-close" @onclick="Hide"></button>
+                </div>
+
+                <EditForm Model="@model"
+                          OnValidSubmit="@SaveAsync"
+                          FormName="comision-form"
+                          ValidateOnInput="true">
+                    <AntiforgeryToken />
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Descripción</label>
+                            <InputText class="form-control" @bind-Value="model.Descripcion" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Año especialidad</label>
+                            <InputNumber class="form-control" @bind-Value="model.AnioEspecialidad" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Plan</label>
+                            <select class="form-select" @bind="model.IDPlan">
+                                <option value="0">-- Seleccione un plan --</option>
+                                @foreach (var p in planes)
+                                {
+                                    <option value="@p.IDPlan">@p.DescPlan</option>
+                                }
+                            </select>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(localError))
+                        {
+                            <div class="alert alert-danger">@localError</div>
+                        }
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" @onclick="Hide">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar
+                        </button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool visible;
+    private string title = "Nueva comisión";
+    private string localError = string.Empty;
+
+    [Parameter] public List<PlanDTO> planes { get; set; } = new();
+
+    private ComisionDTO model = new()
+        {
+            IDComision = 0,
+            Descripcion = string.Empty,
+            AnioEspecialidad = DateTime.Now.Year,
+            IDPlan = 0
+        };
+
+    [Parameter] public EventCallback OnComisionChanged { get; set; }
+    [Parameter] public EventCallback<string> OnSuccess { get; set; }
+    [Parameter] public EventCallback<string> OnError { get; set; }
+
+    public Task ShowAddModal()
+    {
+        title = "Nueva comisión";
+        model = new ComisionDTO
+            {
+                IDComision = 0,
+                Descripcion = string.Empty,
+                AnioEspecialidad = DateTime.Now.Year,
+                IDPlan = 0
+            };
+        localError = string.Empty;
+        visible = true;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    public Task ShowEditModal(ComisionDTO dto)
+    {
+        title = $"Editar comisión (ID {dto.IDComision})";
+        model = new ComisionDTO
+            {
+                IDComision = dto.IDComision,
+                Descripcion = dto.Descripcion,
+                AnioEspecialidad = dto.AnioEspecialidad,
+                IDPlan = dto.IDPlan
+            };
+        localError = string.Empty;
+        visible = true;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    private void Hide()
+    {
+        visible = false;
+        localError = string.Empty;
+    }
+
+    private async Task SaveAsync()
+    {
+        try
+        {
+            localError = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(model.Descripcion))
+            {
+                localError = "La descripción es obligatoria.";
+                return;
+            }
+            if (model.AnioEspecialidad <= 0)
+            {
+                localError = "El año de especialidad debe ser válido.";
+                return;
+            }
+            if (model.IDPlan <= 0)
+            {
+                localError = "Debe seleccionar un plan.";
+                return;
+            }
+
+            if (model.IDComision == 0)
+            {
+                await ComisionApi.AddAsync(model);
+                await OnSuccess.InvokeAsync("Comisión creada correctamente.");
+            }
+            else
+            {
+                await ComisionApi.UpdateAsync(model);
+                await OnSuccess.InvokeAsync("Comisión actualizada correctamente.");
+            }
+
+            Hide();
+            await OnComisionChanged.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            localError = ex.Message;
+            await OnError.InvokeAsync($"Error al guardar: {ex.Message}");
+        }
+    }
+}
