@@ -50,7 +50,6 @@ namespace Data
                 existing.SetNombreUsuario(usuario.NombreUsuario);
                 existing.SetClave(usuario.Clave);
                 existing.SetHabilitado(usuario.Habilitado);
-                existing.SetCambiaClave(usuario.CambiaClave);
                 existing.SetIDPersona(usuario.IDPersona);
 
                 context.SaveChanges();

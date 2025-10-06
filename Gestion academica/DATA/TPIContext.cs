@@ -251,9 +251,6 @@ namespace Data
                 entity.Property(u => u.Habilitado)
                       .IsRequired();
 
-                entity.Property(u => u.CambiaClave)
-                      .IsRequired();
-
                 entity.Property(u => u.IDPersona)
                       .IsRequired();
 

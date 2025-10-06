@@ -9,7 +9,7 @@ namespace Application.Services
         public UsuarioDTO Add(UsuarioDTO dto)
         {
             var repo = new UsuarioRepository();
-            var usuario = new Usuario(dto.NombreUsuario, dto.Clave, dto.Habilitado, dto.CambiaClave, dto.IDPersona);
+            var usuario = new Usuario(dto.NombreUsuario, dto.Clave, dto.Habilitado, dto.IDPersona);
             repo.Add(usuario);
             dto.IDUsuario = usuario.IDUsuario;
             return dto;
@@ -35,7 +35,6 @@ namespace Application.Services
                 NombreUsuario = usuario.NombreUsuario,
                 Clave = usuario.Clave,
                 Habilitado = usuario.Habilitado,
-                CambiaClave = usuario.CambiaClave,
                 IDPersona = usuario.IDPersona
             };
         }
@@ -49,7 +48,6 @@ namespace Application.Services
                 NombreUsuario = u.NombreUsuario,
                 Clave = u.Clave,
                 Habilitado = u.Habilitado,
-                CambiaClave = u.CambiaClave,
                 IDPersona = u.IDPersona
             }).ToList();
         }
@@ -57,7 +55,7 @@ namespace Application.Services
         public bool Update(UsuarioDTO dto)
         {
             var repo = new UsuarioRepository();
-            var usuario = new Usuario(dto.NombreUsuario, dto.Clave, dto.Habilitado, dto.CambiaClave, dto.IDPersona);
+            var usuario = new Usuario(dto.NombreUsuario, dto.Clave, dto.Habilitado, dto.IDPersona);
 
             typeof(Usuario).GetProperty(nameof(Usuario.IDUsuario))!
                            .SetValue(usuario, dto.IDUsuario);
