@@ -45,4 +45,6 @@ app.MapMateriaEndpoints();
 
 app.MapComisionEndpoints();
 
+app.MapUsuarioEndpoints();
+
 app.Run();
