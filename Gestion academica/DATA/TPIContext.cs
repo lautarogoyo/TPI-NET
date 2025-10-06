@@ -251,21 +251,6 @@ namespace Data
                 entity.Property(u => u.Habilitado)
                       .IsRequired();
 
-                entity.Property(u => u.Nombre)
-                      .IsRequired()
-                      .HasMaxLength(50);
-
-                entity.Property(u => u.Apellido)
-                      .IsRequired()
-                      .HasMaxLength(50);
-
-                entity.Property(u => u.Email)
-                      .IsRequired()
-                      .HasMaxLength(50);
-
-                entity.Property(u => u.CambiaClave)
-                      .IsRequired();
-
                 entity.Property(u => u.IDPersona)
                       .IsRequired();
 
@@ -274,6 +259,7 @@ namespace Data
                       .HasForeignKey(u => u.IDPersona)
                       .OnDelete(DeleteBehavior.Restrict);
             });
+
 
 
             // --- MODULO ---

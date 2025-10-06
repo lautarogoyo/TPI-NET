@@ -32,6 +32,7 @@
             button1 = new Button();
             materiaButton = new Button();
             label2 = new Label();
+            UsuarioButton = new Button();
             SuspendLayout();
             // 
             // cursoButton
@@ -49,7 +50,7 @@
             button1.Location = new Point(169, 95);
             button1.Margin = new Padding(3, 4, 3, 4);
             button1.Name = "button1";
-            button1.Size = new Size(111, 33);
+            button1.Size = new Size(120, 33);
             button1.TabIndex = 2;
             button1.Text = "Especialidades";
             button1.UseVisualStyleBackColor = true;
@@ -75,11 +76,22 @@
             label2.TabIndex = 3;
             label2.Text = "ALTA - BAJA - MODIFICACION";
             // 
+            // UsuarioButton
+            // 
+            UsuarioButton.Location = new Point(448, 97);
+            UsuarioButton.Name = "UsuarioButton";
+            UsuarioButton.Size = new Size(109, 29);
+            UsuarioButton.TabIndex = 4;
+            UsuarioButton.Text = "Usuario";
+            UsuarioButton.UseVisualStyleBackColor = true;
+            UsuarioButton.Click += UsuarioButton_Click;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(914, 600);
+            Controls.Add(UsuarioButton);
             Controls.Add(label2);
             Controls.Add(button1);
             Controls.Add(cursoButton);
@@ -99,5 +111,6 @@
         private Button button1;
         private Button materiaButton;
         private Label label2;
+        private Button UsuarioButton;
     }
 }

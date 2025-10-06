@@ -33,5 +33,11 @@ namespace WindowsForms
             MateriaLista materiaForm = new MateriaLista();
             materiaForm.ShowDialog();
         }
+
+        private void UsuarioButton_Click(object sender, EventArgs e)
+        {
+            UsuarioLista usuarioForm = new UsuarioLista();
+            usuarioForm.ShowDialog();
+        }
     }
 }
