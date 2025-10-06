@@ -50,9 +50,6 @@ namespace Data
                 existing.SetNombreUsuario(usuario.NombreUsuario);
                 existing.SetClave(usuario.Clave);
                 existing.SetHabilitado(usuario.Habilitado);
-                existing.SetNombre(usuario.Nombre);
-                existing.SetApellido(usuario.Apellido);
-                existing.SetEmail(usuario.Email);
                 existing.SetCambiaClave(usuario.CambiaClave);
                 existing.SetIDPersona(usuario.IDPersona);
 
