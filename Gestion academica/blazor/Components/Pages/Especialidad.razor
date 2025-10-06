@@ -1,8 +1,10 @@
 ﻿@page "/especialidades"
 @using DTOs
 @using API.Clients
-@using CRUD_BLAZOR.Components
 @inject IJSRuntime JSRuntime
+@inject EspecialidadApi EspecialidadApi
+@rendermode InteractiveServer
+
 
 <PageTitle>Especialidades</PageTitle>
 
@@ -33,7 +35,6 @@
                 </button>
             </div>
 
-
             @if (loading)
             {
                 <div class="d-flex justify-content-center">
@@ -49,30 +50,34 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>Id</th>
-                                <th>Descripcion</th>
-                                <th></th>
+                                <th>Descripción</th>
+                                <th style="width:160px"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (especialidades is not null && especialidades.Any())
+                            @if (especialidades is { Count: > 0 })
                             {
-                                @foreach (var especialidad in especialidades)
+                                @foreach (var esp in especialidades)
                                 {
                                     <tr>
-                                        <td>@especialidad.IDEspecialidad</td>
-                                        <td>@especialidad.Descripcion</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1"
-                                            @onclick="() => OpenEditModal(especialidad)">
+                                        <td>@esp.IDEspecialidad</td>
+                                        <td>@esp.Descripcion</td>
+                                        <td class="text-end">
+                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(esp)">
                                                 <i class="fas fa-edit"></i> Editar
                                             </button>
-                                            <button class="btn btn-sm btn-outline-danger"
-                                            @onclick="() => ConfirmDelete(especialidad)">
+                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(esp)">
                                                 <i class="fas fa-trash"></i> Eliminar
                                             </button>
                                         </td>
                                     </tr>
                                 }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center text-muted">No hay especialidades.</td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -82,15 +87,17 @@
     </div>
 </div>
 
-<EspecialidadDetalle @ref="especialidadModal"
-OnEspecialidadChanged="LoadEspecialidades" />
+<EspecialidadModal @ref="modal"
+                   OnEspecialidadChanged="LoadEspecialidades"
+                   OnSuccess="ShowSuccess"
+                   OnError="ShowError" />
 
 @code {
     private List<EspecialidadDTO>? especialidades;
     private bool loading = true;
     private string errorMessage = string.Empty;
     private string successMessage = string.Empty;
-    private EspecialidadDetalle? especialidadModal;
+    private EspecialidadModal modal = null!;
 
     protected override async Task OnInitializedAsync()
         => await LoadEspecialidades();
@@ -100,8 +107,9 @@ OnEspecialidadChanged="LoadEspecialidades" />
         try
         {
             loading = true;
-            especialidades = (await EspecialidadApi.GetAllAsync())?.ToList();
-            successMessage = string.Empty;
+            errorMessage = string.Empty;
+            especialidades = (await EspecialidadApi.GetAllAsync())?.ToList() ?? new();
+            successMessage = string.Empty; // limpio el success al recargar
         }
         catch (Exception ex)
         {
@@ -113,24 +121,16 @@ OnEspecialidadChanged="LoadEspecialidades" />
         }
     }
 
-    private async Task OpenAddModal()
+    private Task OpenAddModal() => modal.ShowAddModal();
+
+    private Task OpenEditModal(EspecialidadDTO esp) => modal.ShowEditModal(esp);
+
+    private async Task ConfirmDelete(EspecialidadDTO esp)
     {
-        if (especialidadModal is not null)
-            await especialidadModal.ShowAddModal();
-    }
-
-    private Task OpenEditModal(EspecialidadDTO especialidad)
-        => especialidadModal.ShowEditModal(especialidad);
-
-    private async Task ConfirmDelete(EspecialidadDTO especialidad)
-    {
-        var ok = await JSRuntime.InvokeAsync<bool>(
-            "confirm",
-            $"¿Está seguro que desea eliminar la especialidad \"{especialidad.Descripcion}\" (ID {especialidad.IDEspecialidad})?"
-        );
-
+        var ok = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"¿Está seguro que desea eliminar la especialidad \"{esp.Descripcion}\" (ID {esp.IDEspecialidad})?");
         if (ok)
-            await DeleteEspecialidad(especialidad.IDEspecialidad);
+            await DeleteEspecialidad(esp.IDEspecialidad);
     }
 
     private async Task DeleteEspecialidad(int id)
@@ -143,7 +143,10 @@ OnEspecialidadChanged="LoadEspecialidades" />
         }
         catch (Exception ex)
         {
-            errorMessage = $"Error al eliminar especialidad: {ex.Message}";
+            errorMessage = $"Error al eliminar: {ex.Message}";
         }
     }
+
+    private void ShowSuccess(string msg) => successMessage = msg;
+    private void ShowError(string msg) => errorMessage = msg;
 }

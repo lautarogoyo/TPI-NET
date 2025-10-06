@@ -1,0 +1,125 @@
+﻿@using DTOs
+@using API.Clients
+@inject EspecialidadApi EspecialidadApi
+
+@if (visible)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@title</h5>
+                    <button type="button" class="btn-close" @onclick="Hide"></button>
+                </div>
+
+                <EditForm Model="@model"
+                          OnValidSubmit="@SaveAsync"
+                          FormName="especialidad-form"
+                          ValidateOnInput="true">
+                    <AntiforgeryToken />
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Descripción</label>
+                            <InputText class="form-control" @bind-Value="model.Descripcion" />
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(localError))
+                        {
+                            <div class="alert alert-danger">@localError</div>
+                        }
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" @onclick="Hide">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar
+                        </button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool visible;
+    private string title = "Nueva especialidad";
+    private string localError = string.Empty;
+
+    private EspecialidadDTO model = new()
+        {
+            IDEspecialidad = 0,
+            Descripcion = string.Empty
+        };
+
+    // Eventos para notificar al padre
+    [Parameter] public EventCallback OnEspecialidadChanged { get; set; }
+    [Parameter] public EventCallback<string> OnSuccess { get; set; }
+    [Parameter] public EventCallback<string> OnError { get; set; }
+
+    public Task ShowAddModal()
+    {
+        title = "Nueva especialidad";
+        model = new EspecialidadDTO { IDEspecialidad = 0, Descripcion = string.Empty };
+        localError = string.Empty;
+        visible = true;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    public Task ShowEditModal(EspecialidadDTO dto)
+    {
+        title = $"Editar especialidad (ID {dto.IDEspecialidad})";
+        model = new EspecialidadDTO
+            {
+                IDEspecialidad = dto.IDEspecialidad,
+                Descripcion = dto.Descripcion
+            };
+        localError = string.Empty;
+        visible = true;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    private void Hide()
+    {
+        visible = false;
+        localError = string.Empty;
+    }
+
+    private async Task SaveAsync()
+    {
+        try
+        {
+            localError = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(model.Descripcion))
+            {
+                localError = "La descripción es obligatoria.";
+                return;
+            }
+
+            if (model.IDEspecialidad == 0)
+            {
+                await EspecialidadApi.AddAsync(model);
+                await OnSuccess.InvokeAsync("Especialidad creada correctamente.");
+            }
+            else
+            {
+                await EspecialidadApi.UpdateAsync(model);
+                await OnSuccess.InvokeAsync("Especialidad actualizada correctamente.");
+            }
+
+            Hide();
+            await OnEspecialidadChanged.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            localError = ex.Message;
+            await OnError.InvokeAsync($"Error al guardar: {ex.Message}");
+        }
+    }
+}

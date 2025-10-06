@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsForm", "WindowsForm\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Clients", "API.Clients\API.Clients.csproj", "{268D82FB-594B-4677-AB68-689C50A5953C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRUD_BLAZOR", "CRUD_BLAZOR\CRUD_BLAZOR.csproj", "{C497FB5F-52D0-4943-9E2D-E2706AFF8DE5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blazor", "blazor\blazor.csproj", "{1E640DAB-1949-4297-956B-37DC90062EEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +53,10 @@ Global
 		{268D82FB-594B-4677-AB68-689C50A5953C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{268D82FB-594B-4677-AB68-689C50A5953C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{268D82FB-594B-4677-AB68-689C50A5953C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C497FB5F-52D0-4943-9E2D-E2706AFF8DE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C497FB5F-52D0-4943-9E2D-E2706AFF8DE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C497FB5F-52D0-4943-9E2D-E2706AFF8DE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C497FB5F-52D0-4943-9E2D-E2706AFF8DE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E640DAB-1949-4297-956B-37DC90062EEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E640DAB-1949-4297-956B-37DC90062EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E640DAB-1949-4297-956B-37DC90062EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E640DAB-1949-4297-956B-37DC90062EEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
