@@ -164,5 +164,10 @@ namespace WindowsForm
                 _ => false
             };
         }
+
+        private void UsuarioDetalle_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

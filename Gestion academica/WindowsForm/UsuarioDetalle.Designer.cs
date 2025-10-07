@@ -161,6 +161,7 @@
             Controls.Add(IdLabel);
             Name = "UsuarioDetalle";
             Text = "UsuarioDetalle";
+            Load += UsuarioDetalle_Load_1;
             ResumeLayout(false);
             PerformLayout();
         }
