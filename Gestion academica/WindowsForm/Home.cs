@@ -39,5 +39,11 @@ namespace WindowsForms
             UsuarioLista usuarioForm = new UsuarioLista();
             usuarioForm.ShowDialog();
         }
+
+        private void personaButton_Click(object sender, EventArgs e)
+        {
+            PersonaLista personaForm = new PersonaLista();
+            personaForm.ShowDialog();
+        }
     }
 }

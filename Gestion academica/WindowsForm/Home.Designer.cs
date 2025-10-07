@@ -33,6 +33,7 @@
             materiaButton = new Button();
             label2 = new Label();
             UsuarioButton = new Button();
+            personaButton = new Button();
             SuspendLayout();
             // 
             // cursoButton
@@ -86,11 +87,22 @@
             UsuarioButton.UseVisualStyleBackColor = true;
             UsuarioButton.Click += UsuarioButton_Click;
             // 
+            // personaButton
+            // 
+            personaButton.Location = new Point(582, 99);
+            personaButton.Name = "personaButton";
+            personaButton.Size = new Size(108, 29);
+            personaButton.TabIndex = 5;
+            personaButton.Text = "Persona";
+            personaButton.UseVisualStyleBackColor = true;
+            personaButton.Click += personaButton_Click;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(914, 600);
+            Controls.Add(personaButton);
             Controls.Add(UsuarioButton);
             Controls.Add(label2);
             Controls.Add(button1);
@@ -112,5 +124,6 @@
         private Button materiaButton;
         private Label label2;
         private Button UsuarioButton;
+        private Button personaButton;
     }
 }
