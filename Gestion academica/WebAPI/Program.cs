@@ -49,4 +49,12 @@ app.MapUsuarioEndpoints();
 
 app.MapPersonaEndpoints();
 
+app.MapAlumnoInscripcionEndpoints();
+
+app.MapModuloEndpoints();
+
+app.MapModuloUsuarioEndpoints();    
+
+app.MapPlanEndpoints(); 
+
 app.Run();
