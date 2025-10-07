@@ -11,13 +11,10 @@ using API.Clients;
 using DTOs;
 
 namespace WindowsForm
-{ 
-    public enum FormMode
-    {
-        Add,
-        Update
-    }
+{
+    
     public partial class EspecialidadDetalle : Form
+
     {
 
         private EspecialidadDTO especialidad;
