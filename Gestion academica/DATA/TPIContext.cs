@@ -1,6 +1,7 @@
 ﻿using System.Reflection.Emit;
 using Domain.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
 
 namespace Data
@@ -46,16 +47,10 @@ namespace Data
             base.OnModelCreating(modelBuilder);
 
             // --- ESPECIALIDAD ---
-            modelBuilder.Entity<Especialidad>(entity =>
+            modelBuilder.Entity<Especialidad>(e =>
             {
-                entity.HasKey(e => e.IDEspecialidad);
-
-                entity.Property(e => e.IDEspecialidad)
-                      .ValueGeneratedOnAdd();
-
-                entity.Property(e => e.Descripcion)
-                      .IsRequired()
-                      .HasMaxLength(100);
+                e.HasKey(x => x.IDEspecialidad);
+                e.Property(x => x.Descripcion).IsRequired().HasMaxLength(100);
             });
 
             // --- CURSO ---
@@ -149,9 +144,10 @@ namespace Data
                 entity.Property(p => p.IDPlan)
                       .IsRequired();
 
-                entity.HasOne<Plan>()
-                      .WithMany()
-                      .HasForeignKey(p => p.IDPlan)
+                entity.HasOne(p => p.Plan)
+                      .WithMany(e => e.Personas)
+                      .HasForeignKey(p => p.IDPlan) // <-- clavec
+                      .HasConstraintName("FK_Personas_Planes_IDPLan")
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
@@ -159,20 +155,13 @@ namespace Data
             modelBuilder.Entity<Plan>(entity =>
             {
                 entity.HasKey(p => p.IDPlan);
+                entity.Property(p => p.DescPlan).IsRequired().HasMaxLength(50);
+                entity.Property(p => p.IDEspecialidad).IsRequired();
 
-                entity.Property(p => p.IDPlan)
-                      .ValueGeneratedOnAdd();
-
-                entity.Property(p => p.DescPlan)
-                      .IsRequired()
-                      .HasMaxLength(50);
-
-                entity.Property(p => p.IDEspecialidad)
-                      .IsRequired();
-
-                entity.HasOne<Especialidad>()
-                      .WithMany()
-                      .HasForeignKey(p => p.IDEspecialidad)
+                entity.HasOne(p => p.Especialidad)
+                      .WithMany(e => e.Planes)
+                      .HasForeignKey(p => p.IDEspecialidad) // <-- clavec
+                      .HasConstraintName("FK_Planes_Especialidades_IDEspecialidad")
                       .OnDelete(DeleteBehavior.Restrict);
             });
 

@@ -1,0 +1,268 @@
+﻿@using DTOs
+@using API.Clients
+@inject PersonaApi PersonaApi
+@inject PlanApi PlanApi
+
+@if (visible)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,.5);">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@title</h5>
+                    <button type="button" class="btn-close" @onclick="Hide"></button>
+                </div>
+
+                <EditForm Model="@model"
+                          OnValidSubmit="@SaveAsync"
+                          FormName="persona-form"
+                          ValidateOnInput="true">
+                    <AntiforgeryToken />
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="modal-body">
+                        @if (loadingCatalogos)
+                        {
+                            <div class="d-flex justify-content-center my-3">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Cargando catálogos...</span>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Nombre</label>
+                                    <InputText class="form-control" @bind-Value="model.Nombre" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Apellido</label>
+                                    <InputText class="form-control" @bind-Value="model.Apellido" />
+                                </div>
+
+                                <div class="col-md-8">
+                                    <label class="form-label">Dirección</label>
+                                    <InputText class="form-control" @bind-Value="model.Direccion" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Teléfono</label>
+                                    <InputText class="form-control" @bind-Value="model.Telefono" />
+                                </div>
+
+                                <div class="col-md-8">
+                                    <label class="form-label">Email</label>
+                                    <InputText type="email" class="form-control" @bind-Value="model.Email" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Fecha de nacimiento</label>
+                                    <InputDate class="form-control" @bind-Value="model.FechaNac" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Legajo</label>
+                                    <InputNumber class="form-control" @bind-Value="model.Legajo" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Tipo de persona</label>
+                                    <!-- Si tu API espera texto libre, dejá InputText; si preferís opciones, reemplazá por InputSelect -->
+                                    <InputText class="form-control" @bind-Value="model.TipoPersona" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Plan</label>
+                                    <InputSelect @bind-Value="model.IDPlan" TValue="int" class="form-select">
+                                        <option value="0" disabled>-- Seleccionar --</option>
+                                        @foreach (var p in planes)
+                                        {
+                                            <option value="@p.IDPlan">@p.DescPlan</option>
+                                        }
+                                    </InputSelect>
+                                </div>
+
+                                @if (model.IDPersona != 0)
+                                {
+                                    <div class="col-12">
+                                        <div class="text-muted"><small>ID persona: @model.IDPersona</small></div>
+                                    </div>
+                                }
+
+                                @if (!string.IsNullOrEmpty(localError))
+                                {
+                                    <div class="col-12">
+                                        <div class="alert alert-danger">@localError</div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" @onclick="Hide" disabled="@saving">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" disabled="@saving">
+                            <i class="fas fa-save"></i> Guardar
+                        </button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    // UI
+    private bool visible;
+    private bool saving;
+    private bool loadingCatalogos;
+    private string title = "Nueva persona";
+    private string localError = string.Empty;
+
+    // Modelo
+    private PersonaDTO model = new()
+        {
+            IDPersona = 0,
+            Nombre = string.Empty,
+            Apellido = string.Empty,
+            Direccion = string.Empty,
+            Email = string.Empty,
+            Telefono = string.Empty,
+            FechaNac = DateTime.Today,
+            Legajo = 0,
+            TipoPersona = string.Empty,
+            IDPlan = 0
+        };
+
+    // Catálogos
+    private List<PlanDTO> planes = new();
+
+    // Callbacks al padre
+    [Parameter] public EventCallback OnPersonaChanged { get; set; }
+    [Parameter] public EventCallback<string> OnSuccess { get; set; }
+    [Parameter] public EventCallback<string> OnError { get; set; }
+
+    public async Task ShowAddModal()
+    {
+        title = "Nueva persona";
+        model = new PersonaDTO
+            {
+                IDPersona = 0,
+                Nombre = string.Empty,
+                Apellido = string.Empty,
+                Direccion = string.Empty,
+                Email = string.Empty,
+                Telefono = string.Empty,
+                FechaNac = DateTime.Today,
+                Legajo = 0,
+                TipoPersona = string.Empty,
+                IDPlan = 0
+            };
+        localError = string.Empty;
+        await EnsureCatalogosLoaded();
+        visible = true;
+        StateHasChanged();
+    }
+
+    public async Task ShowEditModal(PersonaDTO dto)
+    {
+        title = $"Editar persona (ID {dto.IDPersona})";
+        model = new PersonaDTO
+            {
+                IDPersona = dto.IDPersona,
+                Nombre = dto.Nombre,
+                Apellido = dto.Apellido,
+                Direccion = dto.Direccion,
+                Email = dto.Email,
+                Telefono = dto.Telefono,
+                FechaNac = dto.FechaNac,
+                Legajo = dto.Legajo,
+                TipoPersona = dto.TipoPersona,
+                IDPlan = dto.IDPlan
+            };
+        localError = string.Empty;
+        await EnsureCatalogosLoaded();
+        visible = true;
+        StateHasChanged();
+    }
+
+    private void Hide()
+    {
+        visible = false;
+        localError = string.Empty;
+    }
+
+    private async Task EnsureCatalogosLoaded()
+    {
+        if (planes.Count > 0) return;
+
+        try
+        {
+            loadingCatalogos = true;
+            planes = (await PlanApi.GetAllAsync())?.ToList() ?? new();
+        }
+        catch (Exception ex)
+        {
+            localError = $"Error al cargar planes: {ex.Message}";
+        }
+        finally
+        {
+            loadingCatalogos = false;
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        try
+        {
+            localError = string.Empty;
+
+            // Validaciones mínimas de UI
+            if (string.IsNullOrWhiteSpace(model.Nombre))
+            {
+                localError = "El nombre es obligatorio.";
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(model.Apellido))
+            {
+                localError = "El apellido es obligatorio.";
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(model.Email))
+            {
+                localError = "El email es obligatorio.";
+                return;
+            }
+            if (model.IDPlan <= 0)
+            {
+                localError = "Debe seleccionar un plan.";
+                return;
+            }
+
+            saving = true;
+
+            if (model.IDPersona == 0)
+            {
+                await PersonaApi.AddAsync(model);
+                await OnSuccess.InvokeAsync("Persona creada correctamente.");
+            }
+            else
+            {
+                await PersonaApi.UpdateAsync(model);
+                await OnSuccess.InvokeAsync("Persona actualizada correctamente.");
+            }
+
+            Hide();
+            await OnPersonaChanged.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            localError = ex.Message;
+            await OnError.InvokeAsync($"Error al guardar: {ex.Message}");
+        }
+        finally
+        {
+            saving = false;
+        }
+    }
+}

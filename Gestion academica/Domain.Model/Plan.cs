@@ -6,6 +6,9 @@
         public string DescPlan { get; private set; }
         public int IDEspecialidad { get; private set; }
 
+        public Especialidad Especialidad { get; private set; }   // navegación
+        public ICollection<Persona> Personas { get; private set; } = new List<Persona>();
+
         // Constructor para EF
         protected Plan() { }
 

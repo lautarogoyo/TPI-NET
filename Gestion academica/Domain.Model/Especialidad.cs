@@ -5,6 +5,7 @@ namespace Domain.Model
     {
         public int IDEspecialidad { get; private set; }
         public string Descripcion { get; private set; }
+        public ICollection<Plan> Planes { get; private set; } = new List<Plan>();
 
         // Constructor para EF
         protected Especialidad() { }

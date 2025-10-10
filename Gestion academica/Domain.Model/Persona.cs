@@ -14,6 +14,7 @@ namespace Domain.Model
         public int Legajo { get; private set; }
         public string TipoPersona { get; private set; }
         public int IDPlan { get; private set; }
+        public Plan Plan { get; private set; } // navegación
 
         // Constructor para EF
         protected Persona() { }

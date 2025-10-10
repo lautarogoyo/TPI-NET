@@ -10,6 +10,8 @@ builder.Services.AddHttpClient("WebApi", c => c.BaseAddress = new Uri("https://l
 builder.Services.AddScoped<API.Clients.EspecialidadApi>();
 builder.Services.AddScoped<API.Clients.MateriaApi>();
 builder.Services.AddScoped<API.Clients.ComisionApi>();
+builder.Services.AddScoped<API.Clients.PlanApi>();
+builder.Services.AddScoped<API.Clients.PersonaApi>();
 
 
 var app = builder.Build();

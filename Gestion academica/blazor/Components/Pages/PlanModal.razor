@@ -1,0 +1,188 @@
+﻿@using DTOs
+@using API.Clients
+@inject PlanApi PlanApi
+@inject EspecialidadApi EspecialidadApi
+
+@if (visible)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@title</h5>
+                    <button type="button" class="btn-close" @onclick="Hide"></button>
+                </div>
+
+                <EditForm Model="@model"
+                          OnValidSubmit="@SaveAsync"
+                          FormName="plan-form"
+                          ValidateOnInput="true">
+                    <AntiforgeryToken />
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="modal-body">
+                        @if (loadingEspecialidades)
+                        {
+                            <div class="d-flex justify-content-center my-3">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Cargando especialidades...</span>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-3">
+                                <label class="form-label">Descripción del plan</label>
+                                <InputText class="form-control" @bind-Value="model.DescPlan" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Especialidad</label>
+                                <InputSelect @bind-Value="model.IDEspecialidad" TValue="int" class="form-select">
+                                    <option value="0" disabled>-- Seleccionar --</option>
+                                    @foreach (var esp in especialidades){
+                                        <option value="@esp.IDEspecialidad">@esp.Descripcion</option>}
+                                </InputSelect>
+
+                            </div>
+
+                            @if (model.IDPlan != 0)
+                            {
+                                <div class="mb-2 text-muted"><small>ID plan: @model.IDPlan</small></div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(localError))
+                            {
+                                <div class="alert alert-danger">@localError</div>
+                            }
+                        }
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" @onclick="Hide" disabled="@saving">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar
+                        </button>
+
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    // UI
+    private bool visible;
+    private bool saving;
+    private bool loadingEspecialidades;
+    private string title = "Nuevo plan";
+    private string localError = string.Empty;
+
+    // Modelo
+    private PlanDTO model = new()
+        {
+            IDPlan = 0,
+            DescPlan = string.Empty,
+            IDEspecialidad = 0
+        };
+
+    // Catálogo
+    private List<EspecialidadDTO> especialidades = new();
+
+    // Callbacks al padre
+    [Parameter] public EventCallback OnPlanChanged { get; set; }
+    [Parameter] public EventCallback<string> OnSuccess { get; set; }
+    [Parameter] public EventCallback<string> OnError { get; set; }
+
+    public async Task ShowAddModal()
+    {
+        title = "Nuevo plan";
+        model = new PlanDTO { IDPlan = 0, DescPlan = string.Empty, IDEspecialidad = 0 };
+        localError = string.Empty;
+        await EnsureEspecialidadesLoaded();
+        visible = true;
+        StateHasChanged();
+    }
+
+    public async Task ShowEditModal(PlanDTO dto)
+    {
+        title = $"Editar plan (ID {dto.IDPlan})";
+        model = new PlanDTO { IDPlan = dto.IDPlan, DescPlan = dto.DescPlan, IDEspecialidad = dto.IDEspecialidad };
+        localError = string.Empty;
+        await EnsureEspecialidadesLoaded();
+        visible = true;
+        StateHasChanged();
+    }
+
+    private void Hide()
+    {
+        visible = false;
+        localError = string.Empty;
+    }
+
+    private async Task EnsureEspecialidadesLoaded()
+    {
+        if (especialidades.Count > 0) return;
+
+        try
+        {
+            loadingEspecialidades = true;
+            especialidades = (await EspecialidadApi.GetAllAsync())?.ToList() ?? new();
+        }
+        catch (Exception ex)
+        {
+            localError = $"Error al cargar especialidades: {ex.Message}";
+        }
+        finally
+        {
+            loadingEspecialidades = false;
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        try
+        {
+            localError = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(model.DescPlan))
+            {
+                localError = "La descripción del plan es obligatoria.";
+                return;
+            }
+
+            if (model.IDEspecialidad <= 0)
+            {
+                localError = "Debe seleccionar una especialidad.";
+                return;
+            }
+
+            saving = true;
+
+            if (model.IDPlan == 0)
+            {
+                await PlanApi.AddAsync(model);
+                await OnSuccess.InvokeAsync("Plan creado correctamente.");
+            }
+            else
+            {
+                await PlanApi.UpdateAsync(model);
+                await OnSuccess.InvokeAsync("Plan actualizado correctamente.");
+            }
+
+            Hide();
+            await OnPlanChanged.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            localError = ex.Message;
+            await OnError.InvokeAsync($"Error al guardar: {ex.Message}");
+        }
+        finally
+        {
+            saving = false;
+        }
+    }
+}
