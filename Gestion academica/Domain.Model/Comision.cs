@@ -9,6 +9,8 @@
         public string Descripcion { get; private set; }
         public int AnioEspecialidad { get; private set; }
         public int IDPlan { get; private set; }
+        public ICollection<Curso> Cursos { get; private set; } = new List<Curso>();
+        public Plan Plan { get; private set; }  // Navegación a Plan
 
         // === Navegaciones ===
         // (Más adelante podrías agregar: public ICollection<Curso> Cursos { get; } = new List<Curso>();)

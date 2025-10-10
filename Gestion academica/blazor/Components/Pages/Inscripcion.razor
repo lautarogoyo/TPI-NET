@@ -1,17 +1,18 @@
-﻿@page "/personas"
+﻿@page "/inscripciones"
 @using DTOs
 @using API.Clients
 @inject IJSRuntime JSRuntime
+@inject AlumnoInscripcionApi AlumnoInscripcionApi
 @inject PersonaApi PersonaApi
-@inject PlanApi PlanApi
+@inject CursoApi CursoApi
 @rendermode InteractiveServer
 
-<PageTitle>Personas</PageTitle>
+<PageTitle>Inscripciones</PageTitle>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h3>Personas</h3>
+            <h3>Inscripciones</h3>
 
             @if (!string.IsNullOrEmpty(errorMessage))
             {
@@ -50,37 +51,30 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>Id</th>
-                                <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Email</th>
-                                <th>Teléfono</th>
-                                <th>Fecha Nac.</th>
-                                <th>Legajo</th>
-                                <th>Tipo</th>
-                                <th>Plan (Descripción)</th>
+                                <th>Alumno</th>
+                                <th>Curso</th>
+                                <th>Condición</th>
+                                <th>Nota</th>
                                 <th style="width:180px"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (personas is { Count: > 0 })
+                            @if (inscripciones is { Count: > 0 })
                             {
-                                @foreach (var per in personas)
+                                @foreach (var ins in inscripciones)
                                 {
                                     <tr>
-                                        <td>@per.IDPersona</td>
-                                        <td>@per.Nombre</td>
-                                        <td>@per.Apellido</td>
-                                        <td>@per.Email</td>
-                                        <td>@per.Telefono</td>
-                                        <td>@(per.FechaNac.ToString("dd/MM/yyyy"))</td>
-                                        <td>@per.Legajo</td>
-                                        <td>@per.TipoPersona</td>
-                                        <td>@GetPlanDesc(per.IDPlan)</td>
+                                        <td>@ins.IDInscripcion</td>
+                                        <td>@GetAluNombre(ins.IDAlumno)</td>
+                                        <td>@GetCursoNombre(ins.IDCurso)</td>
+                                        <td>@ins.Condicion</td>
+                                        <td>@ins.Nota</td>
+
                                         <td class="text-end">
-                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(per)">
+                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(ins)">
                                                 <i class="fas fa-edit"></i> Editar
                                             </button>
-                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(per)">
+                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(ins)">
                                                 <i class="fas fa-trash"></i> Eliminar
                                             </button>
                                         </td>
@@ -90,7 +84,7 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="10" class="text-center text-muted">No hay personas.</td>
+                                    <td colspan="10" class="text-center text-muted">No hay inscripciones.</td>
                                 </tr>
                             }
                         </tbody>
@@ -101,46 +95,51 @@
     </div>
 </div>
 
-<PersonaModal @ref="modal"
-                       OnPersonaChanged="LoadPersonas"
-                       OnSuccess="ShowSuccess"
-                       OnError="ShowError" />
+<InscripcionModal @ref="modal"
+                  OnInscripcionChange="LoadInscripciones"
+                  OnSuccess="ShowSuccess"
+                  OnError="ShowError" />
 
 @code {
-    private List<PersonaDTO>personas = new();
-    private List<PlanDTO> planes = new();
+    private List<AlumnoInscripcionDTO> inscripciones = new();
+    private List<PersonaDTO> personas = new();
+    private List<CursoDTO> cursos = new();
 
-    private Dictionary<int, string> planById = new();
+    private Dictionary<int, string> personaById = new();
+    private Dictionary<int, string> cursoById = new();
 
     private bool loading = true;
     private string errorMessage = string.Empty;
     private string successMessage = string.Empty;
 
-    // Ajustá el namespace del modal según dónde lo coloques
-    private PersonaModal modal = null!;
+    // ¡Este es el modal correcto!
+    private InscripcionModal modal = null!;
 
     protected override async Task OnInitializedAsync()
-        => await LoadPersonas();
+        => await LoadInscripciones();
 
-    
-    private async Task LoadPersonas()
+    private async Task LoadInscripciones()
     {
         try
         {
             loading = true;
             errorMessage = string.Empty;
 
-            // Trae personas con su Plan (ideal que la API ya incluya la navegación)
+            // Traigo catálogos primero (para mapear nombres)
             personas = (await PersonaApi.GetAllAsync())?.ToList() ?? new();
-            planes = (await PlanApi.GetAllAsync())?.ToList() ?? new();
+            cursos = (await CursoApi.GetAllAsync())?.ToList() ?? new();
 
-            planById = planes.ToDictionary(p => p.IDPlan, p => p.DescPlan);
+            personaById = personas.ToDictionary(p => p.IDPersona, p => $"{p.Apellido}, {p.Nombre}".Trim(' ', ','));
+            cursoById = cursos.ToDictionary(c => c.IdCurso, c => c.Descripcion);
+
+            // Ahora sí, las inscripciones
+            inscripciones = (await AlumnoInscripcionApi.GetAllAsync())?.ToList() ?? new();
 
             successMessage = string.Empty;
         }
         catch (Exception ex)
         {
-            errorMessage = $"Error al cargar personas: {ex.Message}";
+            errorMessage = $"Error al cargar inscripciones: {ex.Message}";
         }
         finally
         {
@@ -148,28 +147,36 @@
         }
     }
 
-    private string GetPlanDesc(int idPlan)
-       => planById.TryGetValue(idPlan, out var desc) ? desc : "(sin plan)";
+    private string GetAluNombre(int idAlu)
+        => personaById.TryGetValue(idAlu, out var nombre) ? nombre : "(sin persona)";
+
+    private string GetCursoNombre(int idCur)
+        => cursoById.TryGetValue(idCur, out var nombre) ? nombre : "(sin curso)";
+
     private Task OpenAddModal() => modal.ShowAddModal();
 
-    private Task OpenEditModal(PersonaDTO per) => modal.ShowEditModal(per);
+    private Task OpenEditModal(AlumnoInscripcionDTO inscripcion)
+        => modal.ShowEditModal(inscripcion);
 
-    private async Task ConfirmDelete(PersonaDTO per)
+    private async Task ConfirmDelete(AlumnoInscripcionDTO ins)
     {
+        var alu = GetAluNombre(ins.IDAlumno);
+        var cur = GetCursoNombre(ins.IDCurso);
+
         var ok = await JSRuntime.InvokeAsync<bool>(
             "confirm",
-            $"¿Está seguro que desea eliminar a \"{per.Apellido}, {per.Nombre}\" (ID {per.IDPersona})?");
+            $"¿Eliminar la inscripción #{ins.IDInscripcion} de \"{alu}\" en \"{cur}\"?");
         if (ok)
-            await DeletePersona(per.IDPersona);
+            await DeleteInscripcion(ins.IDInscripcion);
     }
 
-    private async Task DeletePersona(int id)
+    private async Task DeleteInscripcion(int idInscripcion)
     {
         try
         {
-            await PersonaApi.DeleteAsync(id);
-            successMessage = "Persona eliminada exitosamente.";
-            await LoadPersonas();
+            await AlumnoInscripcionApi.DeleteAsync(idInscripcion);
+            successMessage = "Inscripción eliminada correctamente.";
+            await LoadInscripciones();
         }
         catch (Exception ex)
         {

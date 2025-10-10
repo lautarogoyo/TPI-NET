@@ -1,0 +1,253 @@
+﻿@using DTOs
+@using API.Clients
+@inject CursoApi CursoApi
+@inject MateriaApi MateriaApi
+@inject ComisionApi ComisionApi
+
+@if (visible)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,.5);">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@title</h5>
+                    <button type="button" class="btn-close" @onclick="Hide"></button>
+                </div>
+
+                <EditForm Model="@model"
+                          OnValidSubmit="@SaveAsync"
+                          FormName="curso-form"
+                          ValidateOnInput="true">
+                    <AntiforgeryToken />
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="modal-body">
+                        @if (loadingCatalogos)
+                        {
+                            <div class="d-flex justify-content-center my-3">
+                                <div class="spinner-border" role="status">
+                                    <span class="visualmente-oculto">Cargando catálogos...</span>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <label class="form-label">Descripción</label>
+                                    <InputText class="form-control" @bind-Value="model.Descripcion" />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Materia</label>
+                                    <InputSelect @bind-Value="model.IDMateria" TValue="int" class="form-select">
+                                        <option value="0" disabled>-- Seleccionar materia --</option>
+                                        @foreach (var m in materias)
+                                        {
+                                            <option value="@m.IDMateria">@m.Descripcion</option>
+                                        }
+                                    </InputSelect>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Comisión</label>
+                                    <InputSelect @bind-Value="model.IDComision" TValue="int" class="form-select">
+                                        <option value="0" disabled>-- Seleccionar comisión --</option>
+                                        @foreach (var c in comisiones)
+                                        {
+                                            <option value="@c.IDComision">@c.Descripcion</option>
+                                        }
+                                    </InputSelect>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Año calendario</label>
+                                    <InputNumber class="form-control" @bind-Value="model.AnioCalendario" />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Cupo</label>
+                                    <InputNumber class="form-control" @bind-Value="model.Cupo" />
+                                </div>
+
+                                @if (model.IdCurso != 0)
+                                {
+                                    <div class="col-12">
+                                        <div class="text-muted"><small>ID curso: @model.IdCurso</small></div>
+                                    </div>
+                                }
+
+                                @if (!string.IsNullOrEmpty(localError))
+                                {
+                                    <div class="col-12">
+                                        <div class="alert alert-danger">@localError</div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" @onclick="Hide" disabled="@saving">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" disabled="@saving">
+                            <i class="fas fa-save"></i> Guardar
+                        </button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    // UI
+    private bool visible;
+    private bool saving;
+    private bool loadingCatalogos;
+    private string title = "Nuevo curso";
+    private string localError = string.Empty;
+
+    // Modelo
+    private CursoDTO model = new()
+        {
+            IdCurso = 0,
+            Descripcion = string.Empty,
+            IDMateria = 0,
+            IDComision = 0,
+            AnioCalendario = DateTime.Today.Year,
+            Cupo = 1
+        };
+
+    // Catálogos
+    private List<MateriaDTO> materias = new();
+    private List<ComisionDTO> comisiones = new();
+
+    // Callbacks al padre
+    [Parameter] public EventCallback OnCursoChange { get; set; }
+    [Parameter] public EventCallback<string> OnSuccess { get; set; }
+    [Parameter] public EventCallback<string> OnError { get; set; }
+
+    public async Task ShowAddModal()
+    {
+        title = "Nuevo curso";
+        model = new()
+            {
+                IdCurso = 0,
+                Descripcion = string.Empty,
+                IDMateria = 0,
+                IDComision = 0,
+                AnioCalendario = DateTime.Today.Year,
+                Cupo = 1
+            };
+        localError = string.Empty;
+        await EnsureCatalogosLoaded();
+        visible = true;
+        StateHasChanged();
+    }
+
+    public async Task ShowEditModal(CursoDTO dto)
+    {
+        title = $"Editar curso (ID {dto.IdCurso})";
+        model = new()
+            {
+                IdCurso = dto.IdCurso,
+                Descripcion = dto.Descripcion,
+                IDMateria = dto.IDMateria,
+                IDComision = dto.IDComision,
+                AnioCalendario = dto.AnioCalendario,
+                Cupo = dto.Cupo
+            };
+        localError = string.Empty;
+        await EnsureCatalogosLoaded();
+        visible = true;
+        StateHasChanged();
+    }
+
+    private void Hide()
+    {
+        visible = false;
+        localError = string.Empty;
+    }
+
+    private async Task EnsureCatalogosLoaded()
+    {
+        if (materias.Count > 0 && comisiones.Count > 0) return;
+
+        try
+        {
+            loadingCatalogos = true;
+            materias = (await MateriaApi.GetAllAsync())?.ToList() ?? new();
+            comisiones = (await ComisionApi.GetAllAsync())?.ToList() ?? new();
+        }
+        catch (Exception ex)
+        {
+            localError = $"Error al cargar catálogos: {ex.Message}";
+        }
+        finally
+        {
+            loadingCatalogos = false;
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        try
+        {
+            localError = string.Empty;
+
+            // Validaciones mínimas
+            if (string.IsNullOrWhiteSpace(model.Descripcion))
+            {
+                localError = "La descripción es obligatoria.";
+                return;
+            }
+            if (model.IDMateria <= 0)
+            {
+                localError = "Debe seleccionar una materia.";
+                return;
+            }
+            if (model.IDComision <= 0)
+            {
+                localError = "Debe seleccionar una comisión.";
+                return;
+            }
+            if (model.AnioCalendario < 2000 || model.AnioCalendario > 2100)
+            {
+                localError = "El año calendario debe estar entre 2000 y 2100.";
+                return;
+            }
+            if (model.Cupo <= 0)
+            {
+                localError = "El cupo debe ser mayor a 0.";
+                return;
+            }
+
+            saving = true;
+
+            if (model.IdCurso == 0)
+            {
+                await CursoApi.AddAsync(model);
+                await OnSuccess.InvokeAsync("Curso creado correctamente.");
+            }
+            else
+            {
+                await CursoApi.UpdateAsync(model);
+                await OnSuccess.InvokeAsync("Curso actualizado correctamente.");
+            }
+
+            Hide();
+            await OnCursoChange.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            // Si el backend devuelve 409 por duplicado (Comisión+Materia+Año) mostralo claro
+            localError = ex.Message;
+            await OnError.InvokeAsync($"Error al guardar: {ex.Message}");
+        }
+        finally
+        {
+            saving = false;
+        }
+    }
+}

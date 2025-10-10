@@ -12,8 +12,12 @@
         public int IDComision { get; private set; }
         public int IDMateria { get; private set; }
 
+        public Comision Comision { get; private set; }
+        public Materia Materia { get; private set; }
+
         // === Navegaciones ===
         public ICollection<DocenteCurso> DocenteCursos { get; } = new List<DocenteCurso>();
+        public ICollection<AlumnoInscripcion> AlumnoInscripciones = new List<AlumnoInscripcion>();
 
         // EF necesita ctor vacío
         private Curso() { }

@@ -7,6 +7,9 @@
 
         // === Datos ===
         public string Descripcion { get; private set; }
+
+        public ICollection<Curso> Cursos { get; private set; } = new List<Curso>();
+        
         /*
         public int HSSemanales { get; private set; }
         public int HSTotales { get; private set; }

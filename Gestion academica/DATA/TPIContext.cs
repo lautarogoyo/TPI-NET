@@ -53,13 +53,22 @@ namespace Data
                 e.Property(x => x.Descripcion).IsRequired().HasMaxLength(100);
             });
 
-            // --- CURSO ---
+            // --- CURSOS ---
             modelBuilder.Entity<Curso>(entity =>
             {
-                entity.HasKey(e => e.IdCurso);
+                entity.ToTable("cursos");
+
+                // PK
+                entity.HasKey(e => e.IdCurso)
+                      .HasName("PK_Cursos");
 
                 entity.Property(e => e.IdCurso)
                       .ValueGeneratedOnAdd();
+
+                // Campos
+                entity.Property(e => e.Descripcion)
+                      .IsRequired()
+                      .HasMaxLength(200);
 
                 entity.Property(e => e.AnioCalendario)
                       .IsRequired();
@@ -67,20 +76,38 @@ namespace Data
                 entity.Property(e => e.Cupo)
                       .IsRequired();
 
-                entity.Property(e => e.Descripcion)
-                      .IsRequired()
-                      .HasMaxLength(200);
-
                 entity.Property(e => e.IDComision)
                       .IsRequired();
 
                 entity.Property(e => e.IDMateria)
                       .IsRequired();
 
-                // Evitar cursos duplicados para la misma comision + materia + año
+                // Índices útiles
+                entity.HasIndex(e => e.IDComision)
+                      .HasDatabaseName("IX_Cursos_IDComision");
+
+                entity.HasIndex(e => e.IDMateria)
+                      .HasDatabaseName("IX_Cursos_IDMateria");
+
+                // Evitar cursos duplicados para la misma (Comisión, Materia, Año)
                 entity.HasIndex(e => new { e.IDComision, e.IDMateria, e.AnioCalendario })
-                      .IsUnique();
+                      .IsUnique()
+                      .HasDatabaseName("UX_Cursos_Comision_Materia_Anio");
+
+                // Relaciones (FK) — sin cascada para evitar multiple cascade paths
+                entity.HasOne(e => e.Comision)
+                      .WithMany(c => c.Cursos) // si no tenés colección: .WithMany()
+                      .HasForeignKey(e => e.IDComision)
+                      .OnDelete(DeleteBehavior.Restrict)
+                      .HasConstraintName("FK_Cursos_Comisiones_IDComision");
+
+                entity.HasOne(e => e.Materia)
+                      .WithMany(m => m.Cursos) // si no tenés colección: .WithMany()
+                      .HasForeignKey(e => e.IDMateria)
+                      .OnDelete(DeleteBehavior.Restrict)
+                      .HasConstraintName("FK_Cursos_Materias_IDMateria");
             });
+
 
             // --- DOCENTE CURSO ---
             modelBuilder.Entity<DocenteCurso>(entity =>
@@ -212,9 +239,10 @@ namespace Data
                 entity.Property(c => c.IDPlan)
                       .IsRequired();
 
-                entity.HasOne<Plan>()
-                      .WithMany()
-                      .HasForeignKey(c => c.IDPlan)
+                entity.HasOne(c => c.Plan)
+                      .WithMany(c => c.Comisiones)
+                      .HasForeignKey(c => c.IDPlan) // <-- clavec
+                      .HasConstraintName("FK_Comisiones_Planes_IDPLan")
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
@@ -317,19 +345,25 @@ namespace Data
                       .HasMaxLength(50);
                 entity.Property(ai => ai.Nota).IsRequired();
 
-                entity.HasOne<Persona>()
-                      .WithMany()
+                entity.HasOne(ai => ai.Alumno)
+                      .WithMany(p => p.AlumnoInscripciones)
                       .HasForeignKey(ai => ai.IDAlumno)
+                        .HasConstraintName("FK_AlumnosInscripciones_Personas_IDAlumno")
                       .OnDelete(DeleteBehavior.Restrict);
 
-                entity.HasOne<Curso>()
-                      .WithMany()
+                entity.HasOne(ai => ai.Curso)
+                      .WithMany(c => c.AlumnoInscripciones)
                       .HasForeignKey(ai => ai.IDCurso)
+                      .HasConstraintName("FK_AlumnosInscripciones_Cursos_IDCurso")
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-
-
+            /*entity.HasOne(p => p.Especialidad)
+                      .WithMany(e => e.Planes)
+                      .HasForeignKey(p => p.IDEspecialidad) // <-- clavec
+                      .HasConstraintName("FK_Planes_Especialidades_IDEspecialidad")
+                      .OnDelete(DeleteBehavior.Restrict);
+            */
 
 
         }

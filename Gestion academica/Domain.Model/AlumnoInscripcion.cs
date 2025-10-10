@@ -8,6 +8,9 @@
         public string Condicion { get; private set; }
         public int Nota { get; private set; }
 
+        public Curso Curso { get; private set; } // navegación
+        public Persona Alumno { get; private set; } // navegación
+
         protected AlumnoInscripcion() { }
 
         public AlumnoInscripcion(int idAlumno, int idCurso, string condicion, int nota)

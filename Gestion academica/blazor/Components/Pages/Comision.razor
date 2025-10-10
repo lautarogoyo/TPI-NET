@@ -92,15 +92,17 @@
 </div>
 
 <ComisionModal @ref="modal"
-               planes="@planes"
-               OnComisionChanged="LoadComisiones"
-               OnSuccess="ShowSuccess"
-               OnError="ShowError" />
+planes="@planes"
+OnComisionChanged="LoadComisiones"
+OnSuccess="ShowSuccess"
+OnError="ShowError" />
 
 @code {
     private List<ComisionDTO>? comisiones;
     private List<PlanDTO> planes = new();
     private bool loading = true;
+    private Dictionary<int, string> planesById = new();
+
     private string errorMessage = string.Empty;
     private string successMessage = string.Empty;
     private ComisionModal? modal;
@@ -118,6 +120,9 @@
             errorMessage = string.Empty;
 
             comisiones = (await ComisionApi.GetAllAsync())?.ToList() ?? new();
+            planes = (await PlanApi.GetAllAsync())?.ToList() ?? new();
+
+            planesById = planes.ToDictionary(p => p.IDPlan, p => p.DescPlan);
             successMessage = string.Empty;
         }
         catch (Exception ex)
@@ -145,7 +150,7 @@
     }
 
     private string GetPlanNombre(int idPlan)
-            => planes.FirstOrDefault(p => p.IDPlan == idPlan)?.DescPlan ?? $"ID {idPlan}";
+            => planesById.TryGetValue(idPlan, out var desc) ? desc : "(sin plan)";
 
     private Task OpenAddModal() => modal?.ShowAddModal() ?? Task.CompletedTask;
 

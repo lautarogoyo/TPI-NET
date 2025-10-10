@@ -8,6 +8,8 @@
 
         public Especialidad Especialidad { get; private set; }   // navegación
         public ICollection<Persona> Personas { get; private set; } = new List<Persona>();
+        public ICollection<Comision> Comisiones { get; private set; } = new List<Comision>();
+
 
         // Constructor para EF
         protected Plan() { }
