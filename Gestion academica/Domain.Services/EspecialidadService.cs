@@ -10,12 +10,10 @@ namespace Application.Services
         {
             var especialidadRepository = new EspecialidadRepository();
 
-            // No le pases 0 ni ID, solo la descripción
             var especialidad = new Especialidad(dto.Descripcion);
 
             especialidadRepository.Add(especialidad);
 
-            // Después del SaveChanges, EF completa el ID
             dto.IDEspecialidad = especialidad.IDEspecialidad;
 
             return dto;
@@ -58,7 +56,6 @@ namespace Application.Services
 
             var repo = new EspecialidadRepository();
 
-            // Opción 1: buscar y actualizar (más clara)
             var ent = repo.Get(dto.IDEspecialidad);
             if (ent == null) return false;
 
