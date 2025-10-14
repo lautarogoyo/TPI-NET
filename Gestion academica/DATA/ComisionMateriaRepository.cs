@@ -68,6 +68,17 @@ namespace Data
                 .ToList();
         }
 
+        public bool ExisteRelacionConComision(int idComision)
+        {
+            using var context = CreateContext();
+            return context.ComisionesMaterias.Any(cm => cm.IDComision == idComision);
+        }
+
+        public bool ExisteRelacionConMateria(int idMateria)
+        {
+            using var context = CreateContext();
+            return context.ComisionesMaterias.Any(cm => cm.IDMateria == idMateria);
+        }
     }
 }
 

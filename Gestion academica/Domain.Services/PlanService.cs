@@ -21,8 +21,7 @@ namespace Application.Services
         {
             var planRepository = new PlanRepository();
             var comiRepo = new ComisionRepository();
-            var comisionesAsociadas = comiRepo.GetByPlan(id);
-            if (comisionesAsociadas.Any())
+            if (comiRepo.ExisteComisionConPlan(id))
             {
                 throw new InvalidOperationException("No se puede eliminar el plan porque tiene comisiones asociadas.");
             }

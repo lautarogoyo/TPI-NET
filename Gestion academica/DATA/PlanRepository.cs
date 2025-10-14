@@ -56,14 +56,10 @@ namespace Data
             return false;
         }
 
-        public IEnumerable<Plan> GetByEspecialidad(int idEspecialidad)
+        public bool ExistePlanConEspecialidad(int idEspecialidad)
         {
-            using (var context = new TPIContext())
-            {
-                return context.Planes
-                              .Where(p => p.IDEspecialidad == idEspecialidad)
-                              .ToList();
-            }
+            using var context = CreateContext();
+            return context.Planes.Any(p => p.IDEspecialidad == idEspecialidad);
         }
     }
 }

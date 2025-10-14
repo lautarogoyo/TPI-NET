@@ -58,14 +58,10 @@ namespace Data
             return false;
         }
 
-        public IEnumerable<Comision> GetByPlan(int idPlan)
+        public bool ExisteComisionConPlan(int idPlan)
         {
-            using (var context = new TPIContext())
-            {
-                return context.Comisiones
-                              .Where(p => p.IDPlan == idPlan)
-                              .ToList();
-            }
+            using var context = CreateContext();
+            return context.Comisiones.Any(c => c.IDPlan == idPlan);
         }
     }
 }

@@ -24,8 +24,7 @@ namespace Application.Services
         {
             var especialidadRepository = new EspecialidadRepository();
             var planRepo = new PlanRepository();
-            var planesAsociados = planRepo.GetByEspecialidad(id);
-            if (planesAsociados.Any())
+            if (planRepo.ExistePlanConEspecialidad(id))
             {
                 throw new InvalidOperationException("No se puede eliminar la especialidad porque tiene planes asociados.");
             }
