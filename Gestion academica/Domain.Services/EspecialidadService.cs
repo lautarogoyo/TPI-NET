@@ -23,6 +23,12 @@ namespace Application.Services
         public bool Delete(int id)
         {
             var especialidadRepository = new EspecialidadRepository();
+            var planRepo = new PlanRepository();
+            var planesAsociados = planRepo.GetByEspecialidad(id);
+            if (planesAsociados.Any())
+            {
+                throw new InvalidOperationException("No se puede eliminar la especialidad porque tiene planes asociados.");
+            }
             return especialidadRepository.Delete(id);
         }
         public EspecialidadDTO Get(int id)

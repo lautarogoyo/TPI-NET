@@ -55,5 +55,15 @@ namespace Data
             }
             return false;
         }
+
+        public IEnumerable<Plan> GetByEspecialidad(int idEspecialidad)
+        {
+            using (var context = new TPIContext())
+            {
+                return context.Planes
+                              .Where(p => p.IDEspecialidad == idEspecialidad)
+                              .ToList();
+            }
+        }
     }
 }
