@@ -13,9 +13,6 @@ namespace Application.Services
 
             var materia = new Materia(
                 dto.Descripcion
-                //dto.HSSemanales,
-                //dto.HSTotales,
-                //dto.IDPlan
             );
 
             repo.Add(materia);
@@ -40,11 +37,6 @@ namespace Application.Services
             {
                 IDMateria = materia.IDMateria,
                 Descripcion = materia.Descripcion,
-                /*
-                HSSemanales = materia.HSSemanales,
-                HSTotales = materia.HSTotales,
-                IDPlan = materia.IDPlan
-                */
             };
         }
 
@@ -56,11 +48,6 @@ namespace Application.Services
                        {
                            IDMateria = m.IDMateria,
                            Descripcion = m.Descripcion,
-                           /*
-                           HSSemanales = m.HSSemanales,
-                           HSTotales = m.HSTotales,
-                           IDPlan = m.IDPlan
-                           */
                        })
                        .ToList();
         }
@@ -72,11 +59,6 @@ namespace Application.Services
             if (materia == null) return false;
 
             materia.SetDescripcion(dto.Descripcion);
-            /*
-            materia.SetHSSemanales(dto.HSSemanales);
-            materia.SetHSTotales(dto.HSTotales);
-            materia.SetIDPlan(dto.IDPlan);
-            */
 
             return repo.Update(materia);
         }

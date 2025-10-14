@@ -92,6 +92,19 @@ namespace Data
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
+            // --- MATERIA ---
+            modelBuilder.Entity<Materia>(entity =>
+            {
+                entity.HasKey(m => m.IDMateria);
+
+                entity.Property(m => m.IDMateria)
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(m => m.Descripcion)
+                      .IsRequired()
+                      .HasMaxLength(100);
+            });
+
 
             // --- CURSOS ---
             modelBuilder.Entity<Curso>(entity =>
@@ -134,11 +147,6 @@ namespace Data
                       .IsUnique()
                       .HasDatabaseName("UX_Cursos_Comision_Materia_Anio");
 
-                entity.HasOne(e => e.Materia)
-                      .WithMany(m => m.Cursos) // si no tenés colección: .WithMany()
-                      .HasForeignKey(e => e.IDMateria)
-                      .OnDelete(DeleteBehavior.Restrict)
-                      .HasConstraintName("FK_Cursos_Materias_IDMateria");
             });
 
 
@@ -207,34 +215,6 @@ namespace Data
             });
 
 
-            // --- MATERIA --- ✅ NUEVO
-            modelBuilder.Entity<Materia>(entity =>
-            {
-                entity.HasKey(m => m.IDMateria);
-
-                entity.Property(m => m.IDMateria)
-                      .ValueGeneratedOnAdd();
-
-                entity.Property(m => m.Descripcion)
-                      .IsRequired()
-                      .HasMaxLength(100);
-
-                /*
-                entity.Property(m => m.HSSemanales)
-                      .IsRequired();
-
-                entity.Property(m => m.HSTotales)
-                      .IsRequired();
-
-                entity.Property(m => m.IDPlan)
-                      .IsRequired();
-
-                entity.HasOne<Plan>()
-                      .WithMany()
-                      .HasForeignKey(m => m.IDPlan)
-                      .OnDelete(DeleteBehavior.Restrict);
-                */
-            });
 
 
 

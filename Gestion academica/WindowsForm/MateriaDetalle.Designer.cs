@@ -37,24 +37,27 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 39);
+            label2.Location = new Point(14, 52);
             label2.Name = "label2";
-            label2.Size = new Size(69, 15);
+            label2.Size = new Size(64, 20);
             label2.TabIndex = 1;
-            label2.Text = "Descripcion";
+            label2.Text = "Nombre";
+            label2.Click += label2_Click;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(121, 36);
+            textBox1.Location = new Point(99, 48);
+            textBox1.Margin = new Padding(3, 4, 3, 4);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(100, 23);
+            textBox1.Size = new Size(175, 27);
             textBox1.TabIndex = 2;
             // 
             // button1
             // 
-            button1.Location = new Point(145, 93);
+            button1.Location = new Point(166, 124);
+            button1.Margin = new Padding(3, 4, 3, 4);
             button1.Name = "button1";
-            button1.Size = new Size(66, 23);
+            button1.Size = new Size(75, 31);
             button1.TabIndex = 3;
             button1.Text = "Aceptar";
             button1.UseVisualStyleBackColor = true;
@@ -62,9 +65,10 @@
             // 
             // button2
             // 
-            button2.Location = new Point(217, 93);
+            button2.Location = new Point(248, 124);
+            button2.Margin = new Padding(3, 4, 3, 4);
             button2.Name = "button2";
-            button2.Size = new Size(66, 23);
+            button2.Size = new Size(75, 31);
             button2.TabIndex = 4;
             button2.Text = "Cancelar";
             button2.UseVisualStyleBackColor = true;
@@ -72,13 +76,14 @@
             // 
             // MateriaDetalle
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(295, 128);
+            ClientSize = new Size(337, 171);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(textBox1);
             Controls.Add(label2);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "MateriaDetalle";
             Text = "MateriaDetalle";
             Load += MateriaDetalle_Load;
