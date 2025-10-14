@@ -171,11 +171,6 @@ namespace Data
                 entity.Property(p => p.IDPlan)
                       .IsRequired();
 
-                entity.HasOne(p => p.Plan)
-                      .WithMany(e => e.Personas)
-                      .HasForeignKey(p => p.IDPlan) // <-- clavec
-                      .HasConstraintName("FK_Personas_Planes_IDPLan")
-                      .OnDelete(DeleteBehavior.Restrict);
             });
 
             // --- PLAN ---
