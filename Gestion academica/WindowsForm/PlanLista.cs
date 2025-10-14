@@ -128,6 +128,9 @@ namespace WindowsForm
         {
             try
             {
+                this.eliminarButton.Enabled = false;
+                this.modificarButton.Enabled = false;
+                this.agregarButton.Enabled = false;
                 this.planesDataGridView.DataSource = null;
                 IEnumerable<PlanDTO> planes;
                 if (string.IsNullOrWhiteSpace(texto))
@@ -151,6 +154,7 @@ namespace WindowsForm
                     this.eliminarButton.Enabled = false;
                     this.modificarButton.Enabled = false;
                 }
+                this.agregarButton.Enabled = true;
             }
             catch (Exception ex)
             {

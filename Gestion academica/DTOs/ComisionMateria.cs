@@ -13,6 +13,7 @@ namespace DTOs
         public int HsTotales { get; set; }
         public int IDComision { get; set; }
         public int IDMateria { get; set; }
+        public string DescMateria { get; set; } = string.Empty;
 
     }
 }

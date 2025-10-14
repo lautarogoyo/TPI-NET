@@ -67,5 +67,19 @@ namespace Application.Services
 
             return repo.Update(cm);
         }
+
+        public IEnumerable<ComisionMateriaDTO> GetByComision (int idComision)
+        {
+            var repo = new ComisionMateriaRepository();
+            return repo.GetByComision(idComision).Select(cm => new ComisionMateriaDTO
+            {
+                IDComisionMateria = cm.IDComisionMateria,
+                HsSemanales = cm.HsSemanales,
+                HsTotales = cm.HsTotales,
+                IDComision = cm.IDComision,
+                IDMateria = cm.IDMateria,
+                DescMateria = cm.Materia?.Descripcion ?? string.Empty
+            }).ToList();
+        }
     }
 }

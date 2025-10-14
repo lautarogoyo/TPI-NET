@@ -37,7 +37,7 @@ namespace WindowsForm
             descripcionColumn.Width = 200;
             comisionesDataGridView.Columns.Add(descripcionColumn);
             DataGridViewTextBoxColumn anioEspecialidadColumn = new DataGridViewTextBoxColumn();
-            anioEspecialidadColumn.DataPropertyName = "IDPlan";
+            anioEspecialidadColumn.DataPropertyName = "AnioEspecialidad";
             anioEspecialidadColumn.HeaderText = "Año especialidad";
             anioEspecialidadColumn.Width = 200;
             comisionesDataGridView.Columns.Add(anioEspecialidadColumn);
@@ -133,6 +133,10 @@ namespace WindowsForm
         {
             try
             {
+                this.eliminarButton.Enabled = false;
+                this.modificarButton.Enabled = false;
+                this.verMateriasButton.Enabled = false;
+                this.agregarButton.Enabled = false;
                 this.comisionesDataGridView.DataSource = null;
                 IEnumerable<ComisionDTO> comisiones;
                 if (string.IsNullOrWhiteSpace(texto))
@@ -150,12 +154,16 @@ namespace WindowsForm
                     this.comisionesDataGridView.Rows[0].Selected = true;
                     this.eliminarButton.Enabled = true;
                     this.modificarButton.Enabled = true;
+                    this.verMateriasButton.Enabled = true;
                 }
                 else
                 {
                     this.eliminarButton.Enabled = false;
                     this.modificarButton.Enabled = false;
+                    this.verMateriasButton.Enabled = false;
                 }
+                this.agregarButton.Enabled = true;
+
             }
             catch (Exception ex)
             {
@@ -167,6 +175,14 @@ namespace WindowsForm
 
         private void buscarTextBox_TextChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void verMateriasButton_Click(object sender, EventArgs e)
+        {
+            int idCom = this.SelectedItem().IDComision;
+            ComisionMateriaLista cmLista = new ComisionMateriaLista(idCom);
+            cmLista.ShowDialog();
 
         }
     }

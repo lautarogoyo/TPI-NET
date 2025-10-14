@@ -129,5 +129,26 @@ namespace API.Clients
             }
         }
 
+        public static async Task<List<ComisionMateriaDTO>?> GetByComisionAsync(int idComision)
+        {
+            try
+            {
+                var response = await client.GetAsync($"comisionesmaterias/comision/{idComision}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<List<ComisionMateriaDTO>>();
+                }
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error al obtener materias. Status: {response.StatusCode}. Detalle: {error}");
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception($"Error de conexión al obtener comisionesmaterias: {ex.Message}", ex);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new Exception($"Timeout al obtener comisionesmaterias: {ex.Message}", ex);
+            }
+        }
     }
 }

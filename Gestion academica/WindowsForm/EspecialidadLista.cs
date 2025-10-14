@@ -126,6 +126,9 @@ namespace WindowsForm
         {
             try
             {
+                this.eliminarButton.Enabled = false;
+                this.modificarButton.Enabled = false;
+                this.agregarButton.Enabled = false;
                 this.especialidadesDataGridView.DataSource = null;
                 IEnumerable<EspecialidadDTO> especialidades;
                 if (string.IsNullOrWhiteSpace(texto))
@@ -149,6 +152,7 @@ namespace WindowsForm
                     this.eliminarButton.Enabled = false;
                     this.modificarButton.Enabled = false;
                 }
+                this.agregarButton.Enabled = true;
             }
             catch (Exception ex)
             {

@@ -84,6 +84,18 @@ namespace WebAPI
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
+
+            app.MapGet("/comisionesmaterias/comision/{idComision}", (int idComision) =>
+            {
+                var service = new ComisionMateriaService();
+                var result = service.GetByComision(idComision);
+                if (!result.Any())
+                    return Results.Ok(new List<ComisionMateriaDTO>());
+                return Results.Ok(result);
+            })
+            .WithName("GetByComision")
+            .Produces<List<ComisionMateriaDTO>>(StatusCodes.Status200OK)
+            .WithOpenApi();
         }
     }
 }

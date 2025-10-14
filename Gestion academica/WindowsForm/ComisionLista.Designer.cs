@@ -34,6 +34,7 @@
             eliminarButton = new Button();
             modificarButton = new Button();
             agregarButton = new Button();
+            verMateriasButton = new Button();
             ((System.ComponentModel.ISupportInitialize)comisionesDataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -71,7 +72,7 @@
             // 
             // eliminarButton
             // 
-            eliminarButton.Location = new Point(447, 347);
+            eliminarButton.Location = new Point(354, 349);
             eliminarButton.Margin = new Padding(3, 4, 3, 4);
             eliminarButton.Name = "eliminarButton";
             eliminarButton.Size = new Size(86, 31);
@@ -82,7 +83,7 @@
             // 
             // modificarButton
             // 
-            modificarButton.Location = new Point(539, 347);
+            modificarButton.Location = new Point(458, 349);
             modificarButton.Margin = new Padding(3, 4, 3, 4);
             modificarButton.Name = "modificarButton";
             modificarButton.Size = new Size(86, 31);
@@ -93,14 +94,25 @@
             // 
             // agregarButton
             // 
-            agregarButton.Location = new Point(632, 347);
+            agregarButton.Location = new Point(564, 349);
             agregarButton.Margin = new Padding(3, 4, 3, 4);
             agregarButton.Name = "agregarButton";
-            agregarButton.Size = new Size(86, 31);
+            agregarButton.Size = new Size(137, 31);
             agregarButton.TabIndex = 5;
-            agregarButton.Text = "Agregar";
+            agregarButton.Text = "Nueva Comision";
             agregarButton.UseVisualStyleBackColor = true;
             agregarButton.Click += agregarButton_Click;
+            // 
+            // verMateriasButton
+            // 
+            verMateriasButton.Location = new Point(24, 347);
+            verMateriasButton.Margin = new Padding(3, 4, 3, 4);
+            verMateriasButton.Name = "verMateriasButton";
+            verMateriasButton.Size = new Size(132, 31);
+            verMateriasButton.TabIndex = 3;
+            verMateriasButton.Text = "Ver Materias";
+            verMateriasButton.UseVisualStyleBackColor = true;
+            verMateriasButton.Click += verMateriasButton_Click;
             // 
             // ComisionLista
             // 
@@ -113,8 +125,9 @@
             Controls.Add(comisionesDataGridView);
             Controls.Add(buscarButton);
             Controls.Add(buscarTextBox);
+            Controls.Add(verMateriasButton);
             Margin = new Padding(3, 4, 3, 4);
-            Name = "comisionLista";
+            Name = "ComisionLista";
             Text = "comisionLista";
             Load += ComisionLista_Load;
             ((System.ComponentModel.ISupportInitialize)comisionesDataGridView).EndInit();
@@ -130,5 +143,6 @@
         private Button eliminarButton;
         private Button modificarButton;
         private Button agregarButton;
+        private Button verMateriasButton;
     }
 }

@@ -59,6 +59,15 @@ namespace Data
             return false;
         }
 
+        public IEnumerable<ComisionMateria> GetByComision(int idComision)
+        {
+            using var context = CreateContext();
+            return context.ComisionesMaterias
+                .Include(cm => cm.Materia)
+                .Where(cm => cm.IDComision == idComision)
+                .ToList();
+        }
+
     }
 }
 

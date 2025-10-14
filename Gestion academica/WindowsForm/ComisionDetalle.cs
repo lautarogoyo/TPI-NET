@@ -25,6 +25,7 @@ namespace WindowsForm
             }
         }
 
+
         public FormMode Mode
         {
             get { return mode; }
@@ -147,6 +148,21 @@ namespace WindowsForm
             }
 
             return true;
+        }
+
+        private void comboBoxPlan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxAnio_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

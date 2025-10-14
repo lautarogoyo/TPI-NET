@@ -54,6 +54,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(185, 27);
             textBox1.TabIndex = 2;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // labelAnio
             // 
@@ -71,6 +72,7 @@
             textBoxAnio.Name = "textBoxAnio";
             textBoxAnio.Size = new Size(185, 27);
             textBoxAnio.TabIndex = 4;
+            textBoxAnio.TextChanged += textBoxAnio_TextChanged;
             // 
             // label3
             // 
@@ -90,6 +92,7 @@
             comboBoxPlan.Name = "comboBoxPlan";
             comboBoxPlan.Size = new Size(185, 28);
             comboBoxPlan.TabIndex = 6;
+            comboBoxPlan.SelectedIndexChanged += comboBoxPlan_SelectedIndexChanged;
             // 
             // button1
             // 
