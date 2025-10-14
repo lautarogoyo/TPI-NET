@@ -11,7 +11,7 @@
         public int IDPlan { get; private set; }
         public Plan Plan { get; private set; }
 
-        //public ICollection<ComisionMateria> ComisionesMaterias { get; private set; } = new List<ComisionMateria>();
+        public ICollection<ComisionMateria> ComisionesMaterias { get; private set; } = new List<ComisionMateria>();
 
 
         // EF necesita ctor vacío

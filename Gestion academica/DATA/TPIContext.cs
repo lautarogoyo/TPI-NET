@@ -11,10 +11,11 @@ namespace Data
         public DbSet<Especialidad> Especialidades { get; set; }
         public DbSet<Plan> Planes { get; set; }
         public DbSet<Comision> Comisiones { get; set; }
+        public DbSet<Materia> Materias { get; set; }      
+        public DbSet<ComisionMateria> ComisionesMaterias { get; set; }
         public DbSet<Curso> Cursos { get; set; }
         public DbSet<DocenteCurso> DocentesCursos { get; set; }
         public DbSet<Persona> Personas { get; set; }
-        public DbSet<Materia> Materias { get; set; }         
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Modulo> Modulos { get; set; }
         public DbSet<ModuloUsuario> ModulosUsuarios { get; set; }
@@ -49,6 +50,7 @@ namespace Data
             // --- ESPECIALIDAD ---
             modelBuilder.Entity<Especialidad>(e =>
             {
+                e.ToTable("Especialidades");
                 e.HasKey(x => x.IDEspecialidad);
                 e.Property(x => x.Descripcion).IsRequired().HasMaxLength(100);
             });
@@ -56,6 +58,7 @@ namespace Data
             // --- PLAN ---
             modelBuilder.Entity<Plan>(entity =>
             {
+                entity.ToTable("Planes");
                 entity.HasKey(p => p.IDPlan);
                 entity.Property(p => p.DescPlan).IsRequired().HasMaxLength(50);
                 entity.Property(p => p.IDEspecialidad).IsRequired();
@@ -70,6 +73,7 @@ namespace Data
             // --- COMISION --- 
             modelBuilder.Entity<Comision>(entity =>
             {
+                entity.ToTable("Comisiones");
                 entity.HasKey(c => c.IDComision);
 
                 entity.Property(c => c.IDComision)
@@ -95,6 +99,7 @@ namespace Data
             // --- MATERIA ---
             modelBuilder.Entity<Materia>(entity =>
             {
+                entity.ToTable("Materias");
                 entity.HasKey(m => m.IDMateria);
 
                 entity.Property(m => m.IDMateria)
@@ -105,6 +110,28 @@ namespace Data
                       .HasMaxLength(100);
             });
 
+            // --- COMISION MATERIA ---
+            modelBuilder.Entity<ComisionMateria>(entity =>
+            {
+                entity.ToTable("ComisionesMaterias");
+                entity.HasKey(cm => cm.IDComisionMateria);
+                entity.Property(cm => cm.IDComisionMateria)
+                      .ValueGeneratedOnAdd();
+                entity.Property(cm => cm.HsSemanales).IsRequired();
+                entity.Property(cm => cm.HsTotales).IsRequired();
+                entity.Property(cm => cm.IDComision).IsRequired();
+                entity.Property(cm => cm.IDMateria).IsRequired();
+                entity.HasOne(cm => cm.Comision)
+                      .WithMany(c => c.ComisionesMaterias)
+                      .HasForeignKey(cm => cm.IDComision)
+                      .HasConstraintName("FK_ComisionesMaterias_Comisiones_IDComision")
+                      .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(cm => cm.Materia)
+                        .WithMany(m => m.ComisionesMaterias)
+                        .HasForeignKey(cm => cm.IDMateria)
+                        .HasConstraintName("FK_ComisionesMaterias_Materias_IDMateria")
+                        .OnDelete(DeleteBehavior.Restrict);
+            });
 
             // --- CURSOS ---
             modelBuilder.Entity<Curso>(entity =>
