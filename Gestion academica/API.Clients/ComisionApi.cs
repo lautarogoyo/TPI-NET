@@ -14,7 +14,7 @@ namespace API.Clients
 
         static ComisionApi()
         {
-            client.BaseAddress = new Uri("https://localhost:7111/"); // ajustá el puerto si es distinto
+            client.BaseAddress = new Uri("https://localhost:7111/"); 
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
@@ -47,8 +47,9 @@ namespace API.Clients
             {
                 var response = await client.GetAsync("comisiones");
                 if (response.IsSuccessStatusCode)
+                {
                     return await response.Content.ReadFromJsonAsync<IEnumerable<ComisionDTO>>() ?? new List<ComisionDTO>();
-
+                }
                 var error = await response.Content.ReadAsStringAsync();
                 throw new Exception($"Error al obtener comisiones. Status: {response.StatusCode}. Detalle: {error}");
             }

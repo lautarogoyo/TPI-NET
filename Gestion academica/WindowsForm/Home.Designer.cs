@@ -35,6 +35,7 @@
             UsuarioButton = new Button();
             personaButton = new Button();
             planButton = new Button();
+            comisionButton = new Button();
             SuspendLayout();
             // 
             // cursoButton
@@ -108,6 +109,16 @@
             planButton.UseVisualStyleBackColor = true;
             planButton.Click += planButton_Click;
             // 
+            // comisionButton
+            // 
+            comisionButton.Location = new Point(43, 181);
+            comisionButton.Name = "comisionButton";
+            comisionButton.Size = new Size(108, 29);
+            comisionButton.TabIndex = 7;
+            comisionButton.Text = "Comisiones";
+            comisionButton.UseVisualStyleBackColor = true;
+            comisionButton.Click += comisionButton_Click;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -120,6 +131,7 @@
             Controls.Add(cursoButton);
             Controls.Add(materiaButton);
             Controls.Add(planButton);
+            Controls.Add(comisionButton);
             Margin = new Padding(3, 4, 3, 4);
             Name = "Home";
             Text = "Home";
@@ -138,5 +150,6 @@
         private Button UsuarioButton;
         private Button personaButton;
         private Button planButton;
+        private Button comisionButton;
     }
 }

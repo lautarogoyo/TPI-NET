@@ -51,5 +51,11 @@ namespace WindowsForms
             PlanLista planForm = new PlanLista();
             planForm.ShowDialog();
         }
+
+        private void comisionButton_Click(object sender, EventArgs e)
+        {
+            ComisionLista comisionForm = new ComisionLista();
+            comisionForm.ShowDialog();
+        }
     }
 }

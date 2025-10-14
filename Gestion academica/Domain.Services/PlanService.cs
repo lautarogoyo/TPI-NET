@@ -19,8 +19,14 @@ namespace Application.Services
 
         public bool Delete(int id)
         {
-            var repo = new PlanRepository();
-            return repo.Delete(id);
+            var planRepository = new PlanRepository();
+            var comiRepo = new ComisionRepository();
+            var comisionesAsociadas = comiRepo.GetByPlan(id);
+            if (comisionesAsociadas.Any())
+            {
+                throw new InvalidOperationException("No se puede eliminar el plan porque tiene comisiones asociadas.");
+            }
+            return planRepository.Delete(id);
         }
 
         public PlanDTO? Get(int id)
@@ -53,10 +59,11 @@ namespace Application.Services
         public bool Update(PlanDTO dto)
         {
             var repo = new PlanRepository();
-            var plan = new Plan(dto.DescPlan, dto.IDEspecialidad);
+            var plan = repo.Get(dto.IDPlan);
+            if (plan == null) return false;
 
-            typeof(Plan).GetProperty(nameof(Plan.IDPlan))!
-                        .SetValue(plan, dto.IDPlan);
+            plan.SetDescripcion(dto.DescPlan);
+            plan.SetIDEspecialidad(dto.IDEspecialidad);
 
             return repo.Update(plan);
         }

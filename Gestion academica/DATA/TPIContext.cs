@@ -9,12 +9,12 @@ namespace Data
     public class TPIContext : DbContext
     {
         public DbSet<Especialidad> Especialidades { get; set; }
+        public DbSet<Plan> Planes { get; set; }
+        public DbSet<Comision> Comisiones { get; set; }
         public DbSet<Curso> Cursos { get; set; }
         public DbSet<DocenteCurso> DocentesCursos { get; set; }
         public DbSet<Persona> Personas { get; set; }
-        public DbSet<Plan> Planes { get; set; }
         public DbSet<Materia> Materias { get; set; }         
-        public DbSet<Comision> Comisiones { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Modulo> Modulos { get; set; }
         public DbSet<ModuloUsuario> ModulosUsuarios { get; set; }
@@ -52,6 +52,46 @@ namespace Data
                 e.HasKey(x => x.IDEspecialidad);
                 e.Property(x => x.Descripcion).IsRequired().HasMaxLength(100);
             });
+
+            // --- PLAN ---
+            modelBuilder.Entity<Plan>(entity =>
+            {
+                entity.HasKey(p => p.IDPlan);
+                entity.Property(p => p.DescPlan).IsRequired().HasMaxLength(50);
+                entity.Property(p => p.IDEspecialidad).IsRequired();
+
+                entity.HasOne(p => p.Especialidad)
+                      .WithMany(e => e.Planes)
+                      .HasForeignKey(p => p.IDEspecialidad) // <-- clavec
+                      .HasConstraintName("FK_Planes_Especialidades_IDEspecialidad")
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // --- COMISION --- 
+            modelBuilder.Entity<Comision>(entity =>
+            {
+                entity.HasKey(c => c.IDComision);
+
+                entity.Property(c => c.IDComision)
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(c => c.Descripcion)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(c => c.AnioEspecialidad)
+                      .IsRequired();
+
+                entity.Property(c => c.IDPlan)
+                      .IsRequired();
+
+                entity.HasOne(c => c.Plan)
+                      .WithMany(p => p.Comisiones)
+                      .HasForeignKey(c => c.IDPlan) // <-- clavec
+                      .HasConstraintName("FK_Comisiones_Planes_IDPLan")
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
 
             // --- CURSOS ---
             modelBuilder.Entity<Curso>(entity =>
@@ -93,13 +133,6 @@ namespace Data
                 entity.HasIndex(e => new { e.IDComision, e.IDMateria, e.AnioCalendario })
                       .IsUnique()
                       .HasDatabaseName("UX_Cursos_Comision_Materia_Anio");
-
-                // Relaciones (FK) — sin cascada para evitar multiple cascade paths
-                entity.HasOne(e => e.Comision)
-                      .WithMany(c => c.Cursos) // si no tenés colección: .WithMany()
-                      .HasForeignKey(e => e.IDComision)
-                      .OnDelete(DeleteBehavior.Restrict)
-                      .HasConstraintName("FK_Cursos_Comisiones_IDComision");
 
                 entity.HasOne(e => e.Materia)
                       .WithMany(m => m.Cursos) // si no tenés colección: .WithMany()
@@ -173,19 +206,6 @@ namespace Data
 
             });
 
-            // --- PLAN ---
-            modelBuilder.Entity<Plan>(entity =>
-            {
-                entity.HasKey(p => p.IDPlan);
-                entity.Property(p => p.DescPlan).IsRequired().HasMaxLength(50);
-                entity.Property(p => p.IDEspecialidad).IsRequired();
-
-                entity.HasOne(p => p.Especialidad)
-                      .WithMany(e => e.Planes)
-                      .HasForeignKey(p => p.IDEspecialidad) // <-- clavec
-                      .HasConstraintName("FK_Planes_Especialidades_IDEspecialidad")
-                      .OnDelete(DeleteBehavior.Restrict);
-            });
 
             // --- MATERIA --- ✅ NUEVO
             modelBuilder.Entity<Materia>(entity =>
@@ -216,30 +236,6 @@ namespace Data
                 */
             });
 
-            // --- COMISION --- ✅ NUEVO
-            modelBuilder.Entity<Comision>(entity =>
-            {
-                entity.HasKey(c => c.IDComision);
-
-                entity.Property(c => c.IDComision)
-                      .ValueGeneratedOnAdd();
-
-                entity.Property(c => c.Descripcion)
-                      .IsRequired()
-                      .HasMaxLength(100);
-
-                entity.Property(c => c.AnioEspecialidad)
-                      .IsRequired();
-
-                entity.Property(c => c.IDPlan)
-                      .IsRequired();
-
-                entity.HasOne(c => c.Plan)
-                      .WithMany(c => c.Comisiones)
-                      .HasForeignKey(c => c.IDPlan) // <-- clavec
-                      .HasConstraintName("FK_Comisiones_Planes_IDPLan")
-                      .OnDelete(DeleteBehavior.Restrict);
-            });
 
 
             // --- USUARIO ---

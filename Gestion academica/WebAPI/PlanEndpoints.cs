@@ -64,8 +64,21 @@ namespace WebAPI
 
             app.MapDelete("/planes/{id}", (int id) =>
             {
-                var service = new PlanService();
-                return service.Delete(id) ? Results.NoContent() : Results.NotFound();
+                PlanService planService = new PlanService();
+
+                try
+                {
+                    var deleted = planService.Delete(id);
+
+                    if (!deleted)
+                        return Results.NotFound();
+
+                    return Results.NoContent();
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return Results.BadRequest(new { error = ex.Message });
+                }
             })
             .WithName("DeletePlan")
             .Produces(StatusCodes.Status204NoContent)

@@ -57,5 +57,15 @@ namespace Data
             }
             return false;
         }
+
+        public IEnumerable<Comision> GetByPlan(int idPlan)
+        {
+            using (var context = new TPIContext())
+            {
+                return context.Comisiones
+                              .Where(p => p.IDPlan == idPlan)
+                              .ToList();
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace WindowsForm
 {
-    partial class UsuarioLista
+    partial class ComisionLista
     {
         /// <summary>
         /// Required designer variable.
@@ -30,81 +30,94 @@
         {
             buscarTextBox = new TextBox();
             buscarButton = new Button();
+            comisionesDataGridView = new DataGridView();
             eliminarButton = new Button();
             modificarButton = new Button();
             agregarButton = new Button();
-            usuariosDataGridView = new DataGridView();
-            ((System.ComponentModel.ISupportInitialize)usuariosDataGridView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)comisionesDataGridView).BeginInit();
             SuspendLayout();
             // 
             // buscarTextBox
             // 
-            buscarTextBox.Location = new Point(0, 0);
+            buscarTextBox.Location = new Point(24, 19);
+            buscarTextBox.Margin = new Padding(3, 4, 3, 4);
             buscarTextBox.Name = "buscarTextBox";
-            buscarTextBox.Size = new Size(297, 27);
+            buscarTextBox.PlaceholderText = "Buscar por nombre...";
+            buscarTextBox.Size = new Size(204, 27);
             buscarTextBox.TabIndex = 0;
-            buscarTextBox.Text = "Buscar por nombre...";
+            buscarTextBox.TextChanged += buscarTextBox_TextChanged;
             // 
             // buscarButton
             // 
-            buscarButton.Location = new Point(383, 0);
+            buscarButton.Location = new Point(235, 17);
+            buscarButton.Margin = new Padding(3, 4, 3, 4);
             buscarButton.Name = "buscarButton";
-            buscarButton.Size = new Size(94, 29);
+            buscarButton.Size = new Size(86, 31);
             buscarButton.TabIndex = 1;
             buscarButton.Text = "Buscar";
             buscarButton.UseVisualStyleBackColor = true;
+            buscarButton.Click += buscarButton_Click;
+            // 
+            // comisionesDataGridView
+            // 
+            comisionesDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            comisionesDataGridView.Location = new Point(24, 57);
+            comisionesDataGridView.Margin = new Padding(3, 4, 3, 4);
+            comisionesDataGridView.Name = "comisionesDataGridView";
+            comisionesDataGridView.RowHeadersWidth = 51;
+            comisionesDataGridView.Size = new Size(677, 245);
+            comisionesDataGridView.TabIndex = 2;
+            comisionesDataGridView.CellContentClick += comisionesDataGridView_CellContentClick;
             // 
             // eliminarButton
             // 
-            eliminarButton.Location = new Point(416, 377);
+            eliminarButton.Location = new Point(447, 347);
+            eliminarButton.Margin = new Padding(3, 4, 3, 4);
             eliminarButton.Name = "eliminarButton";
-            eliminarButton.Size = new Size(94, 29);
-            eliminarButton.TabIndex = 2;
+            eliminarButton.Size = new Size(86, 31);
+            eliminarButton.TabIndex = 3;
             eliminarButton.Text = "Eliminar";
             eliminarButton.UseVisualStyleBackColor = true;
+            eliminarButton.Click += eliminarButton_Click;
             // 
             // modificarButton
             // 
-            modificarButton.Location = new Point(537, 377);
+            modificarButton.Location = new Point(539, 347);
+            modificarButton.Margin = new Padding(3, 4, 3, 4);
             modificarButton.Name = "modificarButton";
-            modificarButton.Size = new Size(94, 29);
-            modificarButton.TabIndex = 3;
+            modificarButton.Size = new Size(86, 31);
+            modificarButton.TabIndex = 4;
             modificarButton.Text = "Modificar";
             modificarButton.UseVisualStyleBackColor = true;
+            modificarButton.Click += modificarButton_click;
             // 
             // agregarButton
             // 
-            agregarButton.Location = new Point(654, 377);
+            agregarButton.Location = new Point(632, 347);
+            agregarButton.Margin = new Padding(3, 4, 3, 4);
             agregarButton.Name = "agregarButton";
-            agregarButton.Size = new Size(94, 29);
-            agregarButton.TabIndex = 4;
+            agregarButton.Size = new Size(86, 31);
+            agregarButton.TabIndex = 5;
             agregarButton.Text = "Agregar";
             agregarButton.UseVisualStyleBackColor = true;
+            agregarButton.Click += agregarButton_Click;
             // 
-            // usuariosDataGridView
-            // 
-            usuariosDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            usuariosDataGridView.Location = new Point(12, 71);
-            usuariosDataGridView.Name = "usuariosDataGridView";
-            usuariosDataGridView.RowHeadersWidth = 51;
-            usuariosDataGridView.Size = new Size(673, 277);
-            usuariosDataGridView.TabIndex = 5;
-            usuariosDataGridView.CellContentClick += usuariosDataGridView_CellContentClick_1;
-            // 
-            // UsuarioLista
+            // ComisionLista
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(usuariosDataGridView);
+            ClientSize = new Size(738, 393);
             Controls.Add(agregarButton);
             Controls.Add(modificarButton);
             Controls.Add(eliminarButton);
+            Controls.Add(comisionesDataGridView);
             Controls.Add(buscarButton);
             Controls.Add(buscarTextBox);
-            Name = "UsuarioLista";
-            Text = "UsuarioLista";
-            ((System.ComponentModel.ISupportInitialize)usuariosDataGridView).EndInit();
+            Margin = new Padding(3, 4, 3, 4);
+            Name = "comisionLista";
+            Text = "comisionLista";
+            Load += ComisionLista_Load;
+            ((System.ComponentModel.ISupportInitialize)comisionesDataGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -113,9 +126,9 @@
 
         private TextBox buscarTextBox;
         private Button buscarButton;
+        private DataGridView comisionesDataGridView;
         private Button eliminarButton;
         private Button modificarButton;
         private Button agregarButton;
-        private DataGridView usuariosDataGridView;
     }
 }
