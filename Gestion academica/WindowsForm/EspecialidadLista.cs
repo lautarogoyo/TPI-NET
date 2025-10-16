@@ -75,15 +75,13 @@ namespace WindowsForm
             }
         }
 
-        private async void modificarButton_click(object sender, EventArgs e)
+        private void modificarButton_click(object sender, EventArgs e)
         {
             try
             {
                 EspecialidadDetalle especialidadDetalle = new EspecialidadDetalle();
 
-                int id = this.SelectedItem().IDEspecialidad;
-
-                EspecialidadDTO especialidad = await EspecialidadApi.GetAsync(id);
+                EspecialidadDTO especialidad = this.SelectedItem();
 
                 especialidadDetalle.Mode = FormMode.Update;
                 especialidadDetalle.Especialidad = especialidad;
@@ -126,6 +124,9 @@ namespace WindowsForm
         {
             try
             {
+                this.eliminarButton.Enabled = false;
+                this.modificarButton.Enabled = false;
+                this.agregarButton.Enabled = false;
                 this.especialidadesDataGridView.DataSource = null;
                 IEnumerable<EspecialidadDTO> especialidades;
                 if (string.IsNullOrWhiteSpace(texto))
@@ -149,6 +150,7 @@ namespace WindowsForm
                     this.eliminarButton.Enabled = false;
                     this.modificarButton.Enabled = false;
                 }
+                this.agregarButton.Enabled = true;
             }
             catch (Exception ex)
             {

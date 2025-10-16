@@ -144,5 +144,10 @@ namespace WindowsForm
         {
             // vacío si no se usa
         }
+
+        private void usuariosDataGridView_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

@@ -29,16 +29,18 @@
         private void InitializeComponent()
         {
             cursoButton = new Button();
-            button1 = new Button();
+            especialidadButton = new Button();
             materiaButton = new Button();
             label2 = new Label();
             UsuarioButton = new Button();
             personaButton = new Button();
+            planButton = new Button();
+            comisionButton = new Button();
             SuspendLayout();
             // 
             // cursoButton
             // 
-            cursoButton.Location = new Point(43, 95);
+            cursoButton.Location = new Point(171, 181);
             cursoButton.Name = "cursoButton";
             cursoButton.Size = new Size(103, 33);
             cursoButton.TabIndex = 1;
@@ -46,20 +48,20 @@
             cursoButton.UseVisualStyleBackColor = true;
             cursoButton.Click += cursoButton_Click;
             // 
-            // button1
+            // especialidadButton
             // 
-            button1.Location = new Point(169, 95);
-            button1.Margin = new Padding(3, 4, 3, 4);
-            button1.Name = "button1";
-            button1.Size = new Size(120, 33);
-            button1.TabIndex = 2;
-            button1.Text = "Especialidades";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += Especialidades;
+            especialidadButton.Location = new Point(31, 93);
+            especialidadButton.Margin = new Padding(3, 4, 3, 4);
+            especialidadButton.Name = "especialidadButton";
+            especialidadButton.Size = new Size(120, 33);
+            especialidadButton.TabIndex = 2;
+            especialidadButton.Text = "Especialidades";
+            especialidadButton.UseVisualStyleBackColor = true;
+            especialidadButton.Click += especialidadButton_Click;
             // 
             // materiaButton
             // 
-            materiaButton.Location = new Point(312, 95);
+            materiaButton.Location = new Point(305, 95);
             materiaButton.Name = "materiaButton";
             materiaButton.Size = new Size(103, 33);
             materiaButton.TabIndex = 3;
@@ -97,6 +99,26 @@
             personaButton.UseVisualStyleBackColor = true;
             personaButton.Click += personaButton_Click;
             // 
+            // planButton
+            // 
+            planButton.Location = new Point(171, 95);
+            planButton.Name = "planButton";
+            planButton.Size = new Size(108, 29);
+            planButton.TabIndex = 6;
+            planButton.Text = "Planes";
+            planButton.UseVisualStyleBackColor = true;
+            planButton.Click += planButton_Click;
+            // 
+            // comisionButton
+            // 
+            comisionButton.Location = new Point(31, 181);
+            comisionButton.Name = "comisionButton";
+            comisionButton.Size = new Size(108, 29);
+            comisionButton.TabIndex = 7;
+            comisionButton.Text = "Comisiones";
+            comisionButton.UseVisualStyleBackColor = true;
+            comisionButton.Click += comisionButton_Click;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -105,9 +127,11 @@
             Controls.Add(personaButton);
             Controls.Add(UsuarioButton);
             Controls.Add(label2);
-            Controls.Add(button1);
+            Controls.Add(especialidadButton);
             Controls.Add(cursoButton);
             Controls.Add(materiaButton);
+            Controls.Add(planButton);
+            Controls.Add(comisionButton);
             Margin = new Padding(3, 4, 3, 4);
             Name = "Home";
             Text = "Home";
@@ -120,10 +144,12 @@
 
         private Label label1;
         private Button cursoButton;
-        private Button button1;
+        private Button especialidadButton;
         private Button materiaButton;
         private Label label2;
         private Button UsuarioButton;
         private Button personaButton;
+        private Button planButton;
+        private Button comisionButton;
     }
 }

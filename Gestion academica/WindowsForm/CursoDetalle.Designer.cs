@@ -29,13 +29,11 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            IdTextBox = new TextBox();
             cupoTextBox = new TextBox();
             añocalendarioTextBox = new TextBox();
             descripcionTextBox = new TextBox();
             materiaComboBox = new ComboBox();
             comisionComboBox = new ComboBox();
-            idLabel = new Label();
             añoCalendarioLabel = new Label();
             cupoLabel = new Label();
             descripcionLabel = new Label();
@@ -47,122 +45,99 @@
             ((System.ComponentModel.ISupportInitialize)errorProvider).BeginInit();
             SuspendLayout();
             // 
-            // IdTextBox
-            // 
-            IdTextBox.BackColor = SystemColors.Window;
-            IdTextBox.Location = new Point(260, 25);
-            IdTextBox.Margin = new Padding(3, 2, 3, 2);
-            IdTextBox.Name = "IdTextBox";
-            IdTextBox.Size = new Size(120, 23);
-            IdTextBox.TabIndex = 0;
-            // 
             // cupoTextBox
             // 
             cupoTextBox.BackColor = SystemColors.Window;
-            cupoTextBox.Location = new Point(260, 107);
-            cupoTextBox.Margin = new Padding(3, 2, 3, 2);
+            cupoTextBox.Location = new Point(223, 209);
             cupoTextBox.Name = "cupoTextBox";
-            cupoTextBox.Size = new Size(120, 23);
+            cupoTextBox.Size = new Size(67, 27);
             cupoTextBox.TabIndex = 1;
             // 
             // añocalendarioTextBox
             // 
             añocalendarioTextBox.BackColor = SystemColors.Window;
-            añocalendarioTextBox.Location = new Point(260, 69);
-            añocalendarioTextBox.Margin = new Padding(3, 2, 3, 2);
+            añocalendarioTextBox.Location = new Point(223, 154);
             añocalendarioTextBox.Name = "añocalendarioTextBox";
-            añocalendarioTextBox.Size = new Size(120, 23);
+            añocalendarioTextBox.Size = new Size(67, 27);
             añocalendarioTextBox.TabIndex = 2;
             // 
             // descripcionTextBox
             // 
             descripcionTextBox.BackColor = SystemColors.Window;
-            descripcionTextBox.Location = new Point(260, 147);
-            descripcionTextBox.Margin = new Padding(3, 2, 3, 2);
+            descripcionTextBox.Location = new Point(223, 270);
             descripcionTextBox.Name = "descripcionTextBox";
-            descripcionTextBox.Size = new Size(120, 23);
+            descripcionTextBox.Size = new Size(174, 27);
             descripcionTextBox.TabIndex = 3;
             // 
             // materiaComboBox
             // 
             materiaComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             materiaComboBox.FormattingEnabled = true;
-            materiaComboBox.Location = new Point(260, 233);
-            materiaComboBox.Margin = new Padding(3, 2, 3, 2);
+            materiaComboBox.Location = new Point(223, 98);
             materiaComboBox.Name = "materiaComboBox";
-            materiaComboBox.Size = new Size(120, 23);
+            materiaComboBox.Size = new Size(174, 28);
             materiaComboBox.TabIndex = 4;
             // 
             // comisionComboBox
             // 
             comisionComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             comisionComboBox.FormattingEnabled = true;
-            comisionComboBox.Location = new Point(260, 188);
-            comisionComboBox.Margin = new Padding(3, 2, 3, 2);
+            comisionComboBox.Location = new Point(223, 44);
             comisionComboBox.Name = "comisionComboBox";
-            comisionComboBox.Size = new Size(120, 23);
+            comisionComboBox.Size = new Size(174, 28);
             comisionComboBox.TabIndex = 5;
-            // 
-            // idLabel
-            // 
-            idLabel.AutoSize = true;
-            idLabel.Location = new Point(38, 30);
-            idLabel.Name = "idLabel";
-            idLabel.Size = new Size(24, 15);
-            idLabel.TabIndex = 6;
-            idLabel.Text = "ID :";
+            comisionComboBox.SelectedIndexChanged += comisionComboBox_SelectedIndexChanged;
             // 
             // añoCalendarioLabel
             // 
             añoCalendarioLabel.AutoSize = true;
-            añoCalendarioLabel.Location = new Point(38, 71);
+            añoCalendarioLabel.Location = new Point(43, 154);
             añoCalendarioLabel.Name = "añoCalendarioLabel";
-            añoCalendarioLabel.Size = new Size(95, 15);
+            añoCalendarioLabel.Size = new Size(119, 20);
             añoCalendarioLabel.TabIndex = 7;
             añoCalendarioLabel.Text = "Año Calendario :";
             // 
             // cupoLabel
             // 
             cupoLabel.AutoSize = true;
-            cupoLabel.Location = new Point(38, 113);
+            cupoLabel.Location = new Point(43, 216);
             cupoLabel.Name = "cupoLabel";
-            cupoLabel.Size = new Size(42, 15);
+            cupoLabel.Size = new Size(51, 20);
             cupoLabel.TabIndex = 8;
             cupoLabel.Text = "Cupo :";
             // 
             // descripcionLabel
             // 
             descripcionLabel.AutoSize = true;
-            descripcionLabel.Location = new Point(38, 152);
+            descripcionLabel.Location = new Point(43, 273);
             descripcionLabel.Name = "descripcionLabel";
-            descripcionLabel.Size = new Size(75, 15);
+            descripcionLabel.Size = new Size(94, 20);
             descripcionLabel.TabIndex = 9;
             descripcionLabel.Text = "Descripcion :";
             // 
             // comisionLabel
             // 
             comisionLabel.AutoSize = true;
-            comisionLabel.Location = new Point(38, 188);
+            comisionLabel.Location = new Point(43, 44);
             comisionLabel.Name = "comisionLabel";
-            comisionLabel.Size = new Size(67, 15);
+            comisionLabel.Size = new Size(82, 20);
             comisionLabel.TabIndex = 10;
             comisionLabel.Text = "Comision : ";
             // 
             // materiaLabel
             // 
             materiaLabel.AutoSize = true;
-            materiaLabel.Location = new Point(38, 233);
+            materiaLabel.Location = new Point(43, 98);
             materiaLabel.Name = "materiaLabel";
-            materiaLabel.Size = new Size(53, 15);
+            materiaLabel.Size = new Size(67, 20);
             materiaLabel.TabIndex = 11;
             materiaLabel.Text = "Materia :";
             // 
             // aceptarBoton
             // 
-            aceptarBoton.Location = new Point(435, 296);
-            aceptarBoton.Margin = new Padding(3, 2, 3, 2);
+            aceptarBoton.Location = new Point(117, 370);
             aceptarBoton.Name = "aceptarBoton";
-            aceptarBoton.Size = new Size(83, 22);
+            aceptarBoton.Size = new Size(95, 29);
             aceptarBoton.TabIndex = 12;
             aceptarBoton.Text = "Aceptar";
             aceptarBoton.UseVisualStyleBackColor = true;
@@ -170,10 +145,9 @@
             // 
             // cancelarBoton
             // 
-            cancelarBoton.Location = new Point(546, 296);
-            cancelarBoton.Margin = new Padding(3, 2, 3, 2);
+            cancelarBoton.Location = new Point(302, 370);
             cancelarBoton.Name = "cancelarBoton";
-            cancelarBoton.Size = new Size(83, 22);
+            cancelarBoton.Size = new Size(95, 29);
             cancelarBoton.TabIndex = 13;
             cancelarBoton.Text = "Cancelar";
             cancelarBoton.UseVisualStyleBackColor = true;
@@ -185,10 +159,10 @@
             // 
             // CursoDetalle
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(700, 337);
+            ClientSize = new Size(469, 440);
             Controls.Add(cancelarBoton);
             Controls.Add(aceptarBoton);
             Controls.Add(materiaLabel);
@@ -196,14 +170,11 @@
             Controls.Add(descripcionLabel);
             Controls.Add(cupoLabel);
             Controls.Add(añoCalendarioLabel);
-            Controls.Add(idLabel);
             Controls.Add(comisionComboBox);
             Controls.Add(materiaComboBox);
             Controls.Add(descripcionTextBox);
             Controls.Add(añocalendarioTextBox);
             Controls.Add(cupoTextBox);
-            Controls.Add(IdTextBox);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "CursoDetalle";
             Text = "CursoDetalle";
             Load += CursoDetalle_Load;
@@ -213,14 +184,11 @@
         }
 
         #endregion
-
-        private TextBox IdTextBox;
         private TextBox cupoTextBox;
         private TextBox añocalendarioTextBox;
         private TextBox descripcionTextBox;
         private ComboBox materiaComboBox;
         private ComboBox comisionComboBox;
-        private Label idLabel;
         private Label añoCalendarioLabel;
         private Label cupoLabel;
         private Label descripcionLabel;
@@ -231,3 +199,4 @@
         private ErrorProvider errorProvider;
     }
 }
+    

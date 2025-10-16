@@ -9,26 +9,22 @@
         public int AnioCalendario { get; private set; }
         public int Cupo { get; private set; }
         public string Descripcion { get; private set; }
-        public int IDComision { get; private set; }
-        public int IDMateria { get; private set; }
-
-        public Comision Comision { get; private set; }
-        public Materia Materia { get; private set; }
+        public int IDComisionMateria { get; private set; }
+        public ComisionMateria ComisionMateria { get; private set; }
 
         // === Navegaciones ===
-        public ICollection<DocenteCurso> DocenteCursos { get; } = new List<DocenteCurso>();
-        public ICollection<AlumnoInscripcion> AlumnoInscripciones = new List<AlumnoInscripcion>();
+        //public ICollection<DocenteCurso> DocenteCursos { get; } = new List<DocenteCurso>();
+        //public ICollection<AlumnoInscripcion> AlumnoInscripciones = new List<AlumnoInscripcion>();
 
         // EF necesita ctor vacío
         private Curso() { }
 
-        public Curso(int anio, int cupo, string descripcion, int idcomision, int idmateria)
+        public Curso(int anio, int cupo, string descripcion, int idcomisionmateria)
         {
             SetAnio(anio);
             SetCupo(cupo);
             SetDescripcion(descripcion);
-            SetIDComision(idcomision);
-            SetIDMateria(idmateria);
+            SetIDComisionMateria(idcomisionmateria);
         }
 
         public void SetAnio(int anio)
@@ -47,15 +43,10 @@
                 throw new ArgumentException("La descripción no puede estar vacía.", nameof(descripcion));
             Descripcion = descripcion;
         }
-        public void SetIDComision(int idcomision)
+        public void SetIDComisionMateria(int idcomisionmateria)
         {
-            if (idcomision <= 0) throw new ArgumentException("El ID de la comisión debe ser mayor que 0.", nameof(idcomision));
-            IDComision = idcomision;
+            if (idcomisionmateria <= 0) throw new ArgumentException("El ID de la comisiónMateria debe ser mayor que 0.", nameof(idcomisionmateria));
+            IDComisionMateria = idcomisionmateria;
         }
-        public void SetIDMateria(int idmateria)
-        {
-            if (idmateria <= 0) throw new ArgumentException("El ID de la materia debe ser mayor que 0.", nameof(idmateria));
-            IDMateria = idmateria;
-        }
-    }
+     }
 }

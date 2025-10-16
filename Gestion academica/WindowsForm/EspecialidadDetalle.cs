@@ -68,7 +68,6 @@ namespace WindowsForm
                     if (this.Especialidad.IDEspecialidad <= 0)
                         throw new InvalidOperationException("ID de especialidad inválido (<= 0).");
 
-                    // Tu backend: PUT /especialidades (sin {id})
                     await EspecialidadApi.UpdateAsync(this.Especialidad);
                 }
                 else
@@ -76,7 +75,7 @@ namespace WindowsForm
                     await EspecialidadApi.AddAsync(this.Especialidad);
                 }
 
-                this.DialogResult = DialogResult.OK;   // ← importante para refrescar
+                this.DialogResult = DialogResult.OK;  
                 this.Close();
             }
             catch (Exception ex)
@@ -97,11 +96,11 @@ namespace WindowsForm
             if (Mode == FormMode.Add)
             {
                 this.Text = "Agregar Especialidad";
-                if (this.Especialidad == null)                // no pises un DTO existente
+                if (this.Especialidad == null)              
                     this.Especialidad = new EspecialidadDTO();
                 textBox1.Text = string.Empty;
             }
-            else // Update
+            else 
             {
                 this.Text = "Modificar Especialidad";
                 if (this.Especialidad != null)

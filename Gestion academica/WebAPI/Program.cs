@@ -39,11 +39,15 @@ app.UseCors("AllowBlazorWasm");
 // Map endpoints
 app.MapEspecialidadEndpoints();
 
-app.MapCursoEndpoints();
+app.MapPlanEndpoints(); 
+
+app.MapComisionEndpoints();
 
 app.MapMateriaEndpoints();
 
-app.MapComisionEndpoints();
+app.MapComisionMateriaEndpoints();
+
+app.MapCursoEndpoints();
 
 app.MapUsuarioEndpoints();
 
@@ -55,6 +59,5 @@ app.MapModuloEndpoints();
 
 app.MapModuloUsuarioEndpoints();    
 
-app.MapPlanEndpoints(); 
 
 app.Run();

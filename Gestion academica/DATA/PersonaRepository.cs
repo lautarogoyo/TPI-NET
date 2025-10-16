@@ -52,11 +52,12 @@ namespace Data
                 existingPersona.SetApellido(persona.Apellido);
                 existingPersona.SetDireccion(persona.Direccion);
                 existingPersona.SetEmail(persona.Email);
+                existingPersona.SetTipoDoc(persona.TipoDoc);
+                existingPersona.SetNroDoc(persona.NroDoc);
                 existingPersona.SetTelefono(persona.Telefono);
                 existingPersona.SetFechaNac(persona.FechaNac);
                 existingPersona.SetLegajo(persona.Legajo);
                 existingPersona.SetTipoPersona(persona.TipoPersona);
-                existingPersona.SetIDPlan(persona.IDPlan);
 
                 context.SaveChanges();
                 return true;

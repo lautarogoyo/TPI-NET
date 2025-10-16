@@ -15,11 +15,12 @@ namespace Application.Services
                 dto.Apellido,
                 dto.Direccion,
                 dto.Email,
+                dto.TipoDoc,
+                dto.NroDoc,
                 dto.Telefono,
                 dto.FechaNac,
                 dto.Legajo,
-                dto.TipoPersona,
-                dto.IDPlan
+                dto.TipoPersona
             );
 
             personaRepository.Add(persona);
@@ -37,7 +38,7 @@ namespace Application.Services
         public PersonaDTO? Get(int id)
         {
             var personaRepository = new PersonaRepository();
-            Persona? persona = personaRepository.Get(id);
+            var persona = personaRepository.Get(id);
 
             if (persona == null)
                 return null;
@@ -48,12 +49,13 @@ namespace Application.Services
                 Nombre = persona.Nombre,
                 Apellido = persona.Apellido,
                 Direccion = persona.Direccion,
+                TipoDoc = persona.TipoDoc,
+                NroDoc = persona.NroDoc,
                 Email = persona.Email,
                 Telefono = persona.Telefono,
                 FechaNac = persona.FechaNac,
                 Legajo = persona.Legajo,
-                TipoPersona = persona.TipoPersona,
-                IDPlan = persona.IDPlan
+                TipoPersona = persona.TipoPersona
             };
         }
 
@@ -66,12 +68,13 @@ namespace Application.Services
                 Nombre = persona.Nombre,
                 Apellido = persona.Apellido,
                 Direccion = persona.Direccion,
+                TipoDoc = persona.TipoDoc,
+                NroDoc = persona.NroDoc,
                 Email = persona.Email,
                 Telefono = persona.Telefono,
                 FechaNac = persona.FechaNac,
                 Legajo = persona.Legajo,
-                TipoPersona = persona.TipoPersona,
-                IDPlan = persona.IDPlan
+                TipoPersona = persona.TipoPersona
             }).ToList();
         }
 
@@ -79,22 +82,20 @@ namespace Application.Services
         {
             var personaRepository = new PersonaRepository();
 
-            var persona = new Persona(
-                dto.Nombre,
-                dto.Apellido,
-                dto.Direccion,
-                dto.Email,
-                dto.Telefono,
-                dto.FechaNac,
-                dto.Legajo,
-                dto.TipoPersona,
-                dto.IDPlan
-            );
+            var persona = personaRepository.Get(dto.IDPersona);
+            if (persona == null)
+                return false;
 
-            // Necesitamos setear el ID porque el constructor no lo recibe
-            typeof(Persona)
-                .GetProperty(nameof(Persona.IDPersona))!
-                .SetValue(persona, dto.IDPersona);
+            persona.SetNombre(dto.Nombre);
+            persona.SetApellido(dto.Apellido);
+            persona.SetDireccion(dto.Direccion);
+            persona.SetEmail(dto.Email);
+            persona.SetTipoDoc(dto.TipoDoc);
+            persona.SetNroDoc(dto.NroDoc);
+            persona.SetTelefono(dto.Telefono);
+            persona.SetFechaNac(dto.FechaNac);
+            persona.SetLegajo(dto.Legajo);
+            persona.SetTipoPersona(dto.TipoPersona);
 
             return personaRepository.Update(persona);
         }

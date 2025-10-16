@@ -55,5 +55,11 @@ namespace Data
             }
             return false;
         }
+
+        public bool ExistePlanConEspecialidad(int idEspecialidad)
+        {
+            using var context = CreateContext();
+            return context.Planes.Any(p => p.IDEspecialidad == idEspecialidad);
+        }
     }
 }

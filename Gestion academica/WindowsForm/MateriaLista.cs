@@ -31,7 +31,7 @@ namespace WindowsForm
             materiasDataGridView.Columns.Add(idColumn);
             DataGridViewTextBoxColumn descripcionColumn = new DataGridViewTextBoxColumn();
             descripcionColumn.DataPropertyName = "Descripcion";
-            descripcionColumn.HeaderText = "Descripción";
+            descripcionColumn.HeaderText = "Nombre";
             descripcionColumn.Width = 200;
             materiasDataGridView.Columns.Add(descripcionColumn);
         }
@@ -80,8 +80,7 @@ namespace WindowsForm
             try
             {MateriaDetalle materiaDetalle = new MateriaDetalle();
 
-                int id = this.SelectedItem().IDMateria;
-                MateriaDTO materia = await MateriaApi.GetAsync(id);
+                MateriaDTO materia = this.SelectedItem();
 
                 materiaDetalle.Mode = FormMode.Update;
                 materiaDetalle.Materia = materia;
@@ -124,6 +123,9 @@ namespace WindowsForm
         {
             try
             {
+                this.eliminarButton.Enabled = false;
+                this.modificarButton.Enabled = false;
+                this.agregarButton.Enabled = false;
                 this.materiasDataGridView.DataSource = null;
                 IEnumerable<MateriaDTO> materias;
                 if (string.IsNullOrWhiteSpace(texto))
@@ -147,6 +149,7 @@ namespace WindowsForm
                     this.eliminarButton.Enabled = false;
                     this.modificarButton.Enabled = false;
                 }
+                this.agregarButton.Enabled = true;
             }
             catch (Exception ex)
             {

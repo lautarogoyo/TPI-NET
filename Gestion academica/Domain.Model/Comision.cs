@@ -9,11 +9,10 @@
         public string Descripcion { get; private set; }
         public int AnioEspecialidad { get; private set; }
         public int IDPlan { get; private set; }
-        public ICollection<Curso> Cursos { get; private set; } = new List<Curso>();
-        public Plan Plan { get; private set; }  // Navegación a Plan
+        public Plan Plan { get; private set; }
 
-        // === Navegaciones ===
-        // (Más adelante podrías agregar: public ICollection<Curso> Cursos { get; } = new List<Curso>();)
+        public ICollection<ComisionMateria> ComisionesMaterias { get; private set; } = new List<ComisionMateria>();
+
 
         // EF necesita ctor vacío
         private Comision() { }

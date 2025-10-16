@@ -11,17 +11,16 @@ namespace WindowsForm
     {
         private CursoDTO curso;
         private FormMode mode;
-        private bool _combosLoaded = false;
-        private int? _pendingIdComision;
-        private int? _pendingIdMateria;
-
+        private List<ComisionMateriaDTO> comisionesMaterias = new();
+        private List<ComisionDTO> comisiones = new();
+        private bool _isLoading = false;
         public CursoDTO Curso
         {
             get { return curso; }
             set
             {
                 curso = value;
-                SetCurso();
+                this.SetCurso();
             }
         }
 
@@ -38,60 +37,58 @@ namespace WindowsForm
 
         private async void CursoDetalle_Load(object sender, EventArgs e)
         {
-            await LoadCombos();
+            await LoadComboxComision();
         }
 
-        private async Task LoadCombos()
+        private async Task LoadComboxComision()
         {
             try
             {
-                var comisiones = await ComisionApi.GetAllAsync();
+                _isLoading = true;
+                comisiones = (await ComisionApi.GetAllAsync()).ToList();
                 comisionComboBox.DataSource = comisiones;
                 comisionComboBox.DisplayMember = "Descripcion";
                 comisionComboBox.ValueMember = "IDComision";
                 comisionComboBox.SelectedIndex = -1;
 
-                var materias = await MateriaApi.GetAllAsync();
-                materiaComboBox.DataSource = materias;
-                materiaComboBox.DisplayMember = "Descripcion";
-                materiaComboBox.ValueMember = "IDMateria";
-                materiaComboBox.SelectedIndex = -1;
+                if (this.Curso != null && this.Curso.IDComisionMateria > 0)
+                {
+                    comisionComboBox.SelectedValue = this.Curso.IDComision;
+                    await CargarMateriasPorComision(this.Curso.IDComision.Value);
+                    materiaComboBox.SelectedValue = this.Curso.IDComisionMateria;
 
-                _combosLoaded = true;
-                ApplyComboSelectionsFromCurso();   // ← aplicar selección ahora que hay DataSource
+                }
+
+                comisionComboBox.Enabled = (this.Mode == FormMode.Add);
+                materiaComboBox.Enabled = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar combos: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar comisiones: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-        private void ApplyComboSelectionsFromCurso()
-        {
-            if (Curso == null) return;
-
-            if (!_combosLoaded)
+            finally
             {
-                _pendingIdComision = Curso.IDComision;
-                _pendingIdMateria = Curso.IDMateria;
-                return;
+                _isLoading = false; 
             }
 
-            // Asegurar tipos compatibles (int en ambos lados)
-            comisionComboBox.SelectedValue = Curso.IDComision;
-            materiaComboBox.SelectedValue = Curso.IDMateria;
-
-            // Si no encontró valor (queda -1), intentar por texto (opcional)
-            if (comisionComboBox.SelectedIndex == -1 && comisionComboBox.DisplayMember == "Descripcion")
-                comisionComboBox.SelectedIndex = comisionComboBox.FindStringExact(
-                    (Curso as dynamic)?.ComisionDescripcion ?? ""
-                );
-
-            if (materiaComboBox.SelectedIndex == -1 && materiaComboBox.DisplayMember == "Descripcion")
-                materiaComboBox.SelectedIndex = materiaComboBox.FindStringExact(
-                    (Curso as dynamic)?.MateriaDescripcion ?? ""
-                );
         }
+        private async Task CargarMateriasPorComision(int idComision)
+        {
+            try
+            {
+                materiaComboBox.Enabled = true;
+                comisionesMaterias = (await ComisionMateriaApi.GetByComisionAsync(idComision)).ToList();
 
+                materiaComboBox.DataSource = comisionesMaterias;
+                materiaComboBox.DisplayMember = "DescMateria";
+                materiaComboBox.ValueMember = "IDComisionMateria";
+                materiaComboBox.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar materias: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private async void aceptarButton_Click(object sender, EventArgs e)
         {
             if (!ValidateCurso()) return;
@@ -102,8 +99,8 @@ namespace WindowsForm
                 this.Curso.Descripcion = descripcionTextBox.Text;
                 this.Curso.AnioCalendario = int.Parse(añocalendarioTextBox.Text);
                 this.Curso.Cupo = int.Parse(cupoTextBox.Text);
-                this.Curso.IDComision = (int)comisionComboBox.SelectedValue;
-                this.Curso.IDMateria = (int)materiaComboBox.SelectedValue;
+                var idMateria = (int?)materiaComboBox.SelectedValue;
+                this.Curso.IDComisionMateria = idMateria.Value;
 
                 if (this.Mode == FormMode.Update)
                 {
@@ -142,7 +139,6 @@ namespace WindowsForm
                 if (this.Curso == null)
                     this.Curso = new CursoDTO();
 
-                IdTextBox.Text = string.Empty;
                 descripcionTextBox.Text = string.Empty;
                 añocalendarioTextBox.Text = string.Empty;
                 cupoTextBox.Text = string.Empty;
@@ -158,23 +154,13 @@ namespace WindowsForm
 
         private void SetCurso()
         {
-            if (this.Curso == null) return;
-
-            IdTextBox.Text = this.Curso.IdCurso.ToString();
-            descripcionTextBox.Text = this.Curso.Descripcion;
-            añocalendarioTextBox.Text = this.Curso.AnioCalendario.ToString();
-            cupoTextBox.Text = this.Curso.Cupo.ToString();
-            comisionComboBox.SelectedValue = this.Curso.IDComision;
-            materiaComboBox.SelectedValue = this.Curso.IDMateria;
-            // No intentes setear SelectedValue directo acá si los combos aún no cargaron:
-            if (_combosLoaded)
+            if (this.Curso != null)
             {
-                ApplyComboSelectionsFromCurso();
-            }
-            else
-            {
-                _pendingIdComision = this.Curso.IDComision;
-                _pendingIdMateria = this.Curso.IDMateria;
+                descripcionTextBox.Text = this.Curso.Descripcion;
+                añocalendarioTextBox.Text = this.Curso.AnioCalendario.ToString();
+                cupoTextBox.Text = this.Curso.Cupo.ToString();
+                comisionComboBox.SelectedValue = this.Curso.IDComision;
+                materiaComboBox.SelectedValue = this.Curso.IDComisionMateria;
             }
         }
 
@@ -186,15 +172,14 @@ namespace WindowsForm
                 return false;
             }
 
-            if (!int.TryParse(añocalendarioTextBox.Text, out _))
+            if (!int.TryParse(añocalendarioTextBox.Text, out int a) || a <= 0)
             {
-                MessageBox.Show("Año calendario inválido.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Las año debe ser válido.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-
-            if (!int.TryParse(cupoTextBox.Text, out _))
+            if (!int.TryParse(cupoTextBox.Text, out int c) || c <= 0)
             {
-                MessageBox.Show("Cupo inválido.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("El cupo debe ser válido.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
@@ -211,6 +196,15 @@ namespace WindowsForm
             }
 
             return true;
+        }
+
+        private async void comisionComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_isLoading) return;
+            if (comisionComboBox.SelectedValue == null) return;
+            if (!int.TryParse(comisionComboBox.SelectedValue.ToString(), out int idComision))
+                return;
+            await CargarMateriasPorComision(idComision);
         }
     }
 }

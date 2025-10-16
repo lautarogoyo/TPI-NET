@@ -51,13 +51,29 @@ namespace Data
                 existingCurso.SetAnio(curso.AnioCalendario);
                 existingCurso.SetCupo(curso.Cupo);
                 existingCurso.SetDescripcion(curso.Descripcion);
-                existingCurso.SetIDComision(curso.IDComision);
-                existingCurso.SetIDMateria(curso.IDMateria);
+                existingCurso.SetIDComisionMateria(curso.IDComisionMateria);
 
                 context.SaveChanges();
                 return true;
             }
             return false;
+        }
+
+        public bool ExisteRelacionConComisionMateria(int idComisionMateria)
+        {
+            using var context = CreateContext();
+            return context.Cursos.Any(c => c.IDComisionMateria == idComisionMateria);
+        }
+
+        public IEnumerable<Curso> GetWithComisionMateria()
+        {
+            using var context = CreateContext();
+            return context.Cursos
+                .Include(c => c.ComisionMateria)
+                .ThenInclude(cm => cm.Comision)
+                .Include(c => c.ComisionMateria)
+                .ThenInclude(cm => cm.Materia)
+                .ToList();
         }
     }
 }

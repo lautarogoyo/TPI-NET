@@ -89,6 +89,7 @@
             usuariosDataGridView.RowHeadersWidth = 51;
             usuariosDataGridView.Size = new Size(673, 277);
             usuariosDataGridView.TabIndex = 5;
+            usuariosDataGridView.CellContentClick += usuariosDataGridView_CellContentClick_1;
             // 
             // UsuarioLista
             // 

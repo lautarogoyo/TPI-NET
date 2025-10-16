@@ -11,7 +11,7 @@ namespace WindowsForms
             InitializeComponent();
         }
 
-        private void Especialidades(object sender, EventArgs e)
+        private void especialidadButton_Click(object sender, EventArgs e)
         {
             EspecialidadLista especialidadesForm = new EspecialidadLista();
             especialidadesForm.ShowDialog();
@@ -44,6 +44,18 @@ namespace WindowsForms
         {
             PersonaLista personaForm = new PersonaLista();
             personaForm.ShowDialog();
+        }
+
+        private void planButton_Click(object sender, EventArgs e)
+        {
+            PlanLista planForm = new PlanLista();
+            planForm.ShowDialog();
+        }
+
+        private void comisionButton_Click(object sender, EventArgs e)
+        {
+            ComisionLista comisionForm = new ComisionLista();
+            comisionForm.ShowDialog();
         }
     }
 }

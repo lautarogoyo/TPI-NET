@@ -57,5 +57,11 @@ namespace Data
             }
             return false;
         }
+
+        public bool ExisteComisionConPlan(int idPlan)
+        {
+            using var context = CreateContext();
+            return context.Comisiones.Any(c => c.IDPlan == idPlan);
+        }
     }
 }

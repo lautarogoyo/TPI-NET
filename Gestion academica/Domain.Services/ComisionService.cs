@@ -26,6 +26,11 @@ namespace Application.Services
         public bool Delete(int id)
         {
             var repo = new ComisionRepository();
+            var cmRepo = new ComisionMateriaRepository();
+            if (cmRepo.ExisteRelacionConComision(id))
+            {
+                throw new InvalidOperationException("No se puede eliminar la comision porque tiene materias asociadas.");
+            }
             return repo.Delete(id);
         }
 

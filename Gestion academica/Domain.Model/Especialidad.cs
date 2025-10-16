@@ -13,11 +13,15 @@ namespace Domain.Model
         // Constructor para crear nueva
         public Especialidad(string descripcion)
         {
+            if (string.IsNullOrWhiteSpace(descripcion))
+                throw new ArgumentException("La descripción no puede estar vacía.");
             Descripcion = descripcion;
         }
 
         public void SetDescripcion(string descripcion)
         {
+            if (string.IsNullOrWhiteSpace(descripcion))
+                throw new ArgumentException("La descripción no puede estar vacía.");
             Descripcion = descripcion;
         }
     }

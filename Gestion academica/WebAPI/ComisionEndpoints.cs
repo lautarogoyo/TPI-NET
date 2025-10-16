@@ -43,7 +43,6 @@ namespace WebAPI
 
                     var comisionDTO = service.Add(dto);
 
-                    // Ojo: propiedad según tu DTO (IDComision).
                     return Results.Created($"/comisiones/{comisionDTO.IDComision}", comisionDTO);
                 }
                 catch (ArgumentException ex)

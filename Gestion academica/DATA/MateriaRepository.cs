@@ -49,12 +49,6 @@ namespace Data
             if (existingMateria != null)
             {
                 existingMateria.SetDescripcion(materia.Descripcion);
-                /*
-                existingMateria.SetHSSemanales(materia.HSSemanales);
-                existingMateria.SetHSTotales(materia.HSTotales);
-                existingMateria.SetIDPlan(materia.IDPlan);
-                */
-
                 context.SaveChanges();
                 return true;
             }
