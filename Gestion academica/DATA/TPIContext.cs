@@ -221,7 +221,7 @@ namespace Data
                 */
             });
 
-            // --- COMISION --- ✅ NUEVO
+            // --- COMISION --- 
             modelBuilder.Entity<Comision>(entity =>
             {
                 entity.HasKey(c => c.IDComision);
@@ -241,7 +241,7 @@ namespace Data
 
                 entity.HasOne(c => c.Plan)
                       .WithMany(c => c.Comisiones)
-                      .HasForeignKey(c => c.IDPlan) // <-- clavec
+                      .HasForeignKey(c => c.IDPlan)
                       .HasConstraintName("FK_Comisiones_Planes_IDPLan")
                       .OnDelete(DeleteBehavior.Restrict);
             });
