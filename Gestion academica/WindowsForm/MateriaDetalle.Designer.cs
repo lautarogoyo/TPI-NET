@@ -51,6 +51,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(175, 27);
             textBox1.TabIndex = 2;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // button1
             // 
@@ -96,5 +97,6 @@
         private TextBox textBox1;
         private Button button1;
         private Button button2;
+
     }
 }

@@ -14,8 +14,8 @@ namespace Data
         public DbSet<Materia> Materias { get; set; }      
         public DbSet<ComisionMateria> ComisionesMaterias { get; set; }
         public DbSet<Curso> Cursos { get; set; }
-        public DbSet<DocenteCurso> DocentesCursos { get; set; }
         public DbSet<Persona> Personas { get; set; }
+        public DbSet<DocenteCurso> DocentesCursos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Modulo> Modulos { get; set; }
         public DbSet<ModuloUsuario> ModulosUsuarios { get; set; }
@@ -176,6 +176,54 @@ namespace Data
 
             });
 
+            // --- PERSONA ---
+            modelBuilder.Entity<Persona>(entity =>
+            {
+                entity.ToTable("Personas");
+                entity.HasKey(p => p.IDPersona);
+
+                entity.Property(p => p.IDPersona)
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(p => p.Nombre)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(p => p.Apellido)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(p => p.Direccion)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(p => p.TipoDoc)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(p => p.NroDoc)
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                entity.Property(p => p.Email)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(p => p.Telefono)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(p => p.FechaNac)
+                      .IsRequired();
+
+                entity.Property(p => p.Legajo)
+                      .IsRequired();
+
+                entity.Property(p => p.TipoPersona)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+            });
 
             // --- DOCENTE CURSO ---
             modelBuilder.Entity<DocenteCurso>(entity =>
@@ -197,52 +245,6 @@ namespace Data
                 entity.HasIndex(dc => new { dc.IDCurso, dc.IDDocente })
                       .IsUnique();
             });
-
-            // --- PERSONA ---
-            modelBuilder.Entity<Persona>(entity =>
-            {
-                entity.HasKey(p => p.IDPersona);
-
-                entity.Property(p => p.IDPersona)
-                      .ValueGeneratedOnAdd();
-
-                entity.Property(p => p.Nombre)
-                      .IsRequired()
-                      .HasMaxLength(50);
-
-                entity.Property(p => p.Apellido)
-                      .IsRequired()
-                      .HasMaxLength(50);
-
-                entity.Property(p => p.Direccion)
-                      .IsRequired()
-                      .HasMaxLength(50);
-
-                entity.Property(p => p.Email)
-                      .IsRequired()
-                      .HasMaxLength(50);
-
-                entity.Property(p => p.Telefono)
-                      .IsRequired()
-                      .HasMaxLength(50);
-
-                entity.Property(p => p.FechaNac)
-                      .IsRequired();
-
-                entity.Property(p => p.Legajo)
-                      .IsRequired();
-
-                entity.Property(p => p.TipoPersona)
-                      .IsRequired()
-                      .HasMaxLength(50);
-
-                entity.Property(p => p.IDPlan)
-                      .IsRequired();
-
-            });
-
-
-
 
 
             // --- USUARIO ---
@@ -342,13 +344,13 @@ namespace Data
                       .IsRequired()
                       .HasMaxLength(50);
                 entity.Property(ai => ai.Nota).IsRequired();
-
+                /*
                 entity.HasOne(ai => ai.Alumno)
                       .WithMany(p => p.AlumnoInscripciones)
                       .HasForeignKey(ai => ai.IDAlumno)
                         .HasConstraintName("FK_AlumnosInscripciones_Personas_IDAlumno")
                       .OnDelete(DeleteBehavior.Restrict);
-                /*
+                
                 entity.HasOne(ai => ai.Curso)
                       .WithMany(c => c.AlumnoInscripciones)
                       .HasForeignKey(ai => ai.IDCurso)
