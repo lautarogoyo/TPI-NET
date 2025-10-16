@@ -44,13 +44,13 @@ namespace WindowsForm
 
                 comboBoxEspecialidad.DataSource = especialidades;
                 comboBoxEspecialidad.DisplayMember = "Descripcion"; 
-                comboBoxEspecialidad.ValueMember = "IDEspecialidad"; 
+                comboBoxEspecialidad.ValueMember = "IDEspecialidad";
+                comboBoxEspecialidad.SelectedIndex = -1;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error cargando especialidades: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
             if (this.Plan != null && this.Plan.IDEspecialidad > 0)
             {
                 comboBoxEspecialidad.SelectedValue = this.Plan.IDEspecialidad;

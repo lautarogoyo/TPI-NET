@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +13,7 @@ namespace DTOs
         public int HsTotales { get; set; }
         public int IDComision { get; set; }
         public int IDMateria { get; set; }
-        public string DescMateria { get; set; } = string.Empty;
+        public string? DescMateria { get; set; } 
 
     }
 }

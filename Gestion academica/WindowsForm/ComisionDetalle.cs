@@ -46,6 +46,7 @@ namespace WindowsForm
                 comboBoxPlan.DataSource = planes;
                 comboBoxPlan.DisplayMember = "DescPlan";
                 comboBoxPlan.ValueMember = "IDPlan";
+                comboBoxPlan.SelectedIndex = -1;
             }
             catch (Exception ex)
             {

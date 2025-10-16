@@ -80,8 +80,7 @@ namespace WindowsForm
             try
             {MateriaDetalle materiaDetalle = new MateriaDetalle();
 
-                int id = this.SelectedItem().IDMateria;
-                MateriaDTO materia = await MateriaApi.GetAsync(id);
+                MateriaDTO materia = this.SelectedItem();
 
                 materiaDetalle.Mode = FormMode.Update;
                 materiaDetalle.Materia = materia;

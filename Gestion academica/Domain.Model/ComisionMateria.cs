@@ -15,6 +15,7 @@ namespace Domain.Model
         public int IDMateria { get; private set; }
         public Comision Comision { get; private set; }
         public Materia Materia { get; private set; }
+        public ICollection<Curso> Cursos { get; private set; } = new List<Curso>();
 
         private ComisionMateria() { }
 

@@ -1,4 +1,6 @@
-﻿@page "/cursos"
+﻿@*
+
+@page "/cursos"
 @using DTOs
 @using API.Clients
 @inject IJSRuntime JSRuntime
@@ -186,3 +188,5 @@
     private void ShowSuccess(string msg) => successMessage = msg;
     private void ShowError(string msg) => errorMessage = msg;
 }
+
+*@

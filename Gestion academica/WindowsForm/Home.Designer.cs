@@ -40,7 +40,7 @@
             // 
             // cursoButton
             // 
-            cursoButton.Location = new Point(738, 99);
+            cursoButton.Location = new Point(171, 181);
             cursoButton.Name = "cursoButton";
             cursoButton.Size = new Size(103, 33);
             cursoButton.TabIndex = 1;
@@ -111,7 +111,7 @@
             // 
             // comisionButton
             // 
-            comisionButton.Location = new Point(43, 181);
+            comisionButton.Location = new Point(31, 181);
             comisionButton.Name = "comisionButton";
             comisionButton.Size = new Size(108, 29);
             comisionButton.TabIndex = 7;

@@ -87,10 +87,7 @@ namespace WindowsForm
             try
             {
                 ComisionDetalle comisionDetalle = new ComisionDetalle();
-
-                int id = this.SelectedItem().IDComision;
-
-                ComisionDTO comision = await ComisionApi.GetAsync(id);
+                ComisionDTO comision = this.SelectedItem();
 
                 comisionDetalle.Mode = FormMode.Update;
                 comisionDetalle.Comision = comision;

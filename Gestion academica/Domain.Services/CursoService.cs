@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Data;
 using DTOs;
+using Domain.Model;
 
 namespace Application.Services
 {
@@ -10,12 +11,11 @@ namespace Application.Services
         {
             var repo = new CursoRepository();
 
-            var curso = new Domain.Model.Curso(
+            var curso = new Curso(
                 dto.AnioCalendario,
                 dto.Cupo,
                 dto.Descripcion,
-                dto.IDComision,
-                dto.IDMateria
+                dto.IDComisionMateria
             );
 
             repo.Add(curso);
@@ -43,8 +43,7 @@ namespace Application.Services
                 AnioCalendario = curso.AnioCalendario,
                 Cupo = curso.Cupo,
                 Descripcion = curso.Descripcion,
-                IDComision = curso.IDComision,
-                IDMateria = curso.IDMateria
+                IDComisionMateria = curso.IDComisionMateria
             };
         }
 
@@ -58,8 +57,7 @@ namespace Application.Services
                            AnioCalendario = c.AnioCalendario,
                            Cupo = c.Cupo,
                            Descripcion = c.Descripcion,
-                           IDComision = c.IDComision,
-                           IDMateria = c.IDMateria
+                           IDComisionMateria = c.IDComisionMateria
                        })
                        .ToList();
         }
@@ -75,10 +73,28 @@ namespace Application.Services
             curso.SetAnio(dto.AnioCalendario);
             curso.SetCupo(dto.Cupo);
             curso.SetDescripcion(dto.Descripcion);
-            curso.SetIDComision(dto.IDComision);
-            curso.SetIDMateria(dto.IDMateria);
+            curso.SetIDComisionMateria(dto.IDComisionMateria);
 
             return repo.Update(curso);
+        }
+
+        public IEnumerable<CursoDTO> GetWithComisionMateria()
+        { 
+            var repo = new CursoRepository();
+            return repo.GetWithComisionMateria().Select(c => new CursoDTO
+            {
+                IdCurso = c.IdCurso,
+                AnioCalendario = c.AnioCalendario,
+                Cupo = c.Cupo,
+                Descripcion = c.Descripcion,
+                IDComisionMateria = c.IDComisionMateria,
+                IDComision = c.ComisionMateria?.IDComision,
+                IDMateria = c.ComisionMateria?.IDMateria,
+                DescComision = c.ComisionMateria?.Comision?.Descripcion,
+                DescMateria = c.ComisionMateria?.Materia?.Descripcion,
+                HsSemanales = c.ComisionMateria?.HsSemanales,
+                HsTotales = c.ComisionMateria?.HsTotales
+            }).ToList();
         }
     }
 }

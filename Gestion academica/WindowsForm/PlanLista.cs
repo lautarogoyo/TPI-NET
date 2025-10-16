@@ -77,15 +77,13 @@ namespace WindowsForm
             }
         }
 
-        private async void modificarButton_click(object sender, EventArgs e)
+        private void modificarButton_click(object sender, EventArgs e)
         {
             try
             {
                 PlanDetalle planDetalle = new PlanDetalle();
 
-                int id = this.SelectedItem().IDPlan;
-
-                PlanDTO plan = await PlanApi.GetAsync(id);
+                PlanDTO plan = this.SelectedItem();
 
                 planDetalle.Mode = FormMode.Update;
                 planDetalle.Plan = plan;
@@ -101,6 +99,7 @@ namespace WindowsForm
             {
                 MessageBox.Show($"Error al cargar el plan para modificar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         private void agregarButton_Click(object sender, EventArgs e)

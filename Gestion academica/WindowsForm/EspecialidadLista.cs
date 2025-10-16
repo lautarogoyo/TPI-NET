@@ -75,15 +75,13 @@ namespace WindowsForm
             }
         }
 
-        private async void modificarButton_click(object sender, EventArgs e)
+        private void modificarButton_click(object sender, EventArgs e)
         {
             try
             {
                 EspecialidadDetalle especialidadDetalle = new EspecialidadDetalle();
 
-                int id = this.SelectedItem().IDEspecialidad;
-
-                EspecialidadDTO especialidad = await EspecialidadApi.GetAsync(id);
+                EspecialidadDTO especialidad = this.SelectedItem();
 
                 especialidadDetalle.Mode = FormMode.Update;
                 especialidadDetalle.Especialidad = especialidad;

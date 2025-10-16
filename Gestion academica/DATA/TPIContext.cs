@@ -131,12 +131,16 @@ namespace Data
                         .HasForeignKey(cm => cm.IDMateria)
                         .HasConstraintName("FK_ComisionesMaterias_Materias_IDMateria")
                         .OnDelete(DeleteBehavior.Restrict);
+                entity.HasIndex(cm => new { cm.IDComision, cm.IDMateria })
+                      .IsUnique()
+                      .HasDatabaseName("UX_Comision_Materia");
+
             });
 
             // --- CURSOS ---
             modelBuilder.Entity<Curso>(entity =>
             {
-                entity.ToTable("cursos");
+                entity.ToTable("Cursos");
 
                 // PK
                 entity.HasKey(e => e.IdCurso)
@@ -146,33 +150,29 @@ namespace Data
                       .ValueGeneratedOnAdd();
 
                 // Campos
-                entity.Property(e => e.Descripcion)
+                entity.Property(c => c.Descripcion)
                       .IsRequired()
                       .HasMaxLength(200);
 
-                entity.Property(e => e.AnioCalendario)
+                entity.Property(c => c.AnioCalendario)
                       .IsRequired();
 
-                entity.Property(e => e.Cupo)
+                entity.Property(c => c.Cupo)
                       .IsRequired();
 
-                entity.Property(e => e.IDComision)
+                entity.Property(c => c.IDComisionMateria)
                       .IsRequired();
 
-                entity.Property(e => e.IDMateria)
-                      .IsRequired();
-
-                // Índices útiles
-                entity.HasIndex(e => e.IDComision)
-                      .HasDatabaseName("IX_Cursos_IDComision");
-
-                entity.HasIndex(e => e.IDMateria)
-                      .HasDatabaseName("IX_Cursos_IDMateria");
+                entity.HasOne(c => c.ComisionMateria)
+                      .WithMany(cm => cm.Cursos)
+                      .HasForeignKey(c => c.IDComisionMateria)
+                      .HasConstraintName("FK_Cursos_ComisionesMaterias_IDComisionMateria")
+                      .OnDelete(DeleteBehavior.Restrict);
 
                 // Evitar cursos duplicados para la misma (Comisión, Materia, Año)
-                entity.HasIndex(e => new { e.IDComision, e.IDMateria, e.AnioCalendario })
+                entity.HasIndex(c => new { c.IDComisionMateria, c.AnioCalendario })
                       .IsUnique()
-                      .HasDatabaseName("UX_Cursos_Comision_Materia_Anio");
+                      .HasDatabaseName("UX_Cursos_ComisionMateria_Anio");
 
             });
 
@@ -188,12 +188,12 @@ namespace Data
                       .IsRequired()
                       .HasConversion<string>()
                       .HasMaxLength(20);
-
+                /*
                 entity.HasOne(dc => dc.Curso)
                       .WithMany(c => c.DocenteCursos)
                       .HasForeignKey(dc => dc.IDCurso)
                       .OnDelete(DeleteBehavior.Restrict);
-
+                */
                 entity.HasIndex(dc => new { dc.IDCurso, dc.IDDocente })
                       .IsUnique();
             });
@@ -348,20 +348,13 @@ namespace Data
                       .HasForeignKey(ai => ai.IDAlumno)
                         .HasConstraintName("FK_AlumnosInscripciones_Personas_IDAlumno")
                       .OnDelete(DeleteBehavior.Restrict);
-
+                /*
                 entity.HasOne(ai => ai.Curso)
                       .WithMany(c => c.AlumnoInscripciones)
                       .HasForeignKey(ai => ai.IDCurso)
                       .HasConstraintName("FK_AlumnosInscripciones_Cursos_IDCurso")
-                      .OnDelete(DeleteBehavior.Restrict);
+                      .OnDelete(DeleteBehavior.Restrict);*/
             });
-
-            /*entity.HasOne(p => p.Especialidad)
-                      .WithMany(e => e.Planes)
-                      .HasForeignKey(p => p.IDEspecialidad) // <-- clavec
-                      .HasConstraintName("FK_Planes_Especialidades_IDEspecialidad")
-                      .OnDelete(DeleteBehavior.Restrict);
-            */
 
 
         }

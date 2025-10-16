@@ -142,9 +142,7 @@ namespace WindowsForm
             {
                 ComisionMateriaDetalle comisionMateriaDetalle = new ComisionMateriaDetalle();
 
-                int id = this.SelectedItem().IDComisionMateria;
-
-                ComisionMateriaDTO comisionMateria = await ComisionMateriaApi.GetAsync(id);
+                ComisionMateriaDTO comisionMateria = this.SelectedItem();
 
                 comisionMateriaDetalle.Mode = FormMode.Update;
                 comisionMateriaDetalle.ComisionMateria = comisionMateria;

@@ -20,6 +20,11 @@ namespace Application.Services
         public bool Delete(int id)
         {
             var cmRepository = new ComisionMateriaRepository();
+            var cursoRepository = new CursoRepository();
+            if (cursoRepository.ExisteRelacionConComisionMateria(id))
+            {
+                throw new InvalidOperationException("No se puede quitar la materia porque tiene cursos asociados.");
+            }
             return cmRepository.Delete(id);
         }
 
@@ -78,7 +83,7 @@ namespace Application.Services
                 HsTotales = cm.HsTotales,
                 IDComision = cm.IDComision,
                 IDMateria = cm.IDMateria,
-                DescMateria = cm.Materia?.Descripcion ?? string.Empty
+                DescMateria = cm.Materia?.Descripcion
             }).ToList();
         }
     }

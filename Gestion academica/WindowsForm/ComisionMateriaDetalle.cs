@@ -81,7 +81,7 @@ namespace WindowsForm
                 comboBoxMateria.DataSource = materias;
                 comboBoxMateria.DisplayMember = "Descripcion";
                 comboBoxMateria.ValueMember = "IDMateria";
-            
+                comboBoxMateria.SelectedIndex = -1;
 
                 if (this.ComisionMateria != null && this.ComisionMateria.IDMateria > 0)
                 {
@@ -110,7 +110,7 @@ namespace WindowsForm
                 var existing = (await ComisionMateriaApi.GetByComisionAsync(ComisionMateria.IDComision))    
                    .FirstOrDefault(cm => cm.IDMateria == (int)comboBoxMateria.SelectedValue);
 
-                if (existing != null)
+                if (existing != null && Mode==FormMode.Add)
                 {
                     MessageBox.Show("Esta materia ya está asignada a la comisión.",
                                     "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
