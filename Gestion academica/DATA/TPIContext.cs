@@ -263,13 +263,16 @@ namespace Data
                       .IsRequired()
                       .HasConversion<string>()
                       .HasMaxLength(20);
+
+                entity.HasIndex(dc => new { dc.IDCurso, dc.IDDocente })
+                      .IsUnique();
                 /*
                 entity.HasOne(dc => dc.Curso)
                       .WithMany(c => c.DocenteCursos)
                       .HasForeignKey(dc => dc.IDCurso)
                       .OnDelete(DeleteBehavior.Restrict);
                 */
-<<<<<<< HEAD
+
             });
 
             // --- COMISION --- 
@@ -295,10 +298,7 @@ namespace Data
                       .HasForeignKey(c => c.IDPlan)
                       .HasConstraintName("FK_Comisiones_Planes_IDPLan")
                       .OnDelete(DeleteBehavior.Restrict);
-=======
-                entity.HasIndex(dc => new { dc.IDCurso, dc.IDDocente })
-                      .IsUnique();
->>>>>>> d73ef1e8666db7135d6da3293ef6e1b3685b2160
+
             });
 
 
