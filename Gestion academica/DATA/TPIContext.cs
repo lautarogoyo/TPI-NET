@@ -269,8 +269,36 @@ namespace Data
                       .HasForeignKey(dc => dc.IDCurso)
                       .OnDelete(DeleteBehavior.Restrict);
                 */
+<<<<<<< HEAD
+            });
+
+            // --- COMISION --- 
+            modelBuilder.Entity<Comision>(entity =>
+            {
+                entity.HasKey(c => c.IDComision);
+
+                entity.Property(c => c.IDComision)
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(c => c.Descripcion)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(c => c.AnioEspecialidad)
+                      .IsRequired();
+
+                entity.Property(c => c.IDPlan)
+                      .IsRequired();
+
+                entity.HasOne(c => c.Plan)
+                      .WithMany(c => c.Comisiones)
+                      .HasForeignKey(c => c.IDPlan)
+                      .HasConstraintName("FK_Comisiones_Planes_IDPLan")
+                      .OnDelete(DeleteBehavior.Restrict);
+=======
                 entity.HasIndex(dc => new { dc.IDCurso, dc.IDDocente })
                       .IsUnique();
+>>>>>>> d73ef1e8666db7135d6da3293ef6e1b3685b2160
             });
 
 
