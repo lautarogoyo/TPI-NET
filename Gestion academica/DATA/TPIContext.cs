@@ -242,7 +242,6 @@ namespace Data
                       .HasForeignKey(dc => dc.IDCurso)
                       .OnDelete(DeleteBehavior.Restrict);
                 */
-<<<<<<< HEAD
             });
 
             // --- COMISION --- 
@@ -268,10 +267,11 @@ namespace Data
                       .HasForeignKey(c => c.IDPlan)
                       .HasConstraintName("FK_Comisiones_Planes_IDPLan")
                       .OnDelete(DeleteBehavior.Restrict);
-=======
+                /*
+
                 entity.HasIndex(dc => new { dc.IDCurso, dc.IDDocente })
-                      .IsUnique();
->>>>>>> d73ef1e8666db7135d6da3293ef6e1b3685b2160
+                      .IsUnique();*/
+
             });
 
 

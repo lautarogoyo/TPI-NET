@@ -1,0 +1,178 @@
+﻿@page "/usuarios"
+@using DTOs
+@using API.Clients
+@inject IJSRuntime JSRuntime
+@inject UsuarioApi UsuarioApi
+@inject PersonaApi PersonaApi
+@rendermode InteractiveServer
+
+<PageTitle>Usuarios</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h3>Usuarios</h3>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @errorMessage
+                    <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @successMessage
+                    <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
+                </div>
+            }
+
+            <div class="mb-3">
+                <button class="btn btn-primary" @onclick="OpenAddModal">
+                    <i class="fas fa-plus"></i> Agregar
+                </button>
+            </div>
+
+            @if (loading)
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Clave</th>
+                                <th>Persona</th>
+                                <th style="width:180px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (usuarios is { Count: > 0 })
+                            {
+                                @foreach (var u in usuarios)
+                                {
+                                    <tr>
+                                        <td>@u.IDUsuario</td>
+                                        <td>@u.NombreUsuario</td>
+                                        <td>*****</td>
+                                        <td>@GetPersona(u.IDPersona)</td>
+                                        <td class="text-end">
+                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(u)">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(u)">
+                                                <i class="fas fa-trash"></i> Eliminar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">No hay usuario.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<UsuarioModal @ref="modal"
+               personas="@personas"
+               OnUsuarioChanged="LoadUsuarios"
+               OnSuccess="ShowSuccess"
+               OnError="ShowError" />
+
+@code {
+    private List<UsuarioDTO>? usuarios;
+    private List<PersonaDTO> personas= new();
+    private bool loading = true;
+    private Dictionary<int, string> personaById = new();
+
+    private string errorMessage = string.Empty;
+    private string successMessage = string.Empty;
+    private UsuarioModal? modal;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUsuarios();         // ← carga desde DB
+    }
+    private async Task LoadUsuarios()
+    {
+        try
+        {
+            loading = true;
+            errorMessage = string.Empty;
+
+            usuarios = (await UsuarioApi.GetAllAsync())?.ToList() ?? new();
+            personas = (await PersonaApi.GetAllAsync())?.ToList() ?? new();
+
+            personaById = personas.ToDictionary(p => p.IDPersona, p => p.Nombre);
+            successMessage = string.Empty;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al cargar usuarios: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+    
+
+    private string GetPersona(int idP)
+            => personaById.TryGetValue(idP, out var nombre) ? nombre: "(sin persona)";
+
+    private Task OpenAddModal() => modal?.ShowAddModal() ?? Task.CompletedTask;
+
+    private Task OpenEditModal(UsuarioDTO u) => modal?.ShowEditModal(u) ?? Task.CompletedTask;
+
+    private async Task ConfirmDelete(UsuarioDTO u)
+    {
+        var ok = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"¿Eliminar el usuario\"{u.NombreUsuario}\" (ID {u.IDUsuario})?");
+        if (ok)
+            await DeleteUsuario(u.IDUsuario);
+    }
+
+    private async Task DeleteUsuario(int id)
+    {
+        try
+        {
+            await ComisionApi.DeleteAsync(id);
+            successMessage = "Usuario eliminado exitosamente.";
+            await LoadUsuarios();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al eliminar: {ex.Message}";
+        }
+    }
+
+    private static string GetEnumDisplayName(int value)
+    {
+        var mem = typeof(int).GetMember(value.ToString()).FirstOrDefault();
+        var display = mem?.GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute), false)
+                         .Cast<System.ComponentModel.DataAnnotations.DisplayAttribute>()
+                         .FirstOrDefault();
+        return display?.Name ?? value.ToString();
+    }
+
+    private void ShowSuccess(string msg) => successMessage = msg;
+    private void ShowError(string msg) => errorMessage = msg;
+}

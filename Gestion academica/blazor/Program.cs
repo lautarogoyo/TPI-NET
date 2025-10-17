@@ -14,6 +14,8 @@ builder.Services.AddScoped<API.Clients.PlanApi>();
 builder.Services.AddScoped<API.Clients.PersonaApi>();
 builder.Services.AddScoped<API.Clients.AlumnoInscripcionApi>();
 builder.Services.AddScoped<API.Clients.CursoApi>();
+builder.Services.AddScoped<API.Clients.UsuarioApi>();
+
 
 
 

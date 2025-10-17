@@ -1,0 +1,166 @@
+﻿@using DTOs
+@using API.Clients
+@inject UsuarioApi UsuarioApi
+
+@if (visible)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@title</h5>
+                    <button type="button" class="btn-close" @onclick="Hide"></button>
+                </div>
+
+                <EditForm Model="@model"
+                          OnValidSubmit="@SaveAsync"
+                          FormName="usuario-form"
+                          ValidateOnInput="true">
+                    <AntiforgeryToken />
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre</label>
+                            <InputText class="form-control" @bind-Value="model.NombreUsuario" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Clave</label>
+                            <InputText class="form-control"
+                                       type="password"
+                                       autocomplete="new-password"
+                                       @bind-Value="model.Clave" />
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label class="form-label">Persona</label>
+                            <select class="form-select" @bind="model.IDPersona">
+                                <option value="0">-- Seleccione una persona --</option>
+                                @foreach (var p in personas)
+                                {
+                                    <option value="@p.IDPersona">@p.Nombre</option>
+                                }
+                            </select>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(localError))
+                        {
+                            <div class="alert alert-danger">@localError</div>
+                        }
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" @onclick="Hide">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar
+                        </button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool visible;
+    private string title = "Nuevo usuario";
+    private string localError = string.Empty;
+
+    [Parameter] public List<PersonaDTO> personas { get; set; } = new();
+
+    private UsuarioDTO model = new()
+        {
+            IDUsuario= 0,
+            NombreUsuario = string.Empty,
+            Clave = string.Empty,
+            IDPersona= 0
+        };
+
+    [Parameter] public EventCallback OnUsuarioChanged { get; set; }
+    [Parameter] public EventCallback<string> OnSuccess { get; set; }
+    [Parameter] public EventCallback<string> OnError { get; set; }
+
+    public Task ShowAddModal()
+    {
+        title = "Nuevo usuario";
+        model = new UsuarioDTO
+            {
+                IDUsuario= 0,
+                NombreUsuario = string.Empty,
+                Clave = string.Empty,
+                IDPersona = 0
+            };
+        localError = string.Empty;
+        visible = true;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    public Task ShowEditModal(UsuarioDTO dto)
+    {
+        title = $"Editar usuario (ID {dto.IDUsuario})";
+        model = new UsuarioDTO
+            {
+                IDUsuario = dto.IDUsuario,
+                NombreUsuario = dto.NombreUsuario,
+                Clave = dto.Clave,
+                IDPersona = dto.IDPersona
+            };
+        localError = string.Empty;
+        visible = true;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    private void Hide()
+    {
+        visible = false;
+        localError = string.Empty;
+    }
+
+    private async Task SaveAsync()
+    {
+        try
+        {
+            localError = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(model.NombreUsuario))
+            {
+                localError = "El nombre es obligatorio.";
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(model.Clave))
+            {
+                localError = "La clave es obligatoria.";
+                return;
+            }
+            if (model.IDPersona <= 0)
+            {
+                localError = "Debe seleccionar una persona.";
+                return;
+            }
+
+            if (model.IDUsuario == 0)
+            {
+                await UsuarioApi.AddAsync(model);
+                await OnSuccess.InvokeAsync("Usuario creado correctamente.");
+            }
+            else
+            {
+                await UsuarioApi.UpdateAsync(model);
+                await OnSuccess.InvokeAsync("Usuario actualizado correctamente.");
+            }
+
+            Hide();
+            await OnUsuarioChanged.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            localError = ex.Message;
+            await OnError.InvokeAsync($"Error al guardar: {ex.Message}");
+        }
+    }
+}
