@@ -2,55 +2,55 @@
 
 namespace Data
 {
-    public class AlumnoInscripcionRepository
+    public class InscripcionRepository
     {
         private TPIContext CreateContext()
         {
             return new TPIContext();
         }
 
-        public void Add(AlumnoInscripcion inscripcion)
+        public void Add(Inscripcion inscripcion)
         {
             using var context = CreateContext();
-            context.AlumnosInscripciones.Add(inscripcion);
+            context.Inscripciones.Add(inscripcion);
             context.SaveChanges();
         }
 
         public bool Delete(int id)
         {
             using var context = CreateContext();
-            var entity = context.AlumnosInscripciones.Find(id);
-            if (entity != null)
+            var inscripcion = context.Inscripciones.Find(id);
+            if (inscripcion != null)
             {
-                context.AlumnosInscripciones.Remove(entity);
+                context.Inscripciones.Remove(inscripcion);
                 context.SaveChanges();
                 return true;
             }
             return false;
         }
 
-        public AlumnoInscripcion? Get(int id)
+        public Inscripcion? Get(int id)
         {
             using var context = CreateContext();
-            return context.AlumnosInscripciones.Find(id);
+            return context.Inscripciones.Find(id);
         }
 
-        public IEnumerable<AlumnoInscripcion> GetAll()
+        public IEnumerable<Inscripcion> GetAll()
         {
             using var context = CreateContext();
-            return context.AlumnosInscripciones.ToList();
+            return context.Inscripciones.ToList();
         }
 
-        public bool Update(AlumnoInscripcion inscripcion)
+        public bool Update(Inscripcion inscripcion)
         {
             using var context = CreateContext();
-            var existing = context.AlumnosInscripciones.Find(inscripcion.IDInscripcion);
+            var existing = context.Inscripciones.Find(inscripcion.IDInscripcion);
             if (existing != null)
             {
                 existing.SetIDAlumno(inscripcion.IDAlumno);
                 existing.SetIDCurso(inscripcion.IDCurso);
                 existing.SetCondicion(inscripcion.Condicion);
-                existing.SetNota(inscripcion.Nota);
+                existing.SetNotaFinal(inscripcion.NotaFinal);
 
                 context.SaveChanges();
                 return true;

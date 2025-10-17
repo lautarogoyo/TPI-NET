@@ -15,8 +15,12 @@ namespace WindowsForm
 {
     public partial class PersonaLista : Form
     {
-        public PersonaLista()
+        private string tipo;
+        private int numero; // 1 = Alumno, 2 = Profesor, 0 = Todos
+        public PersonaLista(int numero, string tipo)
         {
+            this.numero = numero;
+            this.tipo = tipo;
             InitializeComponent();
             ConfiguarColumnas();
         }
@@ -127,7 +131,7 @@ namespace WindowsForm
                 PersonaDTO persona = this.SelectedItem();
 
                 var confirm = MessageBox.Show(
-               "¿Desea eliminar esta persona?",
+               $"¿Desea eliminar este {tipo}?",
                "Confirmar eliminación",
                MessageBoxButtons.YesNo,
                MessageBoxIcon.Warning);
@@ -135,13 +139,13 @@ namespace WindowsForm
                 if (confirm == DialogResult.Yes)
                 {
                     await PersonaApi.DeleteAsync(persona.IDPersona);
-                    MessageBox.Show("Persona eliminada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"{tipo} eliminado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.GetByCriteriaAndLoad();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al eliminar persona: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al eliminar {tipo}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -149,7 +153,7 @@ namespace WindowsForm
         {
             try
             {
-                PersonaDetalle personaDetalle = new PersonaDetalle();
+                PersonaDetalle personaDetalle = new PersonaDetalle(numero, tipo);
 
                 PersonaDTO persona = this.SelectedItem();
 
@@ -158,20 +162,20 @@ namespace WindowsForm
 
                 if (personaDetalle.ShowDialog() == DialogResult.OK)
                 {
-                    MessageBox.Show("Persona actualizada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"{tipo} actualizado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 this.GetByCriteriaAndLoad();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar la persona para modificar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar el {tipo} para modificar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void agregarButton_Click(object sender, EventArgs e)
         {
-            PersonaDetalle personaDetalle = new PersonaDetalle();
+            PersonaDetalle personaDetalle = new PersonaDetalle(numero, tipo);
 
             PersonaDTO personaNuevo = new PersonaDTO();
 
@@ -180,7 +184,7 @@ namespace WindowsForm
 
             if (personaDetalle.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("Persona agregada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"{tipo} agregado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             this.GetByCriteriaAndLoad();
         }
@@ -201,7 +205,18 @@ namespace WindowsForm
                 IEnumerable<PersonaDTO> personas;
                 if (string.IsNullOrWhiteSpace(texto))
                 {
-                    personas = await PersonaApi.GetAllAsync();
+                    if (numero == 1)
+                    {
+                        personas = await PersonaApi.GetAllAlumnosAsync();
+                    }
+                    else if (numero == 2)
+                    {
+                        personas = await PersonaApi.GetAllProfesoresAsync();
+                    }
+                    else
+                    {
+                        personas = await PersonaApi.GetAllAsync();
+                    }
                 }
                 else
                 {
@@ -224,7 +239,7 @@ namespace WindowsForm
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar la lista de personas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar la lista de {tipo}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.eliminarButton.Enabled = false;
                 this.modificarButton.Enabled = false;
             }

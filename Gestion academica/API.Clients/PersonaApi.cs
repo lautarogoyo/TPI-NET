@@ -42,7 +42,7 @@ namespace API.Clients
                 throw new Exception($"Timeout al obtener persona Id {id}: {ex.Message}", ex);
             }
         }
-
+        
         public static async Task<IEnumerable<PersonaDTO>> GetAllAsync()
         {
             try
@@ -65,7 +65,52 @@ namespace API.Clients
                 throw new Exception($"Timeout al obtener personas: {ex.Message}", ex);
             }
         }
+        
+        public static async Task<IEnumerable<PersonaDTO>> GetAllAlumnosAsync()
+        {
+            try
+            {
+                var response = await client.GetAsync("personas/alumnos");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<PersonaDTO>>() ?? new List<PersonaDTO>();
+                }
 
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error al obtener alumnos. Status: {response.StatusCode}. Detalle: {error}");
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception($"Error de conexión al obtener alumnos: {ex.Message}", ex);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new Exception($"Timeout al obtener alumnos: {ex.Message}", ex);
+            }
+        }
+
+        public static async Task<IEnumerable<PersonaDTO>> GetAllProfesoresAsync()
+        {
+            try
+            {
+                var response = await client.GetAsync("personas/profesores");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<PersonaDTO>>() ?? new List<PersonaDTO>();
+                }
+
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error al obtener profesores. Status: {response.StatusCode}. Detalle: {error}");
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception($"Error de conexión al obtener profesores: {ex.Message}", ex);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new Exception($"Timeout al obtener profesores: {ex.Message}", ex);
+            }
+        }
         public static async Task AddAsync(PersonaDTO dto)
         {
             try

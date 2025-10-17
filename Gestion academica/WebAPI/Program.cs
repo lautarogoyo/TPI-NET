@@ -53,7 +53,7 @@ app.MapUsuarioEndpoints();
 
 app.MapPersonaEndpoints();
 
-app.MapAlumnoInscripcionEndpoints();
+app.MapInscripcionEndpoints();
 
 app.MapModuloEndpoints();
 

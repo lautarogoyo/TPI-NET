@@ -3,53 +3,53 @@ using DTOs;
 
 namespace WebAPI
 {
-    public static class AlumnoInscripcionEndpoints
+    public static class InscripcionEndpoints
     {
-        public static void MapAlumnoInscripcionEndpoints(this WebApplication app)
+        public static void MapInscripcionEndpoints(this WebApplication app)
         {
-            app.MapGet("/alumnoinscripciones/{id}", (int id) =>
+            app.MapGet("/inscripciones/{id}", (int id) =>
             {
-                var service = new AlumnoInscripcionService();
+                var service = new InscripcionService();
                 var dto = service.Get(id);
                 return dto == null ? Results.NotFound() : Results.Ok(dto);
             })
-            .WithName("GetAlumnoInscripcion")
-            .Produces<AlumnoInscripcionDTO>(StatusCodes.Status200OK)
+            .WithName("GetInscripcion")
+            .Produces<InscripcionDTO>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
 
-            app.MapGet("/alumnoinscripciones", () =>
+            app.MapGet("/inscripciones", () =>
             {
-                var service = new AlumnoInscripcionService();
+                var service = new InscripcionService();
                 return Results.Ok(service.GetAll());
             })
-            .WithName("GetAllAlumnoInscripciones")
-            .Produces<List<AlumnoInscripcionDTO>>(StatusCodes.Status200OK)
+            .WithName("GetAllInscripciones")
+            .Produces<List<InscripcionDTO>>(StatusCodes.Status200OK)
             .WithOpenApi();
 
-            app.MapPost("/alumnoinscripciones", (AlumnoInscripcionDTO dto) =>
+            app.MapPost("/inscripciones", (InscripcionDTO dto) =>
             {
                 try
                 {
-                    var service = new AlumnoInscripcionService();
+                    var service = new InscripcionService();
                     var result = service.Add(dto);
-                    return Results.Created($"/alumnoinscripciones/{result.IDInscripcion}", result);
+                    return Results.Created($"/inscripciones/{result.IDInscripcion}", result);
                 }
                 catch (ArgumentException ex)
                 {
                     return Results.BadRequest(new { error = ex.Message });
                 }
             })
-            .WithName("AddAlumnoInscripcion")
-            .Produces<AlumnoInscripcionDTO>(StatusCodes.Status201Created)
+            .WithName("AddInscripcion")
+            .Produces<InscripcionDTO>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
             .WithOpenApi();
 
-            app.MapPut("/alumnoinscripciones", (AlumnoInscripcionDTO dto) =>
+            app.MapPut("/inscripciones", (InscripcionDTO dto) =>
             {
                 try
                 {
-                    var service = new AlumnoInscripcionService();
+                    var service = new InscripcionService();
                     return service.Update(dto) ? Results.NoContent() : Results.NotFound();
                 }
                 catch (ArgumentException ex)
@@ -57,17 +57,17 @@ namespace WebAPI
                     return Results.BadRequest(new { error = ex.Message });
                 }
             })
-            .WithName("UpdateAlumnoInscripcion")
+            .WithName("UpdateInscripcion")
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status400BadRequest)
             .WithOpenApi();
 
-            app.MapDelete("/alumnoinscripciones/{id}", (int id) =>
+            app.MapDelete("/inscripciones/{id}", (int id) =>
             {
-                var service = new AlumnoInscripcionService();
+                var service = new InscripcionService();
                 return service.Delete(id) ? Results.NoContent() : Results.NotFound();
             })
-            .WithName("DeleteAlumnoInscripcion")
+            .WithName("DeleteInscripcion")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
