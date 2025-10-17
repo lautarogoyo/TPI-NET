@@ -16,7 +16,8 @@ namespace WindowsForm
     {
         private PersonaDTO persona;
         private FormMode mode;
-
+        private int numero;
+        private string tipo;
         public PersonaDTO Persona
         {
             get { return persona; }
@@ -33,9 +34,11 @@ namespace WindowsForm
             set { SetFormMode(value); }
         }
 
-        public PersonaDetalle()
+        public PersonaDetalle(int numero, string tipo)
         {
             InitializeComponent();
+            this.numero = numero;
+            this.tipo = tipo;
         }
 
         private async void PersonaDetalle_Load(object sender, EventArgs e)
@@ -59,6 +62,8 @@ namespace WindowsForm
             tipoPersonaComboBox.DisplayMember = "Text";
             tipoPersonaComboBox.ValueMember = "Value";
             tipoPersonaComboBox.SelectedIndex = -1;
+            tipoPersonaComboBox.Enabled = false;
+            tipoPersonaComboBox.SelectedValue = this.numero;
 
             tipoDocComboBox.DataSource = new[]
             {
@@ -69,8 +74,6 @@ namespace WindowsForm
             tipoDocComboBox.DisplayMember = "Text";
             tipoDocComboBox.ValueMember = "Value";
             tipoDocComboBox.SelectedIndex = -1;
-
-            tipoPersonaComboBox.Enabled = (this.Mode == FormMode.Add);
         }
         
         private async void aceptarButton_Click(object sender, EventArgs e)
@@ -124,7 +127,7 @@ namespace WindowsForm
 
             if (Mode == FormMode.Add)
             {
-                this.Text = "Agregar Persona";
+                this.Text = $"Agregar {tipo}";
                 if (this.Persona == null)
                     this.Persona = new PersonaDTO();
                 nombreTextBox.Text = string.Empty;
@@ -135,12 +138,11 @@ namespace WindowsForm
                 legajoTextBox.Text = string.Empty;
                 tipoDocComboBox.SelectedIndex = -1;
                 nroDocTextBox.Text = string.Empty;
-                tipoPersonaComboBox.SelectedIndex = -1;
                 fechaNacPicker.Value = DateTime.Today;
             }
             else
             {
-                this.Text = "Modificar Persona";
+                this.Text = $"Modificar {tipo}";
                 SetPersona();
             }
         }
@@ -157,7 +159,6 @@ namespace WindowsForm
                 this.legajoTextBox.Text = this.Persona.Legajo;
                 this.tipoDocComboBox.SelectedValue = this.Persona.TipoDoc;
                 this.nroDocTextBox.Text = this.Persona.NroDoc;
-                this.tipoPersonaComboBox.SelectedValue = this.Persona.TipoPersona;
                 if (Mode==FormMode.Add)
                     this.fechaNacPicker.Value = DateTime.Today;
                 else fechaNacPicker.Value = this.Persona.FechaNac.ToDateTime(TimeOnly.MinValue);

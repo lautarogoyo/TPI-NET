@@ -40,11 +40,21 @@ namespace WindowsForms
             usuarioForm.ShowDialog();
         }
 
-        private void personaButton_Click(object sender, EventArgs e)
+        private void alumnoButton_Click(object sender, EventArgs e)
         {
-            PersonaLista personaForm = new PersonaLista();
+            int numeroPersona = 1;
+            string tipoPersona = "alumno";
+            PersonaLista personaForm = new PersonaLista(numeroPersona, tipoPersona);
             personaForm.ShowDialog();
         }
+        private void profesorButton_Click(object sender, EventArgs e)
+        {
+            int numeroPersona = 2;
+            string tipoPersona = "profesor";
+            PersonaLista personaForm = new PersonaLista(numeroPersona, tipoPersona);
+            personaForm.ShowDialog();
+        }
+
 
         private void planButton_Click(object sender, EventArgs e)
         {

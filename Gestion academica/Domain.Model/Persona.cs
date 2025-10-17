@@ -16,7 +16,7 @@ namespace Domain.Model
         public string Legajo { get; private set; }
         public int TipoPersona { get; private set; }
        
-        //public ICollection<AlumnoInscripcion> AlumnoInscripciones = new List<AlumnoInscripcion>();
+        public ICollection<Inscripcion> Inscripciones = new List<Inscripcion>();
 
         // Constructor para EF
         protected Persona() { }

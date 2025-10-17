@@ -18,6 +18,26 @@ namespace WebAPI
             .Produces<List<PersonaDTO>>(StatusCodes.Status200OK)
             .WithOpenApi();
 
+            app.MapGet("/personas/alumnos", () =>
+            {
+                var service = new PersonaService();
+                var personas = service.GetAllAlumnos();
+                return Results.Ok(personas);
+            })
+            .WithName("GetAllAlumnos")
+            .Produces<List<PersonaDTO>>(StatusCodes.Status200OK)
+            .WithOpenApi();
+
+            app.MapGet("/personas/profesores", () =>
+            {
+                var service = new PersonaService();
+                var personas = service.GetAllProfesores();
+                return Results.Ok(personas);
+            })
+            .WithName("GetAllProfesores")
+            .Produces<List<PersonaDTO>>(StatusCodes.Status200OK)
+            .WithOpenApi();
+
             // GET BY ID
             app.MapGet("/personas/{id}", (int id) =>
             {

@@ -33,9 +33,11 @@
             materiaButton = new Button();
             label2 = new Label();
             UsuarioButton = new Button();
-            personaButton = new Button();
+            alumnoButton = new Button();
+            profesorButton = new Button();
             planButton = new Button();
             comisionButton = new Button();
+            inscripcionButton = new Button();
             SuspendLayout();
             // 
             // cursoButton
@@ -50,7 +52,7 @@
             // 
             // especialidadButton
             // 
-            especialidadButton.Location = new Point(31, 93);
+            especialidadButton.Location = new Point(19, 91);
             especialidadButton.Margin = new Padding(3, 4, 3, 4);
             especialidadButton.Name = "especialidadButton";
             especialidadButton.Size = new Size(120, 33);
@@ -61,7 +63,7 @@
             // 
             // materiaButton
             // 
-            materiaButton.Location = new Point(305, 95);
+            materiaButton.Location = new Point(317, 95);
             materiaButton.Name = "materiaButton";
             materiaButton.Size = new Size(103, 33);
             materiaButton.TabIndex = 3;
@@ -81,27 +83,37 @@
             // 
             // UsuarioButton
             // 
-            UsuarioButton.Location = new Point(448, 97);
+            UsuarioButton.Location = new Point(463, 97);
             UsuarioButton.Name = "UsuarioButton";
-            UsuarioButton.Size = new Size(109, 29);
+            UsuarioButton.Size = new Size(113, 37);
             UsuarioButton.TabIndex = 4;
             UsuarioButton.Text = "Usuario";
             UsuarioButton.UseVisualStyleBackColor = true;
             UsuarioButton.Click += UsuarioButton_Click;
             // 
-            // personaButton
+            // alumnoButton
             // 
-            personaButton.Location = new Point(582, 99);
-            personaButton.Name = "personaButton";
-            personaButton.Size = new Size(108, 29);
-            personaButton.TabIndex = 5;
-            personaButton.Text = "Persona";
-            personaButton.UseVisualStyleBackColor = true;
-            personaButton.Click += personaButton_Click;
+            alumnoButton.Location = new Point(634, 99);
+            alumnoButton.Name = "AlumnoButton";
+            alumnoButton.Size = new Size(114, 35);
+            alumnoButton.TabIndex = 5;
+            alumnoButton.Text = "Alumnos";
+            alumnoButton.UseVisualStyleBackColor = true;
+            alumnoButton.Click += alumnoButton_Click;
+            // 
+            // alumnoButton
+            // 
+            profesorButton.Location = new Point(800, 99);
+            profesorButton.Name = "profesorButton";
+            profesorButton.Size = new Size(114, 35);
+            profesorButton.TabIndex = 5;
+            profesorButton.Text = "Profesores";
+            profesorButton.UseVisualStyleBackColor = true;
+            profesorButton.Click += profesorButton_Click;
             // 
             // planButton
             // 
-            planButton.Location = new Point(171, 95);
+            planButton.Location = new Point(171, 93);
             planButton.Name = "planButton";
             planButton.Size = new Size(108, 29);
             planButton.TabIndex = 6;
@@ -111,20 +123,30 @@
             // 
             // comisionButton
             // 
-            comisionButton.Location = new Point(31, 181);
+            comisionButton.Location = new Point(19, 181);
             comisionButton.Name = "comisionButton";
-            comisionButton.Size = new Size(108, 29);
+            comisionButton.Size = new Size(118, 33);
             comisionButton.TabIndex = 7;
             comisionButton.Text = "Comisiones";
             comisionButton.UseVisualStyleBackColor = true;
             comisionButton.Click += comisionButton_Click;
+            // 
+            // inscripcionButton
+            // 
+            inscripcionButton.Location = new Point(350, 181);
+            inscripcionButton.Name = "inscripcionButton";
+            inscripcionButton.Size = new Size(159, 42);
+            inscripcionButton.TabIndex = 8;
+            inscripcionButton.Text = "Inscribirse";
+            inscripcionButton.UseVisualStyleBackColor = true;
             // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(914, 600);
-            Controls.Add(personaButton);
+            Controls.Add(alumnoButton);
+            Controls.Add(profesorButton);
             Controls.Add(UsuarioButton);
             Controls.Add(label2);
             Controls.Add(especialidadButton);
@@ -132,6 +154,7 @@
             Controls.Add(materiaButton);
             Controls.Add(planButton);
             Controls.Add(comisionButton);
+            Controls.Add(inscripcionButton);
             Margin = new Padding(3, 4, 3, 4);
             Name = "Home";
             Text = "Home";
@@ -142,14 +165,15 @@
 
         #endregion
 
-        private Label label1;
         private Button cursoButton;
         private Button especialidadButton;
         private Button materiaButton;
         private Label label2;
         private Button UsuarioButton;
-        private Button personaButton;
+        private Button alumnoButton;
+        private Button profesorButton;
         private Button planButton;
         private Button comisionButton;
+        private Button inscripcionButton;
     }
 }

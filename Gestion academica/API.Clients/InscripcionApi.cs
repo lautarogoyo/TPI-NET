@@ -8,11 +8,11 @@ using DTOs;
 
 namespace API.Clients
 {
-    public class AlumnoInscripcionApi
+    public class InscripcionApi
     {
         private static readonly HttpClient client = new HttpClient();
 
-        static AlumnoInscripcionApi()
+        static InscripcionApi()
         {
             client.BaseAddress = new Uri("https://localhost:7111/");
             client.DefaultRequestHeaders.Accept.Clear();
@@ -20,14 +20,14 @@ namespace API.Clients
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static async Task<AlumnoInscripcionDTO?> GetAsync(int id)
+        public static async Task<InscripcionDTO?> GetAsync(int id)
         {
             try
             {
-                var response = await client.GetAsync($"alumnoinscripciones/{id}");
+                var response = await client.GetAsync($"inscripciones/{id}");
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadFromJsonAsync<AlumnoInscripcionDTO>();
+                    return await response.Content.ReadFromJsonAsync<InscripcionDTO>();
                 }
 
                 var error = await response.Content.ReadAsStringAsync();
@@ -43,14 +43,14 @@ namespace API.Clients
             }
         }
 
-        public static async Task<IEnumerable<AlumnoInscripcionDTO>> GetAllAsync()
+        public static async Task<IEnumerable<InscripcionDTO>> GetAllAsync()
         {
             try
             {
-                var response = await client.GetAsync("alumnoinscripciones");
+                var response = await client.GetAsync("inscripciones");
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadFromJsonAsync<IEnumerable<AlumnoInscripcionDTO>>() ?? new List<AlumnoInscripcionDTO>();
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<InscripcionDTO>>() ?? new List<InscripcionDTO>();
                 }
 
                 var error = await response.Content.ReadAsStringAsync();
@@ -66,11 +66,11 @@ namespace API.Clients
             }
         }
 
-        public static async Task AddAsync(AlumnoInscripcionDTO dto)
+        public static async Task AddAsync(InscripcionDTO dto)
         {
             try
             {
-                var response = await client.PostAsJsonAsync("alumnoinscripciones", dto);
+                var response = await client.PostAsJsonAsync("inscripciones", dto);
                 if (!response.IsSuccessStatusCode)
                 {
                     var error = await response.Content.ReadAsStringAsync();
@@ -87,11 +87,11 @@ namespace API.Clients
             }
         }
 
-        public static async Task UpdateAsync(AlumnoInscripcionDTO dto)
+        public static async Task UpdateAsync(InscripcionDTO dto)
         {
             try
             {
-                var response = await client.PutAsJsonAsync("alumnoinscripciones", dto);
+                var response = await client.PutAsJsonAsync("inscripciones", dto);
                 if (!response.IsSuccessStatusCode)
                 {
                     var error = await response.Content.ReadAsStringAsync();
@@ -112,7 +112,7 @@ namespace API.Clients
         {
             try
             {
-                var response = await client.DeleteAsync($"alumnoinscripciones/{id}");
+                var response = await client.DeleteAsync($"inscripciones/{id}");
                 if (!response.IsSuccessStatusCode)
                 {
                     var error = await response.Content.ReadAsStringAsync();
@@ -126,29 +126,6 @@ namespace API.Clients
             catch (TaskCanceledException ex)
             {
                 throw new Exception($"Timeout al eliminar inscripción Id {id}: {ex.Message}", ex);
-            }
-        }
-
-        public static async Task<IEnumerable<AlumnoInscripcionDTO>> GetByCriteriaAsync(string texto)
-        {
-            try
-            {
-                var response = await client.GetAsync($"alumnoinscripciones?q={Uri.EscapeDataString(texto)}");
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadFromJsonAsync<IEnumerable<AlumnoInscripcionDTO>>() ?? new List<AlumnoInscripcionDTO>();
-                }
-
-                var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Error al buscar inscripciones. Status: {response.StatusCode}. Detalle: {error}");
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new Exception($"Error de conexión al buscar inscripciones: {ex.Message}", ex);
-            }
-            catch (TaskCanceledException ex)
-            {
-                throw new Exception($"Timeout al buscar inscripciones: {ex.Message}", ex);
             }
         }
     }

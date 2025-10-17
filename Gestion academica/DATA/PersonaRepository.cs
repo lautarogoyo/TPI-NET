@@ -41,7 +41,20 @@ namespace Data
             using var context = CreateContext();
             return context.Personas.ToList();
         }
-
+        public IEnumerable<Persona> GetAllAlumnos()
+        {
+            using var context = CreateContext();
+            return context.Personas
+                .Where(p => p.TipoPersona == 1)
+                .ToList();
+        }
+        public IEnumerable<Persona> GetAllProfesores()
+        {
+            using var context = CreateContext();
+            return context.Personas
+                .Where(p => p.TipoPersona == 2)
+                .ToList();
+        }
         public bool Update(Persona persona)
         {
             using var context = CreateContext();

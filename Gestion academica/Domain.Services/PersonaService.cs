@@ -78,6 +78,44 @@ namespace Application.Services
             }).ToList();
         }
 
+        public IEnumerable<PersonaDTO> GetAllAlumnos()
+        {
+            var personaRepository = new PersonaRepository();
+            return personaRepository.GetAllAlumnos().Select(persona => new PersonaDTO
+            {
+                IDPersona = persona.IDPersona,
+                Nombre = persona.Nombre,
+                Apellido = persona.Apellido,
+                Direccion = persona.Direccion,
+                TipoDoc = persona.TipoDoc,
+                NroDoc = persona.NroDoc,
+                Email = persona.Email,
+                Telefono = persona.Telefono,
+                FechaNac = persona.FechaNac,
+                Legajo = persona.Legajo,
+                TipoPersona = persona.TipoPersona
+            }).ToList();
+        }
+
+        public IEnumerable<PersonaDTO> GetAllProfesores()
+        {
+            var personaRepository = new PersonaRepository();
+            return personaRepository.GetAllProfesores().Select(persona => new PersonaDTO
+            {
+                IDPersona = persona.IDPersona,
+                Nombre = persona.Nombre,
+                Apellido = persona.Apellido,
+                Direccion = persona.Direccion,
+                TipoDoc = persona.TipoDoc,
+                NroDoc = persona.NroDoc,
+                Email = persona.Email,
+                Telefono = persona.Telefono,
+                FechaNac = persona.FechaNac,
+                Legajo = persona.Legajo,
+                TipoPersona = persona.TipoPersona
+            }).ToList();
+        }
+
         public bool Update(PersonaDTO dto)
         {
             var personaRepository = new PersonaRepository();

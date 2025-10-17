@@ -1,8 +1,9 @@
-﻿@page "/inscripciones"
+﻿@*
+@page "/inscripciones"
 @using DTOs
 @using API.Clients
 @inject IJSRuntime JSRuntime
-@inject AlumnoInscripcionApi AlumnoInscripcionApi
+@inject InscripcionApi AlumnoInscripcionApi
 @inject PersonaApi PersonaApi
 @inject CursoApi CursoApi
 @rendermode InteractiveServer
@@ -174,7 +175,7 @@
     {
         try
         {
-            await AlumnoInscripcionApi.DeleteAsync(idInscripcion);
+            await InscripcionApi.DeleteAsync(idInscripcion);
             successMessage = "Inscripción eliminada correctamente.";
             await LoadInscripciones();
         }
@@ -187,3 +188,4 @@
     private void ShowSuccess(string msg) => successMessage = msg;
     private void ShowError(string msg) => errorMessage = msg;
 }
+*@
