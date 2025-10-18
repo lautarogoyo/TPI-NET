@@ -31,7 +31,7 @@
             buscarTextBox = new TextBox();
             buscarButton = new Button();
             eliminarButton = new Button();
-            modificarButton = new Button();
+            deshabilitarButton = new Button();
             agregarButton = new Button();
             usuariosDataGridView = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)usuariosDataGridView).BeginInit();
@@ -39,7 +39,7 @@
             // 
             // buscarTextBox
             // 
-            buscarTextBox.Location = new Point(0, 0);
+            buscarTextBox.Location = new Point(12, 24);
             buscarTextBox.Name = "buscarTextBox";
             buscarTextBox.Size = new Size(297, 27);
             buscarTextBox.TabIndex = 0;
@@ -47,7 +47,7 @@
             // 
             // buscarButton
             // 
-            buscarButton.Location = new Point(383, 0);
+            buscarButton.Location = new Point(369, 22);
             buscarButton.Name = "buscarButton";
             buscarButton.Size = new Size(94, 29);
             buscarButton.TabIndex = 1;
@@ -56,30 +56,33 @@
             // 
             // eliminarButton
             // 
-            eliminarButton.Location = new Point(416, 377);
+            eliminarButton.Location = new Point(339, 377);
             eliminarButton.Name = "eliminarButton";
             eliminarButton.Size = new Size(94, 29);
             eliminarButton.TabIndex = 2;
             eliminarButton.Text = "Eliminar";
             eliminarButton.UseVisualStyleBackColor = true;
+            eliminarButton.Click += eliminarButton_Click;
             // 
-            // modificarButton
+            // deshabilitarButton
             // 
-            modificarButton.Location = new Point(537, 377);
-            modificarButton.Name = "modificarButton";
-            modificarButton.Size = new Size(94, 29);
-            modificarButton.TabIndex = 3;
-            modificarButton.Text = "Modificar";
-            modificarButton.UseVisualStyleBackColor = true;
+            deshabilitarButton.Location = new Point(476, 377);
+            deshabilitarButton.Name = "deshabilitarButton";
+            deshabilitarButton.Size = new Size(164, 29);
+            deshabilitarButton.TabIndex = 3;
+            deshabilitarButton.Text = "Habilitar/Deshabilitar";
+            deshabilitarButton.UseVisualStyleBackColor = true;
+            deshabilitarButton.Click += deshabilitarButton_Click;
             // 
             // agregarButton
             // 
-            agregarButton.Location = new Point(654, 377);
+            agregarButton.Location = new Point(669, 377);
             agregarButton.Name = "agregarButton";
             agregarButton.Size = new Size(94, 29);
             agregarButton.TabIndex = 4;
             agregarButton.Text = "Agregar";
             agregarButton.UseVisualStyleBackColor = true;
+            agregarButton.Click += agregarButton_Click;
             // 
             // usuariosDataGridView
             // 
@@ -87,9 +90,9 @@
             usuariosDataGridView.Location = new Point(12, 71);
             usuariosDataGridView.Name = "usuariosDataGridView";
             usuariosDataGridView.RowHeadersWidth = 51;
-            usuariosDataGridView.Size = new Size(673, 277);
+            usuariosDataGridView.Size = new Size(760, 281);
             usuariosDataGridView.TabIndex = 5;
-            usuariosDataGridView.CellContentClick += usuariosDataGridView_CellContentClick_1;
+            usuariosDataGridView.CellContentClick += usuariosDataGridView_CellContentClick;
             // 
             // UsuarioLista
             // 
@@ -98,12 +101,13 @@
             ClientSize = new Size(800, 450);
             Controls.Add(usuariosDataGridView);
             Controls.Add(agregarButton);
-            Controls.Add(modificarButton);
+            Controls.Add(deshabilitarButton);
             Controls.Add(eliminarButton);
             Controls.Add(buscarButton);
             Controls.Add(buscarTextBox);
             Name = "UsuarioLista";
             Text = "UsuarioLista";
+            Load += UsuarioLista_Load;
             ((System.ComponentModel.ISupportInitialize)usuariosDataGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -114,7 +118,7 @@
         private TextBox buscarTextBox;
         private Button buscarButton;
         private Button eliminarButton;
-        private Button modificarButton;
+        private Button deshabilitarButton;
         private Button agregarButton;
         private DataGridView usuariosDataGridView;
     }

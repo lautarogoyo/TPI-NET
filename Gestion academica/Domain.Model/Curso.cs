@@ -14,10 +14,10 @@
 
         // === Navegaciones ===
         //public ICollection<DocenteCurso> DocenteCursos { get; } = new List<DocenteCurso>();
-        public ICollection<Inscripcion> Inscripciones = new List<Inscripcion>();
+        public ICollection<Inscripcion> Inscripciones { get; private set; } = new List<Inscripcion>();
 
         // EF necesita ctor vacío
-        private Curso() { }
+        protected Curso() { }
 
         public Curso(int anio, int cupo, string descripcion, int idcomisionmateria)
         {

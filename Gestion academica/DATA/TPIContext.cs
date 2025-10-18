@@ -294,7 +294,7 @@ namespace Data
                       .IsRequired();
 
                 entity.HasOne(c => c.Plan)
-                      .WithMany(c => c.Comisiones)
+                      .WithMany(p => p.Comisiones)
                       .HasForeignKey(c => c.IDPlan)
                       .HasConstraintName("FK_Comisiones_Planes_IDPLan")
                       .OnDelete(DeleteBehavior.Restrict);
@@ -311,7 +311,7 @@ namespace Data
             // --- USUARIO ---
             modelBuilder.Entity<Usuario>(entity =>
             {
-                entity.ToTable("usuarios");
+                entity.ToTable("Usuarios");
 
                 entity.HasKey(u => u.IDUsuario);
 
@@ -332,9 +332,10 @@ namespace Data
                 entity.Property(u => u.IDPersona)
                       .IsRequired();
 
-                entity.HasOne<Persona>()
-                      .WithMany()
-                      .HasForeignKey(u => u.IDPersona)
+                entity.HasOne(u => u.Persona)
+                      .WithOne(p => p.Usuario)
+                      .HasForeignKey<Usuario>(u => u.IDPersona)
+                      .HasConstraintName("FK_Usuario_Persona_IDPersona")
                       .OnDelete(DeleteBehavior.Restrict);
             });
 

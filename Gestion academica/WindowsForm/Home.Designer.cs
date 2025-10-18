@@ -37,14 +37,13 @@
             profesorButton = new Button();
             planButton = new Button();
             comisionButton = new Button();
-            inscripcionButton = new Button();
             SuspendLayout();
             // 
             // cursoButton
             // 
-            cursoButton.Location = new Point(171, 181);
+            cursoButton.Location = new Point(288, 355);
             cursoButton.Name = "cursoButton";
-            cursoButton.Size = new Size(103, 33);
+            cursoButton.Size = new Size(166, 48);
             cursoButton.TabIndex = 1;
             cursoButton.Text = "Cursos";
             cursoButton.UseVisualStyleBackColor = true;
@@ -52,10 +51,10 @@
             // 
             // especialidadButton
             // 
-            especialidadButton.Location = new Point(19, 91);
+            especialidadButton.Location = new Point(46, 353);
             especialidadButton.Margin = new Padding(3, 4, 3, 4);
             especialidadButton.Name = "especialidadButton";
-            especialidadButton.Size = new Size(120, 33);
+            especialidadButton.Size = new Size(163, 50);
             especialidadButton.TabIndex = 2;
             especialidadButton.Text = "Especialidades";
             especialidadButton.UseVisualStyleBackColor = true;
@@ -63,9 +62,9 @@
             // 
             // materiaButton
             // 
-            materiaButton.Location = new Point(317, 95);
+            materiaButton.Location = new Point(534, 357);
             materiaButton.Name = "materiaButton";
-            materiaButton.Size = new Size(103, 33);
+            materiaButton.Size = new Size(160, 46);
             materiaButton.TabIndex = 3;
             materiaButton.Text = "Materias";
             materiaButton.UseVisualStyleBackColor = true;
@@ -75,37 +74,37 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Arial", 15.75F, FontStyle.Bold);
-            label2.Location = new Point(31, 31);
+            label2.Location = new Point(102, 107);
             label2.Name = "label2";
-            label2.Size = new Size(407, 32);
+            label2.Size = new Size(572, 32);
             label2.TabIndex = 3;
-            label2.Text = "ALTA - BAJA - MODIFICACION";
+            label2.Text = "GESTIÓN ACADÉMICA - ADMINISTRACIÓN";
             // 
             // UsuarioButton
             // 
-            UsuarioButton.Location = new Point(463, 97);
+            UsuarioButton.Location = new Point(147, 472);
             UsuarioButton.Name = "UsuarioButton";
-            UsuarioButton.Size = new Size(113, 37);
+            UsuarioButton.Size = new Size(163, 50);
             UsuarioButton.TabIndex = 4;
-            UsuarioButton.Text = "Usuario";
+            UsuarioButton.Text = "Usuarios";
             UsuarioButton.UseVisualStyleBackColor = true;
             UsuarioButton.Click += UsuarioButton_Click;
             // 
             // alumnoButton
             // 
-            alumnoButton.Location = new Point(634, 99);
-            alumnoButton.Name = "AlumnoButton";
-            alumnoButton.Size = new Size(114, 35);
+            alumnoButton.Location = new Point(429, 474);
+            alumnoButton.Name = "alumnoButton";
+            alumnoButton.Size = new Size(158, 47);
             alumnoButton.TabIndex = 5;
             alumnoButton.Text = "Alumnos";
             alumnoButton.UseVisualStyleBackColor = true;
             alumnoButton.Click += alumnoButton_Click;
             // 
-            // alumnoButton
+            // profesorButton
             // 
-            profesorButton.Location = new Point(800, 99);
+            profesorButton.Location = new Point(534, 212);
             profesorButton.Name = "profesorButton";
-            profesorButton.Size = new Size(114, 35);
+            profesorButton.Size = new Size(164, 50);
             profesorButton.TabIndex = 5;
             profesorButton.Text = "Profesores";
             profesorButton.UseVisualStyleBackColor = true;
@@ -113,9 +112,9 @@
             // 
             // planButton
             // 
-            planButton.Location = new Point(171, 93);
+            planButton.Location = new Point(288, 212);
             planButton.Name = "planButton";
-            planButton.Size = new Size(108, 29);
+            planButton.Size = new Size(160, 48);
             planButton.TabIndex = 6;
             planButton.Text = "Planes";
             planButton.UseVisualStyleBackColor = true;
@@ -123,28 +122,19 @@
             // 
             // comisionButton
             // 
-            comisionButton.Location = new Point(19, 181);
+            comisionButton.Location = new Point(46, 212);
             comisionButton.Name = "comisionButton";
-            comisionButton.Size = new Size(118, 33);
+            comisionButton.Size = new Size(166, 48);
             comisionButton.TabIndex = 7;
             comisionButton.Text = "Comisiones";
             comisionButton.UseVisualStyleBackColor = true;
             comisionButton.Click += comisionButton_Click;
             // 
-            // inscripcionButton
-            // 
-            inscripcionButton.Location = new Point(350, 181);
-            inscripcionButton.Name = "inscripcionButton";
-            inscripcionButton.Size = new Size(159, 42);
-            inscripcionButton.TabIndex = 8;
-            inscripcionButton.Text = "Inscribirse";
-            inscripcionButton.UseVisualStyleBackColor = true;
-            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(914, 600);
+            ClientSize = new Size(804, 627);
             Controls.Add(alumnoButton);
             Controls.Add(profesorButton);
             Controls.Add(UsuarioButton);
@@ -154,7 +144,6 @@
             Controls.Add(materiaButton);
             Controls.Add(planButton);
             Controls.Add(comisionButton);
-            Controls.Add(inscripcionButton);
             Margin = new Padding(3, 4, 3, 4);
             Name = "Home";
             Text = "Home";
@@ -174,6 +163,5 @@
         private Button profesorButton;
         private Button planButton;
         private Button comisionButton;
-        private Button inscripcionButton;
     }
 }

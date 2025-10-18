@@ -173,5 +173,28 @@ namespace API.Clients
                 throw new Exception($"Timeout al eliminar persona Id {id}: {ex.Message}", ex);
             }
         }
+
+        public static async Task<IEnumerable<PersonaDTO>> GetPersonasSinUsuario()
+        {
+            try
+            {
+                var response = await client.GetAsync("personas/sinusuario");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<PersonaDTO>>() ?? new List<PersonaDTO>();
+                }
+
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error al obtener personas. Status: {response.StatusCode}. Detalle: {error}");
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception($"Error de conexión al obtener personas: {ex.Message}", ex);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new Exception($"Timeout al obtener personas: {ex.Message}", ex);
+            }
+        }
     }
 }
