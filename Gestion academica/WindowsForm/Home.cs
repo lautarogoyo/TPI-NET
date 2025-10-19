@@ -67,5 +67,11 @@ namespace WindowsForms
             ComisionLista comisionForm = new ComisionLista();
             comisionForm.ShowDialog();
         }
+
+        private void btnDocenteCurso_Click(object sender, EventArgs e)
+        {
+            DocenteCursoLista docentecursoFrom = new DocenteCursoLista();
+            docentecursoFrom.ShowDialog();
+        }
     }
 }
