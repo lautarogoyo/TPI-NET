@@ -10,8 +10,8 @@ namespace WindowsForm
 {
     public partial class CursoLista : Form
     {
-        private List<CursoDTO> cursos = new List<CursoDTO>();
-        
+        private List<CursoDTO> cursos = new();
+
         public CursoLista()
         {
             InitializeComponent();
@@ -23,30 +23,47 @@ namespace WindowsForm
             await CargarCursos();
         }
 
-        private async Task CargarCursos()
+        
+        private async Task CargarCursos(string filtro = "")
         {
             try
             {
-                this.eliminarButton.Enabled = false;
-                this.modificarButton.Enabled = false;
-                this.agregarButton.Enabled = false;
-                this.cursosDataGridView.DataSource = null;
-                IEnumerable<CursoDTO> cursos;
-                cursos = await CursoApi.GetWithComisionMateria();
-                cursosDataGridView.DataSource = cursos.ToList();
-                if (this.cursosDataGridView.Rows.Count > 0)
+                eliminarButton.Enabled = false;
+                modificarButton.Enabled = false;
+                agregarButton.Enabled = false;
+                cursosDataGridView.DataSource = null;
+
+                
+                var todos = await CursoApi.GetWithComisionMateria();
+
+                
+                if (!string.IsNullOrWhiteSpace(filtro))
                 {
-                    this.cursosDataGridView.Rows[0].Selected = true;
-                    this.eliminarButton.Enabled = true;
-                    this.modificarButton.Enabled = true;
+                    cursos = todos
+                        .Where(c => (c.Descripcion ?? "")
+                            .Contains(filtro, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
                 }
                 else
                 {
-                    this.eliminarButton.Enabled = false;
-                    this.modificarButton.Enabled = false;
+                    cursos = todos.ToList();
                 }
-                this.agregarButton.Enabled = true;
 
+                cursosDataGridView.DataSource = cursos;
+
+                if (cursosDataGridView.Rows.Count > 0)
+                {
+                    cursosDataGridView.Rows[0].Selected = true;
+                    eliminarButton.Enabled = true;
+                    modificarButton.Enabled = true;
+                }
+                else
+                {
+                    eliminarButton.Enabled = false;
+                    modificarButton.Enabled = false;
+                }
+
+                agregarButton.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -102,7 +119,6 @@ namespace WindowsForm
                 Width = 80
             });
 
-            
             cursosDataGridView.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Hs Semanales",
@@ -120,95 +136,89 @@ namespace WindowsForm
 
         private CursoDTO SelectedItem()
         {
-            CursoDTO curso;
-            curso = (CursoDTO)cursosDataGridView.SelectedRows[0].DataBoundItem;
-            return curso;
+            return (CursoDTO)cursosDataGridView.SelectedRows[0].DataBoundItem;
         }
 
         private async void agregarButton_Click(object sender, EventArgs e)
         {
-            CursoDetalle cursoDetalle = new CursoDetalle();
-
-            CursoDTO cursoNuevo = new CursoDTO();
-
-            cursoDetalle.Mode = FormMode.Add;
-            cursoDetalle.Curso = cursoNuevo;
+            CursoDetalle cursoDetalle = new CursoDetalle
+            {
+                Mode = FormMode.Add,
+                Curso = new CursoDTO()
+            };
 
             if (cursoDetalle.ShowDialog() == DialogResult.OK)
             {
                 MessageBox.Show("Curso agregado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            this.CargarCursos();
+
+            await CargarCursos();
         }
-        private void modificarButton_Click(object sender, EventArgs e)
+
+        private async void modificarButton_Click(object sender, EventArgs e)
         {
             try
             {
-                CursoDetalle cursoDetalle = new CursoDetalle();
-                CursoDTO curso = this.SelectedItem();            
-
-                cursoDetalle.Mode = FormMode.Update;
-                cursoDetalle.Curso = curso;
+                CursoDetalle cursoDetalle = new CursoDetalle
+                {
+                    Mode = FormMode.Update,
+                    Curso = SelectedItem()
+                };
 
                 if (cursoDetalle.ShowDialog() == DialogResult.OK)
                 {
                     MessageBox.Show("Curso actualizado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
-                this.CargarCursos();
+                await CargarCursos();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al cargar el curso para modificar: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
+
         private async void eliminarButton_Click(object sender, EventArgs e)
         {
             try
             {
-                CursoDTO curso = this.SelectedItem();
+                CursoDTO curso = SelectedItem();
 
                 var confirm = MessageBox.Show(
-               "¿Desea eliminar este curso>?",
-               "Confirmar eliminación",
-               MessageBoxButtons.YesNo,
-               MessageBoxIcon.Warning);
+                    "¿Desea eliminar este curso?",
+                    "Confirmar eliminación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
 
                 if (confirm == DialogResult.Yes)
                 {
                     await CursoApi.DeleteAsync(curso.IdCurso);
                     MessageBox.Show("Curso eliminado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.CargarCursos();
+                    await CargarCursos();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al eliminar comisión: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al eliminar curso: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void cursosDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
         }
 
-        private void buscarButton_Click(object sender, EventArgs e)
+        
+        private async void buscarButton_Click(object sender, EventArgs e)
         {
             string filtro = (buscarTextBox.Text ?? "").Trim();
+            await CargarCursos(filtro);
+        }
 
-            if (string.IsNullOrEmpty(filtro))
-            {
-                cursosDataGridView.DataSource = cursos;
-                return;
-            }
-
-            var filtrados = cursos
-                .Where(c => (c.Descripcion ?? "")
-                    .Contains(filtro, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-
-            cursosDataGridView.DataSource = filtrados;
+        
+        private async void buscarTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(buscarTextBox.Text))
+                await CargarCursos();
         }
     }
 }

@@ -114,29 +114,29 @@ namespace WindowsForm
             this.GetByCriteriaAndLoad();
         }
 
-        // === BOTÓN BUSCAR ===
+        
         private async void buscarButton_Click(object sender, EventArgs e)
         {
             string texto = buscarTextBox.Text.Trim();
 
-            // Si el cuadro está vacío, recarga todo
+            
             if (string.IsNullOrWhiteSpace(texto))
             {
                 this.GetByCriteriaAndLoad();
                 return;
             }
 
-            // Filtra por texto
+            
             await GetByCriteriaAndLoad(texto);
         }
 
-        // === SELECCIONAR PERSONA ===
+        
         private PersonaDTO SelectedItem()
         {
             return (PersonaDTO)personasDataGridView.SelectedRows[0].DataBoundItem;
         }
 
-        // === CARGAR PERSONAS (con o sin criterio) ===
+        
         private async Task GetByCriteriaAndLoad(string texto = "")
 
         {
@@ -149,7 +149,7 @@ namespace WindowsForm
 
                 IEnumerable<PersonaDTO> personas;
 
-                // Si no hay texto de búsqueda → trae todo
+                
                 if (string.IsNullOrWhiteSpace(texto))
                 {
                     personas = numero switch
@@ -161,7 +161,7 @@ namespace WindowsForm
                 }
                 else
                 {
-                    // Filtrado por nombre o apellido (sin importar mayúsculas/minúsculas)
+                    
                     var todas = numero switch
                     {
                         1 => await PersonaApi.GetAllAlumnosAsync(),
@@ -169,13 +169,13 @@ namespace WindowsForm
                         _ => await PersonaApi.GetAllAsync()
                     };
 
-                    // Divide el texto en partes (por si escriben nombre y apellido)
+                    
                     var partes = texto.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
                     personas = todas.Where(p =>
                     {
                         string nombreCompleto = $"{p.Nombre} {p.Apellido}".ToLower();
-                        // Coincide si todas las palabras ingresadas están presentes en el nombre completo
+                        
                         return partes.All(palabra => nombreCompleto.Contains(palabra.ToLower()));
                     }).ToList();
 
@@ -205,7 +205,7 @@ namespace WindowsForm
             }
         }
 
-        // === AGREGAR ===
+        
         private void agregarButton_Click(object sender, EventArgs e)
         {
             PersonaDetalle personaDetalle = new PersonaDetalle(numero, tipo);
@@ -223,7 +223,7 @@ namespace WindowsForm
             this.GetByCriteriaAndLoad();
         }
 
-        // === MODIFICAR ===
+        
         private void modificarButton_click(object sender, EventArgs e)
         {
             try
@@ -247,7 +247,7 @@ namespace WindowsForm
             }
         }
 
-        // === ELIMINAR ===
+        
         private async void eliminarButton_Click(object sender, EventArgs e)
         {
             try
@@ -273,7 +273,7 @@ namespace WindowsForm
             }
         }
 
-        // === BUSCAR MIENTRAS SE ESCRIBE (opcional) ===
+        
         private async void buscarTextBox_TextChanged(object sender, EventArgs e)
         {
             string texto = buscarTextBox.Text.Trim();

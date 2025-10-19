@@ -38,7 +38,7 @@ namespace WindowsForm
             _ = GetByCriteriaAndLoad();
         }
 
-        // === BOTÓN BUSCAR ===
+       
         private async void buscarButton_Click(object sender, EventArgs e)
         {
             string texto = buscarTextBox.Text.Trim();
@@ -127,7 +127,7 @@ namespace WindowsForm
             return (EspecialidadDTO)especialidadesDataGridView.SelectedRows[0].DataBoundItem;
         }
 
-        // === MÉTODO PRINCIPAL DE CARGA Y FILTRO ===
+        
         private async Task GetByCriteriaAndLoad(string texto = "")
         {
             try
@@ -139,10 +139,10 @@ namespace WindowsForm
 
                 IEnumerable<EspecialidadDTO> especialidades;
 
-                // Obtiene todas
+                
                 var todas = await EspecialidadApi.GetAllAsync();
 
-                // Filtra si hay texto en el buscador
+                
                 if (!string.IsNullOrWhiteSpace(texto))
                 {
                     especialidades = todas
@@ -157,7 +157,7 @@ namespace WindowsForm
 
                 especialidadesDataGridView.DataSource = especialidades.ToList();
 
-                // Habilita botones si hay filas
+                
                 bool hayFilas = especialidadesDataGridView.Rows.Count > 0;
                 eliminarButton.Enabled = hayFilas;
                 modificarButton.Enabled = hayFilas;
@@ -173,7 +173,7 @@ namespace WindowsForm
             }
         }
 
-        // === BUSCAR MIENTRAS SE ESCRIBE (opcional) ===
+        
         private async void buscarTextBox_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(buscarTextBox.Text))

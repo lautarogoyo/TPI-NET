@@ -38,7 +38,7 @@ namespace WindowsForm
             _ = GetByCriteriaAndLoad();
         }
 
-        // === BOTÓN BUSCAR ===
+        
         private async void buscarButton_Click(object sender, EventArgs e)
         {
             string texto = buscarTextBox.Text.Trim();
@@ -128,7 +128,7 @@ namespace WindowsForm
             return (MateriaDTO)materiasDataGridView.SelectedRows[0].DataBoundItem;
         }
 
-        // === CARGA Y FILTRO ===
+       
         private async Task GetByCriteriaAndLoad(string texto = "")
         {
             try
@@ -140,10 +140,10 @@ namespace WindowsForm
 
                 IEnumerable<MateriaDTO> materias;
 
-                // Carga todas las materias desde la API
+               
                 var todas = await MateriaApi.GetAllAsync();
 
-                // Si hay texto, filtra por nombre (Descripcion)
+                
                 if (!string.IsNullOrWhiteSpace(texto))
                 {
                     materias = todas
@@ -158,7 +158,7 @@ namespace WindowsForm
 
                 materiasDataGridView.DataSource = materias.ToList();
 
-                // Habilitar botones según haya filas
+                
                 bool hayFilas = materiasDataGridView.Rows.Count > 0;
                 eliminarButton.Enabled = hayFilas;
                 modificarButton.Enabled = hayFilas;
@@ -173,7 +173,7 @@ namespace WindowsForm
             }
         }
 
-        // === BUSCAR MIENTRAS SE ESCRIBE (opcional) ===
+        
         private async void buscarTextBox_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(buscarTextBox.Text))
