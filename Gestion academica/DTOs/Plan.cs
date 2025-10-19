@@ -5,5 +5,6 @@
         public int IDPlan { get; set; }
         public string DescPlan { get; set; }
         public int IDEspecialidad { get; set; }
+        public string? DescEspecialidad { get; set; }
     }
 }

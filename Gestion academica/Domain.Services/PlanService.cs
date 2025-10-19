@@ -51,7 +51,8 @@ namespace Application.Services
             {
                 IDPlan = p.IDPlan,
                 DescPlan = p.DescPlan,
-                IDEspecialidad = p.IDEspecialidad
+                IDEspecialidad = p.IDEspecialidad,
+                DescEspecialidad = p.Especialidad.Descripcion
             }).ToList();
         }
 

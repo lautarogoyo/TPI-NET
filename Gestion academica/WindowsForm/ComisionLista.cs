@@ -41,6 +41,11 @@ namespace WindowsForm
             anioEspecialidadColumn.HeaderText = "Año especialidad";
             anioEspecialidadColumn.Width = 200;
             comisionesDataGridView.Columns.Add(anioEspecialidadColumn);
+            DataGridViewTextBoxColumn planColumn = new DataGridViewTextBoxColumn();
+            planColumn.DataPropertyName = "DescPlan";
+            planColumn.HeaderText = "Plan";
+            planColumn.Width = 200;
+            comisionesDataGridView.Columns.Add(planColumn);
         }
         private void ComisionLista_Load(object sender, EventArgs e)
         {

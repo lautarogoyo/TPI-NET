@@ -66,13 +66,13 @@
             comisionesDataGridView.Margin = new Padding(3, 4, 3, 4);
             comisionesDataGridView.Name = "comisionesDataGridView";
             comisionesDataGridView.RowHeadersWidth = 51;
-            comisionesDataGridView.Size = new Size(677, 245);
+            comisionesDataGridView.Size = new Size(710, 242);
             comisionesDataGridView.TabIndex = 2;
             comisionesDataGridView.CellContentClick += comisionesDataGridView_CellContentClick;
             // 
             // eliminarButton
             // 
-            eliminarButton.Location = new Point(354, 349);
+            eliminarButton.Location = new Point(367, 347);
             eliminarButton.Margin = new Padding(3, 4, 3, 4);
             eliminarButton.Name = "eliminarButton";
             eliminarButton.Size = new Size(86, 31);
@@ -83,7 +83,7 @@
             // 
             // modificarButton
             // 
-            modificarButton.Location = new Point(458, 349);
+            modificarButton.Location = new Point(486, 347);
             modificarButton.Margin = new Padding(3, 4, 3, 4);
             modificarButton.Name = "modificarButton";
             modificarButton.Size = new Size(86, 31);
@@ -94,7 +94,7 @@
             // 
             // agregarButton
             // 
-            agregarButton.Location = new Point(564, 349);
+            agregarButton.Location = new Point(597, 347);
             agregarButton.Margin = new Padding(3, 4, 3, 4);
             agregarButton.Name = "agregarButton";
             agregarButton.Size = new Size(137, 31);
@@ -118,7 +118,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(738, 393);
+            ClientSize = new Size(766, 393);
             Controls.Add(agregarButton);
             Controls.Add(modificarButton);
             Controls.Add(eliminarButton);

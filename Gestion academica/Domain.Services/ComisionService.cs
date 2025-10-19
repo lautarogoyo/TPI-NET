@@ -58,7 +58,8 @@ namespace Application.Services
                            IDComision = c.IDComision,
                            Descripcion = c.Descripcion,
                            AnioEspecialidad = c.AnioEspecialidad,
-                           IDPlan = c.IDPlan
+                           IDPlan = c.IDPlan,
+                           DescPlan = c.Plan.DescPlan
                        })
                        .ToList();
         }

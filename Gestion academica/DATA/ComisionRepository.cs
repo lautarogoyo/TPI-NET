@@ -39,7 +39,7 @@ namespace Data
         public IEnumerable<Comision> GetAll()
         {
             using var context = CreateContext();
-            return context.Comisiones.ToList();
+            return context.Comisiones.Include(c => c.Plan).ToList();
         }
 
         public bool Update(Comision comision)
