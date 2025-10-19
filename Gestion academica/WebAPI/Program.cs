@@ -57,7 +57,8 @@ app.MapInscripcionEndpoints();
 
 app.MapModuloEndpoints();
 
-app.MapModuloUsuarioEndpoints();    
+app.MapModuloUsuarioEndpoints();
 
+app.MapDocenteCursoEndpoints();
 
 app.Run();

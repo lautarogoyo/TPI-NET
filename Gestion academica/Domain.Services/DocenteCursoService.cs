@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Data;
 
-// Alias para evitar ambigüedades y castear fácil
+
 using DocenteCursoDto = DTOs.DocenteCurso;
 using CargoDto = DTOs.TiposCargos;
 using DocenteCursoEntity = Domain.Model.DocenteCurso;
@@ -15,7 +15,7 @@ namespace Application.Services
         {
             var repo = new DocenteCursoRepository();
 
-            // Cast explícito de enum DTO -> Entity
+            
             var entidad = new DocenteCursoEntity(
                 (CargoEntity)dto.Cargo,
                 dto.IDCurso,
@@ -23,7 +23,7 @@ namespace Application.Services
             );
 
             repo.Add(entidad);
-            return dto; // PK compuesta, no devolvemos Id
+            return dto; 
         }
 
         public bool Delete(int idCurso, int idDocente)
@@ -38,7 +38,7 @@ namespace Application.Services
             var dc = repo.Get(idCurso, idDocente);
             if (dc == null) return null;
 
-            // Cast explícito de enum Entity -> DTO
+            
             return new DocenteCursoDto
             {
                 Cargo = (CargoDto)dc.Cargo,
@@ -53,7 +53,7 @@ namespace Application.Services
             return repo.GetAll()
                        .Select(dc => new DocenteCursoDto
                        {
-                           Cargo = (CargoDto)dc.Cargo, // Entity -> DTO
+                           Cargo = (CargoDto)dc.Cargo, 
                            IDCurso = dc.IDCurso,
                            IDDocente = dc.IDDocente
                        })
@@ -64,9 +64,9 @@ namespace Application.Services
         {
             var repo = new DocenteCursoRepository();
 
-            // Update por PK compuesta. Solo cambia el Cargo.
+            
             var entidad = new DocenteCursoEntity(
-                (CargoEntity)dto.Cargo, // DTO -> Entity
+                (CargoEntity)dto.Cargo, 
                 dto.IDCurso,
                 dto.IDDocente
             );
