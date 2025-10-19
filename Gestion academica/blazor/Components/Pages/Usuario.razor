@@ -2,6 +2,7 @@
 @using DTOs
 @using API.Clients
 @inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
 @inject UsuarioApi UsuarioApi
 @inject PersonaApi PersonaApi
 @rendermode InteractiveServer
@@ -12,7 +13,11 @@
     <div class="row">
         <div class="col-12">
             <h3>Usuarios</h3>
-
+            <div>
+                <button class="btn btn-sm btn-warning me-2" @onclick="() => ListaPersonas()">
+                    <i class="bi bi-pencil-square"></i> Crear Usuario
+                </button>
+            </div>
             @if (!string.IsNullOrEmpty(errorMessage))
             {
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -29,12 +34,6 @@
                 </div>
             }
 
-            <div class="mb-3">
-                <button class="btn btn-primary" @onclick="OpenAddModal">
-                    <i class="fas fa-plus"></i> Agregar
-                </button>
-            </div>
-
             @if (loading)
             {
                 <div class="d-flex justify-content-center">
@@ -50,10 +49,12 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>Id</th>
-                                <th>Nombre</th>
-                                <th>Clave</th>
+                                <th>Nombre de usuario</th>
+                                <th>Habilitado</th>
                                 <th>Persona</th>
-                                <th style="width:180px"></th>
+                                <th>Legajo</th>
+                                <th>TipoPersona</th>
+                                <th style="text-end"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,9 +65,14 @@
                                     <tr>
                                         <td>@u.IDUsuario</td>
                                         <td>@u.NombreUsuario</td>
-                                        <td>*****</td>
-                                        <td>@GetPersona(u.IDPersona)</td>
+                                        <td> @u.Habilitado</td>
+                                        <td>@u.NombreApellidoPersona</td>
+                                        <td> @u.Legajo</td>
+                                        <td>@(u.TipoPersona == 1 ? "Alumno" : "Profesor")</td>
                                         <td class="text-end">
+                                            <button class="btn btn-sm btn-outline-secondary me-1" @onclick="() => Habilitar(u)">
+                                                <i class="fas fa-edit"></i> Habilitar/deshabilitar
+                                            </button>
                                             <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(u)">
                                                 <i class="fas fa-edit"></i> Editar
                                             </button>
@@ -92,16 +98,13 @@
 </div>
 
 <UsuarioModal @ref="modal"
-               personas="@personas"
-               OnUsuarioChanged="LoadUsuarios"
-               OnSuccess="ShowSuccess"
-               OnError="ShowError" />
+OnUsuarioChanged="LoadUsuarios"
+OnSuccess="ShowSuccess"
+OnError="ShowError" />
 
 @code {
     private List<UsuarioDTO>? usuarios;
-    private List<PersonaDTO> personas= new();
     private bool loading = true;
-    private Dictionary<int, string> personaById = new();
 
     private string errorMessage = string.Empty;
     private string successMessage = string.Empty;
@@ -109,7 +112,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadUsuarios();         // ← carga desde DB
+        await LoadUsuarios();         
     }
     private async Task LoadUsuarios()
     {
@@ -118,10 +121,7 @@
             loading = true;
             errorMessage = string.Empty;
 
-            usuarios = (await UsuarioApi.GetAllAsync())?.ToList() ?? new();
-            personas = (await PersonaApi.GetAllAsync())?.ToList() ?? new();
-
-            personaById = personas.ToDictionary(p => p.IDPersona, p => p.Nombre);
+            usuarios = (await UsuarioApi.GetAllWithPersonas())?.ToList() ?? new();
             successMessage = string.Empty;
         }
         catch (Exception ex)
@@ -133,12 +133,26 @@
             loading = false;
         }
     }
-    
 
-    private string GetPersona(int idP)
-            => personaById.TryGetValue(idP, out var nombre) ? nombre: "(sin persona)";
+    private void ListaPersonas()
+    {
+        Navigation.NavigateTo("/sinusuarios");
+    }
 
-    private Task OpenAddModal() => modal?.ShowAddModal() ?? Task.CompletedTask;
+    private async Task Habilitar(UsuarioDTO u)
+    {
+        try
+        {
+            u.Habilitado = !u.Habilitado;
+            await UsuarioApi.UpdateAsync(u);
+            await LoadUsuarios();
+
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al modificar: {ex.Message}";
+        }
+    }
 
     private Task OpenEditModal(UsuarioDTO u) => modal?.ShowEditModal(u) ?? Task.CompletedTask;
 
@@ -157,20 +171,12 @@
             await UsuarioApi.DeleteAsync(id);
             successMessage = "Usuario eliminado exitosamente.";
             await LoadUsuarios();
+            
         }
         catch (Exception ex)
         {
             errorMessage = $"Error al eliminar: {ex.Message}";
         }
-    }
-
-    private static string GetEnumDisplayName(int value)
-    {
-        var mem = typeof(int).GetMember(value.ToString()).FirstOrDefault();
-        var display = mem?.GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute), false)
-                         .Cast<System.ComponentModel.DataAnnotations.DisplayAttribute>()
-                         .FirstOrDefault();
-        return display?.Name ?? value.ToString();
     }
 
     private void ShowSuccess(string msg) => successMessage = msg;
