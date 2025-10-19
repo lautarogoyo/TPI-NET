@@ -12,9 +12,7 @@ namespace WindowsForm
     {
         private UsuarioDTO usuario;
         private FormMode mode;
-        private bool _personasCargadas = false;
-        private int? _pendingIdPersona;
-
+        private int _idPersona;
         public UsuarioDTO Usuario
         {
             get { return usuario; }
@@ -31,55 +29,31 @@ namespace WindowsForm
             set { SetFormMode(value); }
         }
 
-        public UsuarioDetalle()
+        public UsuarioDetalle(int idPersona)
         {
             InitializeComponent();
+            _idPersona = idPersona;
         }
 
         private async void UsuarioDetalle_Load(object sender, EventArgs e)
         {
-            await CargarPersonas();
+
         }
 
-        private async Task CargarPersonas()
-        {
-            try
-            {
-                var personas = (await PersonaApi.GetAllAsync()).ToList();
-
-                PersonaComboBox.DataSource = personas;
-                PersonaComboBox.DisplayMember = "Nombre";  // o "Apellido", o combinados
-                PersonaComboBox.ValueMember = "IDPersona";
-                PersonaComboBox.SelectedIndex = -1;
-
-                _personasCargadas = true;
-
-                if (_pendingIdPersona.HasValue)
-                    PersonaComboBox.SelectedValue = _pendingIdPersona.Value;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al cargar personas: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void aceptarButton_Click(object sender, EventArgs e)
+        private async void aceptarButton_Click(object sender, EventArgs e)
         {
             if (!ValidateUsuario()) return;
 
             try
             {
                 this.Usuario ??= new UsuarioDTO();
-
+                Usuario.IDPersona = _idPersona;
                 Usuario.NombreUsuario = NombreUsuarioTextBox.Text;
                 Usuario.Clave = ClaveTextBox.Text;
-                Usuario.Habilitado = ParseBool(HabilitadoTextBox.Text);
-                Usuario.IDPersona = (int)PersonaComboBox.SelectedValue;
+                Usuario.Habilitado = true;
 
-                if (this.Mode == FormMode.Update)
-                    UsuarioApi.UpdateAsync(Usuario).Wait();
-                else
-                    UsuarioApi.AddAsync(Usuario).Wait();
+                if (this.Mode == FormMode.Add)
+                    await UsuarioApi.AddAsync(Usuario);
 
                 this.DialogResult = DialogResult.OK;
                 this.Close();
@@ -105,11 +79,8 @@ namespace WindowsForm
                 this.Text = "Agregar Usuario";
                 Usuario ??= new UsuarioDTO();
 
-                IdTextBox.Text = string.Empty;
                 NombreUsuarioTextBox.Text = string.Empty;
                 ClaveTextBox.Text = string.Empty;
-                HabilitadoTextBox.Text = "true";
-                PersonaComboBox.SelectedIndex = -1;
             }
             else
             {
@@ -122,15 +93,8 @@ namespace WindowsForm
         {
             if (Usuario == null) return;
 
-            IdTextBox.Text = Usuario.IDUsuario.ToString();
             NombreUsuarioTextBox.Text = Usuario.NombreUsuario;
             ClaveTextBox.Text = Usuario.Clave;
-            HabilitadoTextBox.Text = Usuario.Habilitado.ToString();
-
-            if (_personasCargadas)
-                PersonaComboBox.SelectedValue = Usuario.IDPersona;
-            else
-                _pendingIdPersona = Usuario.IDPersona;
         }
 
         private bool ValidateUsuario()
@@ -147,27 +111,7 @@ namespace WindowsForm
                 return false;
             }
 
-            if (PersonaComboBox.SelectedValue == null)
-            {
-                MessageBox.Show("Debe seleccionar una persona.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
             return true;
-        }
-
-        private bool ParseBool(string text)
-        {
-            return text.Trim().ToLowerInvariant() switch
-            {
-                "1" or "true" or "sí" or "si" or "s" or "yes" or "y" => true,
-                _ => false
-            };
-        }
-
-        private void UsuarioDetalle_Load_1(object sender, EventArgs e)
-        {
-
         }
     }
 }

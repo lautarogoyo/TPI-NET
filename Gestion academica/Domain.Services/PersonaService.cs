@@ -137,5 +137,24 @@ namespace Application.Services
 
             return personaRepository.Update(persona);
         }
+
+        public IEnumerable<PersonaDTO> GetPersonasSinUsuario()
+        {
+            var personaRepository = new PersonaRepository();
+            return personaRepository.GetPersonasSinUsuario().Select(persona => new PersonaDTO
+            {
+                IDPersona = persona.IDPersona,
+                Nombre = persona.Nombre,
+                Apellido = persona.Apellido,
+                Direccion = persona.Direccion,
+                TipoDoc = persona.TipoDoc,
+                NroDoc = persona.NroDoc,
+                Email = persona.Email,
+                Telefono = persona.Telefono,
+                FechaNac = persona.FechaNac,
+                Legajo = persona.Legajo,
+                TipoPersona = persona.TipoPersona
+            }).ToList();
+        }
     }
 }

@@ -111,6 +111,16 @@ namespace WebAPI
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
+
+            app.MapGet("/personas/sinusuario", () =>
+            {
+                var service = new PersonaService();
+                var personas = service.GetPersonasSinUsuario();
+                return Results.Ok(personas);
+            })
+            .WithName("GetPersonasSinUsuario")
+            .Produces<List<PersonaDTO>>(StatusCodes.Status200OK)
+            .WithOpenApi();
         }
     }
 }

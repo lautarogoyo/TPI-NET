@@ -17,7 +17,7 @@ namespace Domain.Model
         public Materia Materia { get; private set; }
         public ICollection<Curso> Cursos { get; private set; } = new List<Curso>();
 
-        private ComisionMateria() { }
+        protected ComisionMateria() { }
 
         public ComisionMateria(int hsSemanales, int hsTotales, int idComision, int idMateria)
         {

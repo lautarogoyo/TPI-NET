@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace WindowsForm
 {
     public partial class UsuarioLista : Form
     {
         private List<UsuarioDTO> usuarios = new List<UsuarioDTO>();
-
+        private UsuarioDTO usuario;
         public UsuarioLista()
         {
             InitializeComponent();
@@ -27,8 +28,26 @@ namespace WindowsForm
         {
             try
             {
-                usuarios = (await UsuarioApi.GetAllAsync()).ToList();
-                usuariosDataGridView.DataSource = usuarios;
+                this.eliminarButton.Enabled = false;
+                this.deshabilitarButton.Enabled = false;
+                this.agregarButton.Enabled = false;
+                this.usuariosDataGridView.DataSource = null;
+                IEnumerable<UsuarioDTO> usuarios;
+                usuarios = await UsuarioApi.GetAllWithPersonas();
+                usuariosDataGridView.DataSource = usuarios.ToList();
+                if (this.usuariosDataGridView.Rows.Count > 0)
+                {
+                    this.usuariosDataGridView.Rows[0].Selected = true;
+                    this.eliminarButton.Enabled = true;
+                    this.deshabilitarButton.Enabled = true;
+                }
+                else
+                {
+                    this.eliminarButton.Enabled = false;
+                    this.deshabilitarButton.Enabled = false;
+                }
+                this.agregarButton.Enabled = true;
+
             }
             catch (Exception ex)
             {
@@ -59,13 +78,6 @@ namespace WindowsForm
 
             usuariosDataGridView.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Clave",
-                DataPropertyName = "Clave",
-                Width = 100
-            });
-
-            usuariosDataGridView.Columns.Add(new DataGridViewTextBoxColumn
-            {
                 HeaderText = "Habilitado",
                 DataPropertyName = "Habilitado",
                 Width = 80
@@ -73,10 +85,37 @@ namespace WindowsForm
 
             usuariosDataGridView.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "ID Persona",
-                DataPropertyName = "IDPersona",
+                HeaderText = "Persona",
+                DataPropertyName = "NombreApellidoPersona",
+                Width = 150
+            });
+
+            usuariosDataGridView.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Legajo",
+                DataPropertyName = "Legajo",
                 Width = 80
             });
+
+            usuariosDataGridView.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Tipo Persona",
+                DataPropertyName = "TipoPersona",
+                Width = 100
+            });
+
+            usuariosDataGridView.CellFormatting += (s, e) =>
+            {
+                if (usuariosDataGridView.Columns[e.ColumnIndex].DataPropertyName == "TipoPersona")
+                {
+                    if (e.Value != null)
+                    {
+                        e.Value = (int)e.Value == 1 ? "Alumno" : "Profesor";
+                        e.FormattingApplied = true;
+                    }
+                }
+            };
+
         }
 
         private void buscarButton_Click(object sender, EventArgs e)
@@ -98,41 +137,68 @@ namespace WindowsForm
 
         private async void agregarButton_Click(object sender, EventArgs e)
         {
-            var form = new UsuarioDetalle { Mode = FormMode.Add };
-            if (form.ShowDialog() == DialogResult.OK)
-                await CargarUsuarios();
+            PersonasSinUsuario personasSinUsuario = new PersonasSinUsuario();
+            personasSinUsuario.ShowDialog();
+            this.CargarUsuarios();
         }
 
-        private async void modificarButton_Click(object sender, EventArgs e)
+        private async void deshabilitarButton_Click(object sender, EventArgs e)
         {
-            if (usuariosDataGridView.CurrentRow?.DataBoundItem is not UsuarioDTO usuario) return;
-
-            var form = new UsuarioDetalle
+            try
             {
-                Mode = FormMode.Update,
-                Usuario = usuario
-            };
-
-            if (form.ShowDialog() == DialogResult.OK)
-                await CargarUsuarios();
+                DialogResult confirm;
+                if (this.SelectedItem().Habilitado == true)
+                {
+                    confirm = MessageBox.Show(
+                    "¿Desea deshabilitar este usuario>?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    confirm = MessageBox.Show(
+                    "¿Desea habilitar este usuario>?",
+                    "Confirmar eliminación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+                }
+                if (confirm == DialogResult.Yes)
+                {
+                    this.usuario ??= new UsuarioDTO();
+                    this.usuario.IDUsuario = this.SelectedItem().IDUsuario;
+                    this.usuario.NombreUsuario = this.SelectedItem().NombreUsuario;
+                    this.usuario.Clave = this.SelectedItem().Clave;
+                    this.usuario.IDPersona = this.SelectedItem().IDPersona;
+                    this.usuario.Habilitado = !this.SelectedItem().Habilitado;
+                    await UsuarioApi.UpdateAsync(this.usuario);
+                    this.CargarUsuarios();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private async void eliminarButton_Click(object sender, EventArgs e)
         {
-            if (usuariosDataGridView.CurrentRow?.DataBoundItem is not UsuarioDTO usuario) return;
-
-            var confirm = MessageBox.Show(
-                "¿Desea eliminar este usuario?",
-                "Confirmar eliminación",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Warning);
-
-            if (confirm != DialogResult.Yes) return;
-
             try
             {
-                await UsuarioApi.DeleteAsync(usuario.IDUsuario);
-                await CargarUsuarios();
+                UsuarioDTO usuario = this.SelectedItem();
+
+                var confirm = MessageBox.Show(
+               "¿Desea eliminar este usuario>?",
+               "Confirmar eliminación",
+               MessageBoxButtons.YesNo,
+               MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    await UsuarioApi.DeleteAsync(usuario.IDUsuario);
+                    MessageBox.Show("Usuario eliminado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.CargarUsuarios();
+                }
             }
             catch (Exception ex)
             {
@@ -145,9 +211,11 @@ namespace WindowsForm
             // vacío si no se usa
         }
 
-        private void usuariosDataGridView_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        private UsuarioDTO SelectedItem()
         {
-
+            UsuarioDTO usuario;
+            usuario = (UsuarioDTO)usuariosDataGridView.SelectedRows[0].DataBoundItem;
+            return usuario;
         }
     }
 }

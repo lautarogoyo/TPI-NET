@@ -77,5 +77,12 @@ namespace Data
             }
             return false;
         }
+        public IEnumerable<Persona> GetPersonasSinUsuario()
+        {
+            using var context = CreateContext();
+            return context.Personas
+                .Where(p => p.Usuario == null)
+                .ToList();
+        }
     }
 }

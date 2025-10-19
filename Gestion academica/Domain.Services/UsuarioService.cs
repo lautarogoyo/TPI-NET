@@ -55,12 +55,30 @@ namespace Application.Services
         public bool Update(UsuarioDTO dto)
         {
             var repo = new UsuarioRepository();
-            var usuario = new Usuario(dto.NombreUsuario, dto.Clave, dto.Habilitado, dto.IDPersona);
+            var usuario = repo.Get(dto.IDUsuario);
+            if (usuario == null) return false;
 
-            typeof(Usuario).GetProperty(nameof(Usuario.IDUsuario))!
-                           .SetValue(usuario, dto.IDUsuario);
+            usuario.SetNombreUsuario(dto.NombreUsuario);
+            usuario.SetClave(dto.Clave);
+            usuario.SetHabilitado(dto.Habilitado);
+            usuario.SetIDPersona(dto.IDPersona);
 
             return repo.Update(usuario);
+        }
+        public IEnumerable<UsuarioDTO> GetAllWithPersonas()
+        {
+            var repo = new UsuarioRepository();
+            return repo.GetAllWithPersonas().Select(u => new UsuarioDTO
+            {
+                IDUsuario = u.IDUsuario,
+                NombreUsuario = u.NombreUsuario,
+                Clave = u.Clave,
+                Habilitado = u.Habilitado,
+                IDPersona = u.IDPersona,
+                NombreApellidoPersona = $"{u.Persona.Nombre} {u.Persona.Apellido}",
+                Legajo = u.Persona.Legajo,
+                TipoPersona = u.Persona.TipoPersona
+            }).ToList();
         }
     }
 }

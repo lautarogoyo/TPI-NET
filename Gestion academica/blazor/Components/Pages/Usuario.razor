@@ -154,7 +154,7 @@
     {
         try
         {
-            await ComisionApi.DeleteAsync(id);
+            await UsuarioApi.DeleteAsync(id);
             successMessage = "Usuario eliminado exitosamente.";
             await LoadUsuarios();
         }

@@ -15,8 +15,10 @@ namespace Domain.Model
         public DateOnly FechaNac { get; private set; }
         public string Legajo { get; private set; }
         public int TipoPersona { get; private set; }
-       
-        public ICollection<Inscripcion> Inscripciones = new List<Inscripcion>();
+
+        public Usuario? Usuario { get; private set; }
+
+        public ICollection<Inscripcion> Inscripciones { get; private set; } = new List<Inscripcion>();
 
         // Constructor para EF
         protected Persona() { }

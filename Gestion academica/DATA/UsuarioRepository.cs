@@ -1,4 +1,5 @@
 ﻿using Domain.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data
 {
@@ -56,6 +57,14 @@ namespace Data
                 return true;
             }
             return false;
+        }
+
+        public IEnumerable<Usuario> GetAllWithPersonas()
+        {
+            using var context = CreateContext();
+            return context.Usuarios
+                .Include(u => u.Persona)
+                .ToList();
         }
     }
 }

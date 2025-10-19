@@ -146,5 +146,48 @@ namespace API.Clients
                 throw new Exception($"Timeout al buscar usuarios: {ex.Message}", ex);
             }
         }
+
+        public static async Task<List<CursoDTO>?> GetWithComisionMateria()
+        {
+            try
+            {
+                var response = await client.GetAsync($"cursos/comisionmateria");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<List<CursoDTO>>();
+                }
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error al obtener cursos. Status: {response.StatusCode}. Detalle: {error}");
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception($"Error de conexión al obtener cursos: {ex.Message}", ex);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new Exception($"Timeout al obtener cursos: {ex.Message}", ex);
+            }
+        }
+        public static async Task<List<UsuarioDTO>?> GetAllWithPersonas()
+        {
+            try
+            {
+                var response = await client.GetAsync($"usuarios/persona");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<List<UsuarioDTO>>();
+                }
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error al obtener personas. Status: {response.StatusCode}. Detalle: {error}");
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception($"Error de conexión al obtener personas: {ex.Message}", ex);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new Exception($"Timeout al obtener personas: {ex.Message}", ex);
+            }
+        }
     }
 }

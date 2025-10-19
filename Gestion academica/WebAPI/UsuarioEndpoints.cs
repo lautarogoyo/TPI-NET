@@ -93,6 +93,16 @@ namespace WebAPI
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
+
+            app.MapGet("/usuarios/persona", () =>
+            {
+                var usuarioService = new UsuarioService();
+                var dtos = usuarioService.GetAllWithPersonas();
+                return Results.Ok(dtos);
+            })
+            .WithName("GetAllWithPersonas")
+            .Produces<List<UsuarioDTO>>(StatusCodes.Status200OK)
+            .WithOpenApi();
         }
     }
 }
