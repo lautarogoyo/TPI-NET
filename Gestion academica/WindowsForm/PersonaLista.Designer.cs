@@ -45,6 +45,7 @@
             buscarTextBox.PlaceholderText = "Buscar por nombre...";
             buscarTextBox.Size = new Size(204, 27);
             buscarTextBox.TabIndex = 0;
+            buscarTextBox.TextChanged += buscarTextBox_TextChanged;
             // 
             // buscarButton
             // 
