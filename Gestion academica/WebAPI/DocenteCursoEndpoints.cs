@@ -15,49 +15,49 @@ namespace WebAPI
                 return Results.Ok(dtos);
             })
             .WithName("GetAllDocentesCursos")
-            .Produces<List<DocenteCurso>>(StatusCodes.Status200OK)
+            .Produces<List<DocenteCursoDTO>>(StatusCodes.Status200OK)
             .WithOpenApi();
 
             // === GET BY IDs ===
-            app.MapGet("/docentescursos/{idCurso}/{idDocente}", (int idCurso, int idDocente) =>
+            app.MapGet("/docentescursos/{idDocenteCurso}", (int idDocenteCurso) =>
             {
                 var service = new DocenteCursoService();
-                var dto = service.Get(idCurso, idDocente);
+                var dto = service.Get(idDocenteCurso);
                 return dto is not null ? Results.Ok(dto) : Results.NotFound();
             })
             .WithName("GetDocenteCurso")
-            .Produces<DocenteCurso>(StatusCodes.Status200OK)
+            .Produces<DocenteCursoDTO>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
 
             // === POST ===
-            app.MapPost("/docentescursos", (DocenteCurso dto) =>
+            app.MapPost("/docentescursos", (DocenteCursoDTO dto) =>
             {
                 var service = new DocenteCursoService();
                 service.Add(dto);
-                return Results.Created($"/docentescursos/{dto.IDCurso}/{dto.IDDocente}", dto);
+                return Results.Created($"/docentescursos/{dto.IdDocenteCurso}", dto);
             })
             .WithName("AddDocenteCurso")
-            .Produces<DocenteCurso>(StatusCodes.Status201Created)
+            .Produces<DocenteCursoDTO>(StatusCodes.Status201Created)
             .WithOpenApi();
 
             // === PUT ===
-            app.MapPut("/docentescursos", (DocenteCurso dto) =>
+            app.MapPut("/docentescursos", (DocenteCursoDTO dto) =>
             {
                 var service = new DocenteCursoService();
                 bool updated = service.Update(dto);
                 return updated ? Results.Ok(dto) : Results.NotFound();
             })
             .WithName("UpdateDocenteCurso")
-            .Produces<DocenteCurso>(StatusCodes.Status200OK)
+            .Produces<DocenteCursoDTO>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
 
             // === DELETE ===
-            app.MapDelete("/docentescursos/{idCurso}/{idDocente}", (int idCurso, int idDocente) =>
+            app.MapDelete("/docentescursos/{idDocenteCurso}", (int idDocenteCurso) =>
             {
                 var service = new DocenteCursoService();
-                bool deleted = service.Delete(idCurso, idDocente);
+                bool deleted = service.Delete(idDocenteCurso);
                 return deleted ? Results.NoContent() : Results.NotFound();
             })
             .WithName("DeleteDocenteCurso")

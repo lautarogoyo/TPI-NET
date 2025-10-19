@@ -10,12 +10,12 @@ namespace WindowsForm
 {
     public partial class DocenteCursoDetalle : Form
     {
-        private DocenteCurso? docenteCurso;
+        private DocenteCursoDTO? docenteCurso;
         private FormMode mode;
         private List<CursoDTO> cursos = new();
         private List<PersonaDTO> docentes = new();
 
-        public DocenteCurso DocenteCurso
+        public DocenteCursoDTO DocenteCurso
         {
             get => docenteCurso!;
             set { docenteCurso = value; SetDocenteCurso(); }
@@ -76,16 +76,30 @@ namespace WindowsForm
 
             try
             {
-                docenteCurso ??= new DocenteCurso();
+                docenteCurso ??= new DocenteCursoDTO();
 
                 docenteCurso.Cargo = (TiposCargos)comboBoxCargo.SelectedItem!;
                 docenteCurso.IDCurso = (int)comboBoxCurso.SelectedValue!;
                 docenteCurso.IDDocente = (int)comboBoxDocente.SelectedValue!;
 
-                if (Mode == FormMode.Update)
-                    await DocenteCursoApi.UpdateAsync(docenteCurso);
+                var existing = (await DocenteCursoApi.GetAllAsync())
+                    .FirstOrDefault(dc =>
+                    dc.IDDocente == (int)comboBoxDocente.SelectedValue &&
+                    dc.IDCurso == (int)comboBoxCurso.SelectedValue);
+
+                if(existing == null)
+                {
+                    if (Mode == FormMode.Update)
+                        await DocenteCursoApi.UpdateAsync(docenteCurso);
+                    else
+                        await DocenteCursoApi.AddAsync(docenteCurso);
+                }
                 else
-                    await DocenteCursoApi.AddAsync(docenteCurso);
+                {
+                    MessageBox.Show("Este docente ya está asignado al curso.",
+                                    "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
                 MessageBox.Show("Cambios guardados correctamente.",
                     "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);

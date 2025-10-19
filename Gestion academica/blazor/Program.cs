@@ -17,6 +17,7 @@ builder.Services.AddScoped<API.Clients.InscripcionApi>();
 builder.Services.AddScoped<API.Clients.CursoApi>();
 builder.Services.AddScoped<API.Clients.UsuarioApi>();
 builder.Services.AddScoped<ComisionMateriaApi>();
+builder.Services.AddScoped<DocenteCursoApi>();
 
 
 

@@ -8,7 +8,7 @@ using DTOs;
 
 namespace API.Clients
 {
-    public static class DocenteCursoApi
+    public class DocenteCursoApi
     {
         private static readonly HttpClient client = new HttpClient();
 
@@ -20,28 +20,25 @@ namespace API.Clients
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        // === GET ALL ===
-        public static async Task<IEnumerable<DocenteCurso>> GetAllAsync()
+        public static async Task<IEnumerable<DocenteCursoDTO>> GetAllAsync()
         {
             var response = await client.GetAsync("docentescursos");
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadFromJsonAsync<IEnumerable<DocenteCurso>>()
-                   ?? new List<DocenteCurso>();
+            return await response.Content.ReadFromJsonAsync<IEnumerable<DocenteCursoDTO>>()
+                   ?? new List<DocenteCursoDTO>();
         }
 
-        // === GET (por IDs compuestos) ===
-        public static async Task<DocenteCurso?> GetAsync(int idCurso, int idDocente)
+        public static async Task<DocenteCursoDTO?> GetAsync(int idDocenteCurso)
         {
-            var response = await client.GetAsync($"docentescursos/{idCurso}/{idDocente}");
+            var response = await client.GetAsync($"docentescursos/{idDocenteCurso}");
             if (response.IsSuccessStatusCode)
-                return await response.Content.ReadFromJsonAsync<DocenteCurso>();
+                return await response.Content.ReadFromJsonAsync<DocenteCursoDTO>();
 
             return null;
         }
 
-        // === ADD ===
-        public static async Task AddAsync(DocenteCurso dto)
+        public static async Task AddAsync(DocenteCursoDTO dto)
         {
             var response = await client.PostAsJsonAsync("docentescursos", dto);
             if (!response.IsSuccessStatusCode)
@@ -51,8 +48,7 @@ namespace API.Clients
             }
         }
 
-        // === UPDATE ===
-        public static async Task UpdateAsync(DocenteCurso dto)
+        public static async Task UpdateAsync(DocenteCursoDTO dto)
         {
             var response = await client.PutAsJsonAsync("docentescursos", dto);
             if (!response.IsSuccessStatusCode)
@@ -61,26 +57,22 @@ namespace API.Clients
                 throw new Exception($"Error al actualizar DocenteCurso: {error}");
             }
         }
-
-        // === DELETE (por IDs compuestos) ===
-        public static async Task DeleteAsync(int idCurso, int idDocente)
+        public static async Task DeleteAsync(int idDocenteCurso)
         {
-            var response = await client.DeleteAsync($"docentescursos/{idCurso}/{idDocente}");
+            var response = await client.DeleteAsync($"docentescursos/{idDocenteCurso}");
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
                 throw new Exception($"Error al eliminar DocenteCurso: {error}");
             }
         }
-
-        // === FILTRO opcional ===
-        public static async Task<IEnumerable<DocenteCurso>> GetByCriteriaAsync(string texto)
+        public static async Task<IEnumerable<DocenteCursoDTO>> GetByCriteriaAsync(string texto)
         {
             var response = await client.GetAsync($"docentescursos?q={Uri.EscapeDataString(texto)}");
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadFromJsonAsync<IEnumerable<DocenteCurso>>()
-                   ?? new List<DocenteCurso>();
+            return await response.Content.ReadFromJsonAsync<IEnumerable<DocenteCursoDTO>>()
+                   ?? new List<DocenteCursoDTO>();
         }
     }
 }

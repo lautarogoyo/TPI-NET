@@ -1,0 +1,111 @@
+﻿@page "/docentescursos"
+@using DTOs
+@using API.Clients
+
+@rendermode InteractiveServer
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+<h3>@("Listado de docentes y cursos")</h3>
+
+<div class="mb-3 d-flex justify-content-between">
+    <button class="btn btn-primary" @onclick="Agregar">Agregar</button>
+</div>
+
+@if (DocentesCursos is null)
+{
+    <p>Cargando...</p>
+}
+else if (!DocentesCursos.Any())
+{
+    <p>No se encontraron relaciones entre docentes y cursos.</p>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Curso</th>
+                <th>Docente</th>
+                <th>Cargo</th>
+                <th class="text-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dc in DocentesCursos)
+            {
+                <tr>
+                    <td>@dc.DescCurso</td>
+                    <td>@dc.NombreDocente</td>
+                    <td>@dc.Cargo</td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-warning me-2" @onclick="() => Modificar(dc)">
+                            <i class="bi bi-pencil-square"></i> Editar
+                        </button>
+                        <button class="btn btn-sm btn-danger" @onclick="() => Eliminar(dc)">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<DocenteCursoModal @ref="Modal"
+              OnDCChange="CargarDCAsync" />
+
+@code {
+
+    private List<DocenteCursoDTO>? DocentesCursos;
+    private string TextoBusqueda = string.Empty;
+
+    private DocenteCursoModal? Modal;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarDCAsync();
+    }
+
+    private async Task CargarDCAsync()
+    {
+        try
+        {
+            DocentesCursos = null;
+            StateHasChanged();
+            DocentesCursos = (await DocenteCursoApi.GetAllAsync()).ToList();
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", $"Error al cargar la lista de docentes-cursos: {ex.Message}");
+        }
+    }
+
+    private async Task Eliminar(DocenteCursoDTO dc)
+    {
+        bool confirm = await JSRuntime.InvokeAsync<bool>("confirm", $"¿Desea eliminar esta relación?");
+        if (confirm)
+        {
+            try
+            {
+                await DocenteCursoApi.DeleteAsync(dc.IdDocenteCurso);
+                await JSRuntime.InvokeVoidAsync("alert", $"Relacion eliminada exitosamente.");
+                await CargarDCAsync();
+            }
+            catch (Exception ex)
+            {
+                await JSRuntime.InvokeVoidAsync("alert", $"Error al eliminar la relación: {ex.Message}");
+            }
+        }
+    }
+
+    private void Agregar()
+    {
+        Modal?.ShowAddModal();
+    }
+
+    private void Modificar(DocenteCursoDTO dc)
+    {
+        Modal?.ShowEditModal(dc);
+    }
+}

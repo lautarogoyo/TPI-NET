@@ -2,7 +2,7 @@
 using Data;
 
 
-using DocenteCursoDto = DTOs.DocenteCurso;
+using DTOs;
 using CargoDto = DTOs.TiposCargos;
 using DocenteCursoEntity = Domain.Model.DocenteCurso;
 using CargoEntity = Domain.Model.TiposCargos;
@@ -11,7 +11,7 @@ namespace Application.Services
 {
     public class DocenteCursoService
     {
-        public DocenteCursoDto Add(DocenteCursoDto dto)
+        public DocenteCursoDTO Add(DocenteCursoDTO dto)
         {
             var repo = new DocenteCursoRepository();
 
@@ -23,55 +23,59 @@ namespace Application.Services
             );
 
             repo.Add(entidad);
+            dto.IdDocenteCurso = entidad.IdDocenteCurso;
             return dto; 
         }
 
-        public bool Delete(int idCurso, int idDocente)
+        public bool Delete(int idDocenteCurso)
         {
             var repo = new DocenteCursoRepository();
-            return repo.Delete(idCurso, idDocente);
+            return repo.Delete(idDocenteCurso);
         }
 
-        public DocenteCursoDto? Get(int idCurso, int idDocente)
+        public DocenteCursoDTO? Get(int idDocenteCurso)
         {
             var repo = new DocenteCursoRepository();
-            var dc = repo.Get(idCurso, idDocente);
+            var dc = repo.Get(idDocenteCurso);
             if (dc == null) return null;
 
             
-            return new DocenteCursoDto
+            return new DocenteCursoDTO
             {
+
                 Cargo = (CargoDto)dc.Cargo,
                 IDCurso = dc.IDCurso,
                 IDDocente = dc.IDDocente
             };
         }
 
-        public IEnumerable<DocenteCursoDto> GetAll()
+        public IEnumerable<DocenteCursoDTO> GetAll()
         {
             var repo = new DocenteCursoRepository();
             return repo.GetAll()
-                       .Select(dc => new DocenteCursoDto
+                       .Select(dc => new DocenteCursoDTO
                        {
+                           IdDocenteCurso = dc.IdDocenteCurso,
                            Cargo = (CargoDto)dc.Cargo, 
                            IDCurso = dc.IDCurso,
-                           IDDocente = dc.IDDocente
+                           IDDocente = dc.IDDocente,
+                           NombreDocente = dc.Docente != null ? $"{dc.Docente.Nombre} {dc.Docente.Apellido}" : null,
+                           DescCurso = dc.Curso != null ? dc.Curso.Descripcion : null
                        })
                        .ToList();
         }
 
-        public bool Update(DocenteCursoDto dto)
+        public bool Update(DocenteCursoDTO dto)
         {
             var repo = new DocenteCursoRepository();
+            var dc = repo.Get(dto.IdDocenteCurso);
+            if (dc == null) return false;
 
-            
-            var entidad = new DocenteCursoEntity(
-                (CargoEntity)dto.Cargo, 
-                dto.IDCurso,
-                dto.IDDocente
-            );
+            dc.SetCargo((CargoEntity)dto.Cargo);
+            dc.SetIDCurso(dto.IDCurso);
+            dc.SetIDDocente(dto.IDDocente);
 
-            return repo.Update(entidad);
+            return repo.Update(dc);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace WindowsForm
 {
     public partial class DocenteCursoLista : Form
     {
-        private List<DocenteCurso> docentesCursos = new();
+        private List<DocenteCursoDTO> docentesCursos = new();
 
         public DocenteCursoLista()
         {
@@ -26,16 +26,16 @@ namespace WindowsForm
 
             DataGridViewTextBoxColumn idCursoColumn = new DataGridViewTextBoxColumn
             {
-                DataPropertyName = "IDCurso",
-                HeaderText = "ID Curso",
+                DataPropertyName = "DescCurso",
+                HeaderText = "Curso",
                 Width = 120
             };
             dgvDocentesCursos.Columns.Add(idCursoColumn);
 
             DataGridViewTextBoxColumn idDocenteColumn = new DataGridViewTextBoxColumn
             {
-                DataPropertyName = "IDDocente",
-                HeaderText = "ID Docente",
+                DataPropertyName = "NombreDocente",
+                HeaderText = "Docente",
                 Width = 120
             };
             dgvDocentesCursos.Columns.Add(idDocenteColumn);
@@ -70,6 +70,7 @@ namespace WindowsForm
                 }
 
                 dgvDocentesCursos.DataSource = docentesCursos;
+
                 ActualizarBotones();
             }
             catch (Exception ex)
@@ -82,13 +83,14 @@ namespace WindowsForm
         private void ActualizarBotones()
         {
             bool hayFilas = dgvDocentesCursos.Rows.Count > 0;
+            this.dgvDocentesCursos.Rows[0].Selected = hayFilas;
             btnEliminar.Enabled = hayFilas;
             btnModificar.Enabled = hayFilas;
         }
 
-        private DocenteCurso SelectedItem()
+        private DocenteCursoDTO SelectedItem()
         {
-            return (DocenteCurso)dgvDocentesCursos.SelectedRows[0].DataBoundItem;
+            return (DocenteCursoDTO)dgvDocentesCursos.SelectedRows[0].DataBoundItem;
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -99,7 +101,7 @@ namespace WindowsForm
                 DocenteCursoDetalle docenteCursoDetalle = new DocenteCursoDetalle();
 
                 
-                DocenteCurso nuevoDocenteCurso = new DocenteCurso();
+                DocenteCursoDTO nuevoDocenteCurso = new DocenteCursoDTO();
 
                 
                 docenteCursoDetalle.Mode = FormMode.Add;
@@ -162,7 +164,7 @@ namespace WindowsForm
 
                 if (confirm == DialogResult.Yes)
                 {
-                    await DocenteCursoApi.DeleteAsync(seleccionado.IDCurso, seleccionado.IDDocente);
+                    await DocenteCursoApi.DeleteAsync(seleccionado.IdDocenteCurso);
 
                     MessageBox.Show("Registro eliminado correctamente.",
                         "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -206,7 +208,7 @@ namespace WindowsForm
 
                 dgvDocentesCursos.DataSource = null;
 
-                IEnumerable<DocenteCurso> docentesCursos;
+                IEnumerable<DocenteCursoDTO> docentesCursos;
 
                 // Si el texto está vacío, traemos todos
                 if (string.IsNullOrWhiteSpace(texto))
