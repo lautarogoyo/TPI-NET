@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Dynamic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using API.Clients;
@@ -24,25 +19,37 @@ namespace WindowsForm
         private void ConfiguarColumnas()
         {
             materiasDataGridView.AutoGenerateColumns = false;
+
             DataGridViewTextBoxColumn idColumn = new DataGridViewTextBoxColumn();
             idColumn.DataPropertyName = "IDMateria";
             idColumn.HeaderText = "ID";
             idColumn.Width = 50;
             materiasDataGridView.Columns.Add(idColumn);
+
             DataGridViewTextBoxColumn descripcionColumn = new DataGridViewTextBoxColumn();
             descripcionColumn.DataPropertyName = "Descripcion";
             descripcionColumn.HeaderText = "Nombre";
             descripcionColumn.Width = 200;
             materiasDataGridView.Columns.Add(descripcionColumn);
         }
+
         private void MateriaLista_Load(object sender, EventArgs e)
         {
-            this.GetByCriteriaAndLoad();
+            _ = GetByCriteriaAndLoad();
         }
 
-        private void buscarButton_Click(object sender, EventArgs e)
+        // === BOTÓN BUSCAR ===
+        private async void buscarButton_Click(object sender, EventArgs e)
         {
+            string texto = buscarTextBox.Text.Trim();
 
+            if (string.IsNullOrWhiteSpace(texto))
+            {
+                await GetByCriteriaAndLoad();
+                return;
+            }
+
+            await GetByCriteriaAndLoad(texto);
         }
 
         private void materiasDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -57,16 +64,16 @@ namespace WindowsForm
                 MateriaDTO materia = this.SelectedItem();
 
                 var confirm = MessageBox.Show(
-               "¿Desea eliminar esta materia?",
-               "Confirmar eliminación",
-               MessageBoxButtons.YesNo,
-               MessageBoxIcon.Warning);
+                    "¿Desea eliminar esta materia?",
+                    "Confirmar eliminación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
 
                 if (confirm == DialogResult.Yes)
                 {
                     await MateriaApi.DeleteAsync(materia.IDMateria);
                     MessageBox.Show("Materia eliminada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.GetByCriteriaAndLoad();
+                    await GetByCriteriaAndLoad();
                 }
             }
             catch (Exception ex)
@@ -75,10 +82,11 @@ namespace WindowsForm
             }
         }
 
-        private async void modificarButton_click(object sender, EventArgs e)
+        private void modificarButton_click(object sender, EventArgs e)
         {
             try
-            {MateriaDetalle materiaDetalle = new MateriaDetalle();
+            {
+                MateriaDetalle materiaDetalle = new MateriaDetalle();
 
                 MateriaDTO materia = this.SelectedItem();
 
@@ -90,7 +98,7 @@ namespace WindowsForm
                     MessageBox.Show("Materia actualizada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
-                this.GetByCriteriaAndLoad();
+                _ = GetByCriteriaAndLoad();
             }
             catch (Exception ex)
             {
@@ -109,54 +117,67 @@ namespace WindowsForm
 
             if (materiaDetalle.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("materia agregada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Materia agregada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            this.GetByCriteriaAndLoad();
+
+            _ = GetByCriteriaAndLoad();
         }
+
         private MateriaDTO SelectedItem()
         {
-            MateriaDTO materia;
-            materia = (MateriaDTO)materiasDataGridView.SelectedRows[0].DataBoundItem;
-            return materia;
+            return (MateriaDTO)materiasDataGridView.SelectedRows[0].DataBoundItem;
         }
-        private async void GetByCriteriaAndLoad(string texto = "")
+
+        // === CARGA Y FILTRO ===
+        private async Task GetByCriteriaAndLoad(string texto = "")
         {
             try
             {
-                this.eliminarButton.Enabled = false;
-                this.modificarButton.Enabled = false;
-                this.agregarButton.Enabled = false;
-                this.materiasDataGridView.DataSource = null;
+                eliminarButton.Enabled = false;
+                modificarButton.Enabled = false;
+                agregarButton.Enabled = false;
+                materiasDataGridView.DataSource = null;
+
                 IEnumerable<MateriaDTO> materias;
-                if (string.IsNullOrWhiteSpace(texto))
+
+                // Carga todas las materias desde la API
+                var todas = await MateriaApi.GetAllAsync();
+
+                // Si hay texto, filtra por nombre (Descripcion)
+                if (!string.IsNullOrWhiteSpace(texto))
                 {
-                    materias = await MateriaApi.GetAllAsync();
+                    materias = todas
+                        .Where(m => m.Descripcion != null &&
+                                    m.Descripcion.Contains(texto, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
                 }
                 else
                 {
-                    materias = await MateriaApi.GetByCriteriaAsync(texto);
+                    materias = todas;
                 }
 
-                this.materiasDataGridView.DataSource = materias;
-                if (this.materiasDataGridView.Rows.Count > 0)
-                {
-                    this.materiasDataGridView.Rows[0].Selected = true;
-                    this.eliminarButton.Enabled = true;
-                    this.modificarButton.Enabled = true;
-                }
-                else
-                {
-                    this.eliminarButton.Enabled = false;
-                    this.modificarButton.Enabled = false;
-                }
-                this.agregarButton.Enabled = true;
+                materiasDataGridView.DataSource = materias.ToList();
+
+                // Habilitar botones según haya filas
+                bool hayFilas = materiasDataGridView.Rows.Count > 0;
+                eliminarButton.Enabled = hayFilas;
+                modificarButton.Enabled = hayFilas;
+                agregarButton.Enabled = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar la lista de materias: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.eliminarButton.Enabled = false;
-                this.modificarButton.Enabled = false;
+                MessageBox.Show($"Error al cargar la lista de materias: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                eliminarButton.Enabled = false;
+                modificarButton.Enabled = false;
             }
+        }
+
+        // === BUSCAR MIENTRAS SE ESCRIBE (opcional) ===
+        private async void buscarTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(buscarTextBox.Text))
+                await GetByCriteriaAndLoad();
         }
     }
 }

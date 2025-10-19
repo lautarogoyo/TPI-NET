@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Dynamic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using API.Clients;
@@ -16,7 +11,12 @@ namespace WindowsForm
     public partial class PersonaLista : Form
     {
         private string tipo;
+<<<<<<< Updated upstream
         private int numero; // 1 = Alumno, 2 = Profesor
+=======
+        private int numero; // 1 = Alumno, 2 = Profesor, 0 = Todos
+
+>>>>>>> Stashed changes
         public PersonaLista(int numero, string tipo)
         {
             this.numero = numero;
@@ -97,6 +97,7 @@ namespace WindowsForm
                 DataPropertyName = "TipoPersona",
                 Width = 100
             });
+
             personasDataGridView.CellFormatting += (s, e) =>
             {
                 if (personasDataGridView.Columns[e.ColumnIndex].DataPropertyName == "TipoPersona")
@@ -109,52 +110,127 @@ namespace WindowsForm
                 }
             };
         }
+
         private void PersonaLista_Load(object sender, EventArgs e)
         {
             this.GetByCriteriaAndLoad();
         }
 
-        private void buscarButton_Click(object sender, EventArgs e)
+        // === BOTÓN BUSCAR ===
+        private async void buscarButton_Click(object sender, EventArgs e)
         {
+            string texto = buscarTextBox.Text.Trim();
 
+            // Si el cuadro está vacío, recarga todo
+            if (string.IsNullOrWhiteSpace(texto))
+            {
+                this.GetByCriteriaAndLoad();
+                return;
+            }
+
+            // Filtra por texto
+            await GetByCriteriaAndLoad(texto);
         }
 
-        private void personasDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        // === SELECCIONAR PERSONA ===
+        private PersonaDTO SelectedItem()
         {
-
+            return (PersonaDTO)personasDataGridView.SelectedRows[0].DataBoundItem;
         }
 
-        private async void eliminarButton_Click(object sender, EventArgs e)
+        // === CARGAR PERSONAS (con o sin criterio) ===
+        private async Task GetByCriteriaAndLoad(string texto = "")
+
         {
             try
             {
-                PersonaDTO persona = this.SelectedItem();
+                this.eliminarButton.Enabled = false;
+                this.modificarButton.Enabled = false;
+                this.agregarButton.Enabled = false;
+                this.personasDataGridView.DataSource = null;
 
-                var confirm = MessageBox.Show(
-               $"¿Desea eliminar este {tipo}?",
-               "Confirmar eliminación",
-               MessageBoxButtons.YesNo,
-               MessageBoxIcon.Warning);
+                IEnumerable<PersonaDTO> personas;
 
-                if (confirm == DialogResult.Yes)
+                // Si no hay texto de búsqueda → trae todo
+                if (string.IsNullOrWhiteSpace(texto))
                 {
-                    await PersonaApi.DeleteAsync(persona.IDPersona);
-                    MessageBox.Show($"{tipo} eliminado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.GetByCriteriaAndLoad();
+                    personas = numero switch
+                    {
+                        1 => await PersonaApi.GetAllAlumnosAsync(),
+                        2 => await PersonaApi.GetAllProfesoresAsync(),
+                        _ => await PersonaApi.GetAllAsync()
+                    };
                 }
+                else
+                {
+                    // Filtrado por nombre o apellido (sin importar mayúsculas/minúsculas)
+                    var todas = numero switch
+                    {
+                        1 => await PersonaApi.GetAllAlumnosAsync(),
+                        2 => await PersonaApi.GetAllProfesoresAsync(),
+                        _ => await PersonaApi.GetAllAsync()
+                    };
+
+                    // Divide el texto en partes (por si escriben nombre y apellido)
+                    var partes = texto.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                    personas = todas.Where(p =>
+                    {
+                        string nombreCompleto = $"{p.Nombre} {p.Apellido}".ToLower();
+                        // Coincide si todas las palabras ingresadas están presentes en el nombre completo
+                        return partes.All(palabra => nombreCompleto.Contains(palabra.ToLower()));
+                    }).ToList();
+
+                }
+
+                this.personasDataGridView.DataSource = personas.ToList();
+
+                if (this.personasDataGridView.Rows.Count > 0)
+                {
+                    this.personasDataGridView.Rows[0].Selected = true;
+                    this.eliminarButton.Enabled = true;
+                    this.modificarButton.Enabled = true;
+                }
+                else
+                {
+                    this.eliminarButton.Enabled = false;
+                    this.modificarButton.Enabled = false;
+                }
+
+                this.agregarButton.Enabled = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al eliminar {tipo}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar la lista de {tipo}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.eliminarButton.Enabled = false;
+                this.modificarButton.Enabled = false;
             }
         }
 
-        private async void modificarButton_click(object sender, EventArgs e)
+        // === AGREGAR ===
+        private void agregarButton_Click(object sender, EventArgs e)
+        {
+            PersonaDetalle personaDetalle = new PersonaDetalle(numero, tipo);
+
+            PersonaDTO personaNuevo = new PersonaDTO();
+
+            personaDetalle.Mode = FormMode.Add;
+            personaDetalle.Persona = personaNuevo;
+
+            if (personaDetalle.ShowDialog() == DialogResult.OK)
+            {
+                MessageBox.Show($"{tipo} agregado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            this.GetByCriteriaAndLoad();
+        }
+
+        // === MODIFICAR ===
+        private void modificarButton_click(object sender, EventArgs e)
         {
             try
             {
                 PersonaDetalle personaDetalle = new PersonaDetalle(numero, tipo);
-
                 PersonaDTO persona = this.SelectedItem();
 
                 personaDetalle.Persona = persona;
@@ -173,76 +249,40 @@ namespace WindowsForm
             }
         }
 
-        private void agregarButton_Click(object sender, EventArgs e)
-        {
-            PersonaDetalle personaDetalle = new PersonaDetalle(numero, tipo);
-
-            PersonaDTO personaNuevo = new PersonaDTO();
-
-            personaDetalle.Mode = FormMode.Add;
-            personaDetalle.Persona = personaNuevo;
-
-            if (personaDetalle.ShowDialog() == DialogResult.OK)
-            {
-                MessageBox.Show($"{tipo} agregado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            this.GetByCriteriaAndLoad();
-        }
-        private PersonaDTO SelectedItem()
-        {
-            PersonaDTO persona;
-            persona = (PersonaDTO)personasDataGridView.SelectedRows[0].DataBoundItem;
-            return persona;
-        }
-        private async void GetByCriteriaAndLoad(string texto = "")
+        // === ELIMINAR ===
+        private async void eliminarButton_Click(object sender, EventArgs e)
         {
             try
             {
-                this.eliminarButton.Enabled = false;
-                this.modificarButton.Enabled = false;
-                this.agregarButton.Enabled = false;
-                this.personasDataGridView.DataSource = null;
-                IEnumerable<PersonaDTO> personas;
-                if (string.IsNullOrWhiteSpace(texto))
-                {
-                    if (numero == 1)
-                    {
-                        personas = await PersonaApi.GetAllAlumnosAsync();
-                    }
-                    else if (numero == 2)
-                    {
-                        personas = await PersonaApi.GetAllProfesoresAsync();
-                    }
-                    else
-                    {
-                        personas = await PersonaApi.GetAllAsync();
-                    }
-                }
-                else
-                {
-                    personas = null; //await PersonaApi.GetByCriteriaAsync(texto);
-                }
+                PersonaDTO persona = this.SelectedItem();
 
-                this.personasDataGridView.DataSource = personas;
-                if (this.personasDataGridView.Rows.Count > 0)
+                var confirm = MessageBox.Show(
+                   $"¿Desea eliminar este {tipo}?",
+                   "Confirmar eliminación",
+                   MessageBoxButtons.YesNo,
+                   MessageBoxIcon.Warning);
+
+                if (confirm == DialogResult.Yes)
                 {
-                    this.personasDataGridView.Rows[0].Selected = true;
-                    this.eliminarButton.Enabled = true;
-                    this.modificarButton.Enabled = true;
+                    await PersonaApi.DeleteAsync(persona.IDPersona);
+                    MessageBox.Show($"{tipo} eliminado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.GetByCriteriaAndLoad();
                 }
-                else
-                {
-                    this.eliminarButton.Enabled = false;
-                    this.modificarButton.Enabled = false;
-                }
-                this.agregarButton.Enabled = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar la lista de {tipo}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.eliminarButton.Enabled = false;
-                this.modificarButton.Enabled = false;
+                MessageBox.Show($"Error al eliminar {tipo}: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        // === BUSCAR MIENTRAS SE ESCRIBE (opcional) ===
+        private async void buscarTextBox_TextChanged(object sender, EventArgs e)
+        {
+            string texto = buscarTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(texto))
+                await Task.Run(() => GetByCriteriaAndLoad());
         }
     }
 }
+
