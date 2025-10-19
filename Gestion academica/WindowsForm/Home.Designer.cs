@@ -37,6 +37,7 @@
             profesorButton = new Button();
             planButton = new Button();
             comisionButton = new Button();
+            btnDocenteCurso = new Button();
             SuspendLayout();
             // 
             // cursoButton
@@ -82,7 +83,7 @@
             // 
             // UsuarioButton
             // 
-            UsuarioButton.Location = new Point(147, 472);
+            UsuarioButton.Location = new Point(49, 471);
             UsuarioButton.Name = "UsuarioButton";
             UsuarioButton.Size = new Size(163, 50);
             UsuarioButton.TabIndex = 4;
@@ -92,7 +93,7 @@
             // 
             // alumnoButton
             // 
-            alumnoButton.Location = new Point(429, 474);
+            alumnoButton.Location = new Point(296, 471);
             alumnoButton.Name = "alumnoButton";
             alumnoButton.Size = new Size(158, 47);
             alumnoButton.TabIndex = 5;
@@ -130,11 +131,22 @@
             comisionButton.UseVisualStyleBackColor = true;
             comisionButton.Click += comisionButton_Click;
             // 
+            // btnDocenteCurso
+            // 
+            btnDocenteCurso.Location = new Point(534, 471);
+            btnDocenteCurso.Name = "btnDocenteCurso";
+            btnDocenteCurso.Size = new Size(164, 50);
+            btnDocenteCurso.TabIndex = 8;
+            btnDocenteCurso.Text = "Asignar docente a curso";
+            btnDocenteCurso.UseVisualStyleBackColor = true;
+            btnDocenteCurso.Click += btnDocenteCurso_Click;
+            // 
             // Home
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(804, 627);
+            Controls.Add(btnDocenteCurso);
             Controls.Add(alumnoButton);
             Controls.Add(profesorButton);
             Controls.Add(UsuarioButton);
@@ -163,5 +175,6 @@
         private Button profesorButton;
         private Button planButton;
         private Button comisionButton;
+        private Button btnDocenteCurso;
     }
 }
