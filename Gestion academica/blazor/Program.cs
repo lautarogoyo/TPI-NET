@@ -1,3 +1,4 @@
+using API.Clients;
 using blazor.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddScoped<API.Clients.PersonaApi>();
 builder.Services.AddScoped<API.Clients.InscripcionApi>();
 builder.Services.AddScoped<API.Clients.CursoApi>();
 builder.Services.AddScoped<API.Clients.UsuarioApi>();
+builder.Services.AddScoped<ComisionMateriaApi>();
 
 
 

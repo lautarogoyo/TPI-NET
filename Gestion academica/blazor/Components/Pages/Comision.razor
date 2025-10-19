@@ -5,6 +5,7 @@
 @inject ComisionApi ComisionApi
 @inject IHttpClientFactory HttpFactory
 @rendermode InteractiveServer
+@inject NavigationManager Navigation
 
 <PageTitle>Comisiones</PageTitle>
 
@@ -53,7 +54,7 @@
                                 <th>Descripción</th>
                                 <th>Año especialidad</th>
                                 <th>Plan</th>
-                                <th style="width:180px"></th>
+                                <th style="width:300px"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,10 +68,18 @@
                                         <td>@c.AnioEspecialidad</td>
                                         <td>@GetPlanNombre(c.IDPlan)</td>
                                         <td class="text-end">
-                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(c)">
+                                            <button class="btn btn-sm btn-outline-info me-1"
+                                            @onclick="() => VerMaterias(c)">
+                                                <i class="fas fa-book"></i> Ver materias
+                                            </button>
+
+                                            <button class="btn btn-sm btn-outline-primary me-1"
+                                            @onclick="() => OpenEditModal(c)">
                                                 <i class="fas fa-edit"></i> Editar
                                             </button>
-                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(c)">
+
+                                            <button class="btn btn-sm btn-outline-danger"
+                                            @onclick="() => ConfirmDelete(c)">
                                                 <i class="fas fa-trash"></i> Eliminar
                                             </button>
                                         </td>
@@ -140,7 +149,7 @@ OnError="ShowError" />
         {
             var http = HttpFactory.CreateClient("WebApi");
             // Cambiá "planes" por el endpoint real (ej: "api/planes")
-            planes = await http.GetFromJsonAsync<List<PlanDTO>>("api/planes") ?? new();
+            planes = await http.GetFromJsonAsync<List<PlanDTO>>("/planes") ?? new();
         }
         catch (Exception ex)
         {
@@ -186,7 +195,10 @@ OnError="ShowError" />
                          .FirstOrDefault();
         return display?.Name ?? value.ToString();
     }
-
+    private void VerMaterias(ComisionDTO comision)
+    {
+        Navigation.NavigateTo($"/comisiones/{comision.IDComision}/materias");
+    }
     private void ShowSuccess(string msg) => successMessage = msg;
     private void ShowError(string msg) => errorMessage = msg;
 }
