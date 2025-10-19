@@ -11,12 +11,10 @@ namespace WindowsForm
     public partial class PersonaLista : Form
     {
         private string tipo;
-<<<<<<< Updated upstream
-        private int numero; // 1 = Alumno, 2 = Profesor
-=======
+
         private int numero; // 1 = Alumno, 2 = Profesor, 0 = Todos
 
->>>>>>> Stashed changes
+
         public PersonaLista(int numero, string tipo)
         {
             this.numero = numero;
