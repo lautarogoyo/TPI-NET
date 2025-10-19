@@ -45,6 +45,7 @@
             btnEliminar.TabIndex = 1;
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.Click += btnEliminar_Click; // ✅ Evento agregado
             // 
             // btnModificar
             // 
@@ -54,6 +55,7 @@
             btnModificar.TabIndex = 2;
             btnModificar.Text = "Modificar";
             btnModificar.UseVisualStyleBackColor = true;
+            btnModificar.Click += btnModificar_Click; // ✅ Evento agregado
             // 
             // btnAgregar
             // 
@@ -63,6 +65,7 @@
             btnAgregar.TabIndex = 3;
             btnAgregar.Text = "Agregar";
             btnAgregar.UseVisualStyleBackColor = true;
+            btnAgregar.Click += btnAgregar_Click; // ✅ Evento agregado
             // 
             // txtBuscar
             // 
@@ -89,6 +92,7 @@
             btnBuscar.TabIndex = 6;
             btnBuscar.Text = "Buscar";
             btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.Click += btnBuscar_Click; // ✅ Evento agregado
             // 
             // DocenteCursoLista
             // 

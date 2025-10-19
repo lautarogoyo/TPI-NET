@@ -91,29 +91,36 @@ namespace WindowsForm
             return (DocenteCurso)dgvDocentesCursos.SelectedRows[0].DataBoundItem;
         }
 
-        private async void btnAgregar_Click(object? sender, EventArgs e)
+        private void btnAgregar_Click(object sender, EventArgs e)
         {
             try
             {
-                DocenteCursoDetalle detalle = new DocenteCursoDetalle
-                {
-                    Mode = FormMode.Add,
-                    DocenteCurso = new DocenteCurso()
-                };
+                
+                DocenteCursoDetalle docenteCursoDetalle = new DocenteCursoDetalle();
 
-                if (detalle.ShowDialog() == DialogResult.OK)
+                
+                DocenteCurso nuevoDocenteCurso = new DocenteCurso();
+
+                
+                docenteCursoDetalle.Mode = FormMode.Add;
+                docenteCursoDetalle.DocenteCurso = nuevoDocenteCurso;
+
+                
+                if (docenteCursoDetalle.ShowDialog() == DialogResult.OK)
                 {
-                    MessageBox.Show("Docente-Curso agregado correctamente.",
+                    MessageBox.Show("Asignación de docente a curso agregada exitosamente.",
                         "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    await CargarDocentesCursosAsync();
                 }
+                
+                this.GetByCriteriaAndLoad();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al agregar: {ex.Message}",
+                MessageBox.Show($"Error al agregar la asignación: {ex.Message}",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private async void btnModificar_Click(object? sender, EventArgs e)
         {
@@ -185,5 +192,52 @@ namespace WindowsForm
             if (string.IsNullOrWhiteSpace(txtBuscar.Text))
                 await CargarDocentesCursosAsync();
         }
+
+
+
+        private async void GetByCriteriaAndLoad(string texto = "")
+        {
+            try
+            {
+                // Deshabilitamos los botones mientras se carga
+                btnEliminar.Enabled = false;
+                btnModificar.Enabled = false;
+                btnAgregar.Enabled = false;
+
+                dgvDocentesCursos.DataSource = null;
+
+                IEnumerable<DocenteCurso> docentesCursos;
+
+                // Si el texto está vacío, traemos todos
+                if (string.IsNullOrWhiteSpace(texto))
+                {
+                    docentesCursos = await DocenteCursoApi.GetAllAsync();
+                }
+                else
+                {
+                    docentesCursos = await DocenteCursoApi.GetByCriteriaAsync(texto);
+                }
+
+                dgvDocentesCursos.DataSource = docentesCursos;
+
+                // Habilitamos o deshabilitamos botones según si hay registros
+                bool hayFilas = dgvDocentesCursos.Rows.Count > 0;
+                btnEliminar.Enabled = hayFilas;
+                btnModificar.Enabled = hayFilas;
+                btnAgregar.Enabled = true;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar la lista de docentes por curso: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                btnEliminar.Enabled = false;
+                btnModificar.Enabled = false;
+            }
+        }
+
+
+
     }
 }

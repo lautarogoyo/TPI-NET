@@ -101,10 +101,10 @@
             btnAceptar.Text = "Aceptar";
             btnAceptar.UseVisualStyleBackColor = true;
             btnAceptar.Click += btnAceptar_Click;
-
             // 
             // btnCancelar
             // 
+            btnCancelar.DialogResult = DialogResult.Cancel;
             btnCancelar.Location = new Point(480, 310);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(94, 29);
