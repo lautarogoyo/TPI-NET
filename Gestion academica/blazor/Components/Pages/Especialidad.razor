@@ -10,7 +10,7 @@
 
 <PageTitle>Especialidades</PageTitle>
 
-<AuthorizeView Roles="Alumno">
+<AuthorizeView Roles="Admin">
     <Authorized>
         <div class="container-fluid">
             <div class="row">
@@ -124,7 +124,7 @@
 
         if (!isAuth)
             Nav.NavigateTo("/login", true);
-        else if (!user.IsInRole("Alumno"))
+        else if (!user.IsInRole("Admin"))
             Nav.NavigateTo("/denied");
     }
 
