@@ -24,30 +24,61 @@ namespace WindowsForm
             dgvDocentesCursos.AutoGenerateColumns = false;
             dgvDocentesCursos.Columns.Clear();
 
-            DataGridViewTextBoxColumn idCursoColumn = new DataGridViewTextBoxColumn
+            
+            DataGridViewTextBoxColumn idDocenteCursoColumn = new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "IdDocenteCurso",
+                HeaderText = "ID Asignación",
+                Width = 100
+            };
+            dgvDocentesCursos.Columns.Add(idDocenteCursoColumn);
+
+            
+            DataGridViewTextBoxColumn cursoColumn = new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "DescCurso",
                 HeaderText = "Curso",
-                Width = 120
+                Width = 150
             };
-            dgvDocentesCursos.Columns.Add(idCursoColumn);
+            dgvDocentesCursos.Columns.Add(cursoColumn);
 
-            DataGridViewTextBoxColumn idDocenteColumn = new DataGridViewTextBoxColumn
+            
+            DataGridViewTextBoxColumn docenteColumn = new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "NombreDocente",
                 HeaderText = "Docente",
-                Width = 120
+                Width = 150
             };
-            dgvDocentesCursos.Columns.Add(idDocenteColumn);
+            dgvDocentesCursos.Columns.Add(docenteColumn);
 
+            
             DataGridViewTextBoxColumn cargoColumn = new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "Cargo",
                 HeaderText = "Cargo",
-                Width = 150
+                Width = 100
             };
             dgvDocentesCursos.Columns.Add(cargoColumn);
+
+            
+            DataGridViewTextBoxColumn idCursoColumn = new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "IDCurso",
+                HeaderText = "ID Curso",
+                Width = 80
+            };
+            dgvDocentesCursos.Columns.Add(idCursoColumn);
+
+            
+            DataGridViewTextBoxColumn idDocenteColumn = new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "IDDocente",
+                HeaderText = "ID Docente",
+                Width = 80
+            };
+            dgvDocentesCursos.Columns.Add(idDocenteColumn);
         }
+
 
         private async void DocenteCursoLista_Load(object? sender, EventArgs e)
         {

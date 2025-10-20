@@ -58,17 +58,14 @@ namespace WindowsForm
             _ = GetByCriteriaAndLoad();
         }
 
-        
         private async void buscarButton_Click(object sender, EventArgs e)
         {
             string texto = buscarTextBox.Text.Trim();
-
             if (string.IsNullOrWhiteSpace(texto))
             {
                 await GetByCriteriaAndLoad();
                 return;
             }
-
             await GetByCriteriaAndLoad(texto);
         }
 
@@ -80,7 +77,12 @@ namespace WindowsForm
         {
             try
             {
-                ComisionDTO comision = this.SelectedItem();
+                var comision = this.SelectedItem();
+                if (comision == null)
+                {
+                    MessageBox.Show("Debe seleccionar una comisión.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
                 var confirm = MessageBox.Show(
                     "¿Desea eliminar esta comisión?",
@@ -105,9 +107,14 @@ namespace WindowsForm
         {
             try
             {
-                ComisionDetalle comisionDetalle = new ComisionDetalle();
-                ComisionDTO comision = this.SelectedItem();
+                var comision = this.SelectedItem();
+                if (comision == null)
+                {
+                    MessageBox.Show("Debe seleccionar una comisión.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
+                ComisionDetalle comisionDetalle = new ComisionDetalle();
                 comisionDetalle.Mode = FormMode.Update;
                 comisionDetalle.Comision = comision;
 
@@ -127,9 +134,7 @@ namespace WindowsForm
         private void agregarButton_Click(object sender, EventArgs e)
         {
             ComisionDetalle comisionDetalle = new ComisionDetalle();
-
             ComisionDTO comisionNuevo = new ComisionDTO();
-
             comisionDetalle.Mode = FormMode.Add;
             comisionDetalle.Comision = comisionNuevo;
 
@@ -141,12 +146,13 @@ namespace WindowsForm
             _ = GetByCriteriaAndLoad();
         }
 
-        private ComisionDTO SelectedItem()
+        private ComisionDTO? SelectedItem()
         {
+            if (comisionesDataGridView.SelectedRows.Count == 0)
+                return null;
             return (ComisionDTO)comisionesDataGridView.SelectedRows[0].DataBoundItem;
         }
 
-        
         private async Task GetByCriteriaAndLoad(string texto = "")
         {
             try
@@ -158,7 +164,6 @@ namespace WindowsForm
                 comisionesDataGridView.DataSource = null;
 
                 IEnumerable<ComisionDTO> comisiones;
-
                 var todas = await ComisionApi.GetAllAsync();
 
                 if (!string.IsNullOrWhiteSpace(texto))
@@ -185,13 +190,11 @@ namespace WindowsForm
             {
                 MessageBox.Show($"Error al cargar la lista de comisiones: {ex.Message}",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 eliminarButton.Enabled = false;
                 modificarButton.Enabled = false;
             }
         }
 
-        
         private async void buscarTextBox_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(buscarTextBox.Text))
@@ -200,7 +203,14 @@ namespace WindowsForm
 
         private void verMateriasButton_Click(object sender, EventArgs e)
         {
-            int idCom = this.SelectedItem().IDComision;
+            var seleccionada = this.SelectedItem();
+            if (seleccionada == null)
+            {
+                MessageBox.Show("Debe seleccionar una comisión.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int idCom = seleccionada.IDComision;
             ComisionMateriaLista cmLista = new ComisionMateriaLista(idCom);
             cmLista.ShowDialog();
         }
