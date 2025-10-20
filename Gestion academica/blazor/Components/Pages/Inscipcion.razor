@@ -30,11 +30,7 @@
                     <button type="button" class="btn btn-close" @onclick="() => successMessage = string.Empty"></button>
                 </div>
             }
-            <div class="mb-3">
-                <button class="btn btn-primary" @onclick="() => MisCursos()">
-                    <i class="fas fa-plus"></i>Volver a mis cursos
-                </button>
-            </div>
+            
             @if (loading)
             {
                 <div class="d-flex justify-content-center">
@@ -158,10 +154,7 @@
 				}
 			});
     }
-    private void MisCursos()
-    {
-        Navigation.NavigateTo($"/usuario/{IdP}/inscripciones");
-    }
+    
     private void ShowSuccess(string msg) => successMessage = msg;
     private void ShowError(string msg) => errorMessage = msg;
 }
