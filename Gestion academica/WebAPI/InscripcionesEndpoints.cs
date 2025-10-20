@@ -71,6 +71,24 @@ namespace WebAPI
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
+
+            app.MapGet("/inscripciones/usuario/{idAlumno}", (int idAlumno) =>
+            {
+                var service = new InscripcionService();
+                return Results.Ok(service.GetByAlumno(idAlumno));
+            })
+            .WithName("GetByAlumno")
+            .Produces<List<InscripcionDTO>>(StatusCodes.Status200OK)
+            .WithOpenApi();
+
+            app.MapGet("/inscripciones/curso/{idCurso}", (int idCurso) =>
+            {
+                var service = new InscripcionService();
+                return Results.Ok(service.CuantosInscriptos(idCurso));
+            })
+            .WithName("GetCuantosInscriptos")
+            .Produces<int>(StatusCodes.Status200OK)
+            .WithOpenApi();
         }
     }
 }

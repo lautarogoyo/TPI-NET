@@ -13,5 +13,6 @@
         public string? DescComision { get; set; }
         public int? HsSemanales { get; set; }
         public int? HsTotales { get; set; }
+        public int? CuposDisponibles { get; set; } 
     }
 }

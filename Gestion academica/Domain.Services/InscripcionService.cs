@@ -64,5 +64,28 @@ namespace Application.Services
 
             return repo.Update(i);
         }
+
+        public IEnumerable<InscripcionDTO> GetByAlumno(int idAlumno)
+        {
+            var repo = new InscripcionRepository();
+            return repo.GetByAlumno(idAlumno).Select(e => new InscripcionDTO
+            {
+                IDInscripcion = e.IDInscripcion,
+                IDAlumno = e.IDAlumno,
+                IDCurso = e.IDCurso,
+                Condicion = e.Condicion,
+                NotaFinal = e.NotaFinal,
+                DescCurso = e.Curso.Descripcion,
+                DescMateria = e.Curso.ComisionMateria.Materia.Descripcion,
+                DescComision = e.Curso.ComisionMateria.Comision.Descripcion,
+                Anio = e.Curso.AnioCalendario
+            }).ToList();
+        }
+
+        public int CuantosInscriptos(int idCurso)
+        {
+            var repo = new InscripcionRepository();
+            return repo.CuantosInscriptos(idCurso);
+        }
     }
 }

@@ -1,0 +1,130 @@
+﻿@page "/usuario/{idU:int}"
+@using DTOs
+@using API.Clients
+@inject IJSRuntime JSRuntime
+@inject InscripcionApi InscripcionApi
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<PageTitle>Mis cursos</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h3>Mis cursos</h3>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @errorMessage
+                    <button type="button" class="btn btn-close" @onclick="() => errorMessage = string.Empty"></button>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @successMessage
+                    <button type="button" class="btn btn-close" @onclick="() => successMessage = string.Empty"></button>
+                </div>
+            }
+
+            <div class="mb-3">
+                <button class="btn btn-primary" @onclick="() => Inscripciones()">
+                    <i class="fas fa-plus"></i> Inscribirse a nuevos cursos
+                </button>
+            </div>
+
+            @if (loading)
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Curso</th>
+                                <th>Materia</th>
+                                <th>Comisión</th>
+                                <th>Año</th>
+                                <th>Condicion</th>
+                                <th>Nota Final</th>
+                                <th style="width:200px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (inscripciones is { Count: > 0 })
+                            {
+                                @foreach (var i in inscripciones)
+                                {
+                                    <tr>
+                                        <td>@i.DescCurso</td>
+                                        <td>@i.DescMateria</td>
+                                        <td>@i.DescComision</td>
+                                        <td>@i.Anio</td>
+                                        <td>@i.Condicion</td>
+                                        <td>@(i.NotaFinal == -1 ? "-" : i.NotaFinal)</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted">No estas inscripto a ningún curso.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public int IdU { get; set; }
+    private List<InscripcionDTO> inscripciones = new();
+
+    private bool loading = true;
+    private string errorMessage = string.Empty;
+    private string successMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+        => await LoadCursos();
+
+    private async Task LoadCursos()
+    {
+        try
+        {
+            loading = true;
+            errorMessage = string.Empty;
+
+            inscripciones = await InscripcionApi.GetByAlumno(IdU);
+
+            successMessage = string.Empty;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error al cargar cursos: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private void Inscripciones()
+    {
+        Navigation.NavigateTo($"/usuario/{IdU}/inscripciones");
+    }
+
+    private void ShowSuccess(string msg) => successMessage = msg;
+    private void ShowError(string msg) => errorMessage = msg;
+}
+

@@ -43,14 +43,14 @@ namespace API.Clients
             }
         }
 
-        public static async Task<IEnumerable<InscripcionDTO>> GetAllAsync()
+        public static async Task<List<InscripcionDTO>> GetAllAsync()
         {
             try
             {
                 var response = await client.GetAsync("inscripciones");
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadFromJsonAsync<IEnumerable<InscripcionDTO>>() ?? new List<InscripcionDTO>();
+                    return await response.Content.ReadFromJsonAsync<List<InscripcionDTO>>() ?? new List<InscripcionDTO>();
                 }
 
                 var error = await response.Content.ReadAsStringAsync();
@@ -126,6 +126,51 @@ namespace API.Clients
             catch (TaskCanceledException ex)
             {
                 throw new Exception($"Timeout al eliminar inscripción Id {id}: {ex.Message}", ex);
+            }
+        }
+
+        public static async Task<List<InscripcionDTO>> GetByAlumno(int idAlumno)
+        {
+            try
+            {
+                var response = await client.GetAsync($"inscripciones/usuario/{idAlumno}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<List<InscripcionDTO>>() ?? new List<InscripcionDTO>();
+                }
+
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error al obtener inscripciones. Status: {response.StatusCode}. Detalle: {error}");
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception($"Error de conexión al obtener inscripciones: {ex.Message}", ex);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new Exception($"Timeout al obtener inscripciones: {ex.Message}", ex);
+            }
+        }
+
+        public static async Task<int> CuantosInscriptos(int idCurso)
+        {
+            try
+            {
+                var response = await client.GetAsync($"inscripciones/curso/{idCurso}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<int>();
+                }
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error al obtener inscripciones. Status: {response.StatusCode}. Detalle: {error}");
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception($"Error de conexión al obtener inscripciones: {ex.Message}", ex);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new Exception($"Timeout al obtener inscripciones: {ex.Message}", ex);
             }
         }
     }

@@ -1,4 +1,6 @@
 ﻿using Domain.Model;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Data
 {
@@ -56,6 +58,26 @@ namespace Data
                 return true;
             }
             return false;
+        }
+
+        public IEnumerable<Inscripcion> GetByAlumno(int id)
+        {
+            using var context = CreateContext();
+            return context.Inscripciones
+                .Include(i => i.Curso)
+                .ThenInclude(c => c.ComisionMateria)
+                .ThenInclude(cm => cm.Materia)
+                .Include(i => i.Curso)
+                .ThenInclude(c => c.ComisionMateria)
+                .ThenInclude(cm => cm.Comision)
+                .Where(i => i.IDAlumno == id)
+                .ToList();
+        }
+
+        public int CuantosInscriptos(int idCurso)
+        {
+            using var context = CreateContext();
+            return context.Inscripciones.Count(i => i.IDCurso == idCurso);
         }
     }
 }
