@@ -1,10 +1,10 @@
-﻿@page "/cursos/{idCurso:int}/inscripciones"
+﻿@page "/cursos/{idCurso:int}/{descCurso}/inscripciones"
 @using API.Clients
 @using DTOs
 @inject InscripcionApi InscripcionApi
 @inject IJSRuntime JS
 
-<h3>Inscriptos del curso @idCurso</h3>
+<h3>Alumno Inscriptos a @descCurso</h3>
 
 <div class="mb-3">
     <button class="btn btn-outline-danger" @onclick="ExportPdf">
@@ -50,7 +50,7 @@ else
                     <td>@insc.Alumno?.Apellido</td>
                     <td>@insc.Alumno?.Email</td>
                     <td>@insc.Condicion</td>
-                    <td>@insc.NotaFinal</td>
+                    <td>@(insc.NotaFinal == -1 ? "-" : insc.NotaFinal)</td>
                 </tr>
             }
         </tbody>
@@ -59,6 +59,8 @@ else
 
 @code {
     [Parameter] public int idCurso { get; set; }
+    [Parameter] public string descCurso { get; set; }
+
     private List<InscripcionDTO>? inscriptos;
     private bool loading = true;
     private string errorMessage = string.Empty;
@@ -83,7 +85,7 @@ else
 
     private async Task ExportPdf()
     {
-        var curso = inscriptos?.FirstOrDefault()?.DescCurso ?? $"Curso {idCurso}";
+        var curso = inscriptos?.FirstOrDefault()?.DescCurso ?? $"{descCurso}";
         await JS.InvokeVoidAsync("exportTableToPdf", $"Inscriptos - {curso}", "#tabla-inscriptos");
     }
 }

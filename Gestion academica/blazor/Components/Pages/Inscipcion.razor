@@ -12,7 +12,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h3>Cursos</h3>
+            <h3>Inscipción a Cursos</h3>
 
             @if (!string.IsNullOrEmpty(errorMessage))
             {
@@ -73,8 +73,8 @@
                                         <td class="text-end">
                                             <button class="btn btn-sm btn-outline-primary me-1"
                                             @onclick="() => Inscribirse(c)"
-                                            disabled="@(c.CuposDisponibles == 0)">
-                                                <i class="fas fa-edit"></i> Inscribirse
+                                            disabled="@(c.CuposDisponibles < 1)">
+                                        <i>@(c.CuposDisponibles < 1 ? "Cupos Agotados" : "Inscribirse")</i>
                                             </button>
                                         </td>
                                     </tr>
