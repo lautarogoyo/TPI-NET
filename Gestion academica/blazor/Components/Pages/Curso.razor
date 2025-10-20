@@ -177,7 +177,7 @@ OnError="ShowError" />
 
     private void VerInscriptos(CursoDTO curso)
     {
-        Navigation.NavigateTo($"/cursos/{curso.IdCurso}/inscripciones");
+        Navigation.NavigateTo($"/cursos/{curso.IdCurso}/{curso.Descripcion}/inscripciones");
 
     }
 

@@ -1,11 +1,11 @@
-﻿@page "/cursos/{idCurso:int}/inscripciones"
+﻿@page "/cursos/{idCurso:int}/{descCurso}/inscripciones"
 @using API.Clients
 @inject InscripcionApi InscripcionApi
 @using DTOs
 @inject NavigationManager Navigation
 
 
-<h3>Inscriptos del curso @idCurso</h3>
+<h3>Alumno Inscriptos a @descCurso</h3>
 
 @if (loading)
 {
@@ -46,7 +46,7 @@ else
                     <td>@insc.Alumno?.Apellido</td>
                     <td>@insc.Alumno?.Email</td>
                     <td>@insc.Condicion</td>
-                    <td>@insc.NotaFinal</td>
+                    <td>@(insc.NotaFinal == -1 ? "-" : insc.NotaFinal)</td>
                 </tr>
             }
         </tbody>
@@ -55,6 +55,7 @@ else
 
 @code {
     [Parameter] public int idCurso { get; set; }
+    [Parameter] public string descCurso { get; set; }
 
     private List<InscripcionDTO>? inscriptos;
     private bool loading = true;
