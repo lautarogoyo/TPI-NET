@@ -173,5 +173,28 @@ namespace API.Clients
                 throw new Exception($"Timeout al obtener inscripciones: {ex.Message}", ex);
             }
         }
+
+        public static async Task<List<InscripcionDTO>> GetByCurso(int idCurso)
+        {
+            try
+            {
+                var response = await client.GetAsync($"inscripciones/curso/{idCurso}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<List<InscripcionDTO>>() ?? new List<InscripcionDTO>();
+                }
+
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error al obtener inscripciones. Status: {response.StatusCode}. Detalle: {error}");
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception($"Error de conexión al obtener inscripciones: {ex.Message}", ex);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new Exception($"Timeout al obtener inscripciones: {ex.Message}", ex);
+            }
+        }
     }
 }

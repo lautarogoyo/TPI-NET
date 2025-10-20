@@ -89,6 +89,15 @@ namespace WebAPI
             .WithName("GetCuantosInscriptos")
             .Produces<int>(StatusCodes.Status200OK)
             .WithOpenApi();
+
+            app.MapGet("/inscripciones/alumnos/{idCurso}", (int idCurso) =>
+            {
+                var service = new InscripcionService();
+                return Results.Ok(service.GetByCurso(idCurso));
+            })
+            .WithName("GetInscripcionesAlumnos")
+            .Produces<List<InscripcionDTO>>(StatusCodes.Status200OK)
+            .WithOpenApi();
         }
     }
 }

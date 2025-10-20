@@ -199,7 +199,7 @@ OnError="ShowError" />
     }
     private void VerMaterias(ComisionDTO comision)
     {
-        Navigation.NavigateTo($"/comisiones/{comision.IDComision}/materias");
+        Navigation.NavigateTo($"/comisiones/{comision.IDComision}/{comision.Descripcion}/materias");
     }
     private void ShowSuccess(string msg) => successMessage = msg;
     private void ShowError(string msg) => errorMessage = msg;
