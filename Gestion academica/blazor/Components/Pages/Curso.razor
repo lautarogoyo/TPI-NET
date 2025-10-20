@@ -1,5 +1,4 @@
-﻿@*
-
+﻿
 @page "/cursos"
 @using DTOs
 @using API.Clients
@@ -58,6 +57,8 @@
                                 <th>Comisión</th>
                                 <th>Año</th>
                                 <th>Cupo</th>
+                                <th>Hs Semanales</th>
+                                <th>Hs Totales</th>
                                 <th style="width:200px"></th>
                             </tr>
                         </thead>
@@ -69,10 +70,12 @@
                                     <tr>
                                         <td>@c.IdCurso</td>
                                         <td>@c.Descripcion</td>
-                                        <td>@GetMateriaNombre(c.IDMateria)</td>
-                                        <td>@GetComisionNombre(c.IDComision)</td>
+                                        <td>@c.DescMateria</td>
+                                        <td>@c.DescComision</td>
                                         <td>@c.AnioCalendario</td>
                                         <td>@c.Cupo</td>
+                                        <td>@c.HsSemanales</td>
+                                        <td>@c.HsTotales</td>
                                         <td class="text-end">
                                             <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(c)">
                                                 <i class="fas fa-edit"></i> Editar
@@ -99,17 +102,12 @@
 </div>
 
 <CursoModal @ref="modal"
-            OnCursoChange="LoadCursos"
-            OnSuccess="ShowSuccess"
-            OnError="ShowError" />
+OnCursoChange="LoadCursos"
+OnSuccess="ShowSuccess"
+OnError="ShowError" />
 
 @code {
     private List<CursoDTO> cursos = new();
-    private List<MateriaDTO> materias = new();
-    private List<ComisionDTO> comisiones = new();
-
-    private Dictionary<int, string> materiaById = new();
-    private Dictionary<int, string> comisionById = new();
 
     private bool loading = true;
     private string errorMessage = string.Empty;
@@ -127,15 +125,7 @@
             loading = true;
             errorMessage = string.Empty;
 
-            // Catálogos para mostrar nombres
-            materias = (await MateriaApi.GetAllAsync())?.ToList() ?? new();
-            comisiones = (await ComisionApi.GetAllAsync())?.ToList() ?? new();
-
-            materiaById = materias.ToDictionary(m => m.IDMateria, m => m.Descripcion);
-            comisionById = comisiones.ToDictionary(c => c.IDComision, c => c.Descripcion);
-
-            // Cursos
-            cursos = (await CursoApi.GetAllAsync())?.ToList() ?? new();
+            cursos = await CursoApi.GetWithComisionMateria();
 
             successMessage = string.Empty;
         }
@@ -149,24 +139,16 @@
         }
     }
 
-    private string GetMateriaNombre(int id)
-        => materiaById.TryGetValue(id, out var nombre) ? nombre : "(sin materia)";
-
-    private string GetComisionNombre(int id)
-        => comisionById.TryGetValue(id, out var nombre) ? nombre : "(sin comisión)";
-
     private Task OpenAddModal() => modal.ShowAddModal();
 
     private Task OpenEditModal(CursoDTO curso) => modal.ShowEditModal(curso);
 
     private async Task ConfirmDelete(CursoDTO curso)
     {
-        var mat = GetMateriaNombre(curso.IDMateria);
-        var com = GetComisionNombre(curso.IDComision);
 
         var ok = await JSRuntime.InvokeAsync<bool>(
             "confirm",
-            $"¿Eliminar el curso \"{curso.Descripcion}\" (ID {curso.IdCurso})\nMateria: {mat}\nComisión: {com}\nAño: {curso.AnioCalendario}?");
+            $"¿Eliminar el curso \"{curso.Descripcion}\" (ID {curso.IdCurso})\nMateria: {curso.DescMateria}\nComisión: {curso.DescComision}\nAño: {curso.AnioCalendario}?");
         if (ok)
             await DeleteCurso(curso.IdCurso);
     }
@@ -189,4 +171,3 @@
     private void ShowError(string msg) => errorMessage = msg;
 }
 
-*@

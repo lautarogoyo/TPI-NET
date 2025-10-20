@@ -6,5 +6,6 @@
         public string Descripcion { get; set; }
         public int AnioEspecialidad { get; set; }
         public int IDPlan { get; set; }
+        public string? DescPlan { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Domain.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data
 {
@@ -38,7 +39,7 @@ namespace Data
         public IEnumerable<Plan> GetAll()
         {
             using var context = CreateContext();
-            return context.Planes.ToList();
+            return context.Planes.Include(p => p.Especialidad).ToList();
         }
 
         public bool Update(Plan plan)

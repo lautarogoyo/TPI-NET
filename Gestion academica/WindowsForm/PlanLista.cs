@@ -36,6 +36,11 @@ namespace WindowsForm
             descPlanColumn.HeaderText = "Descripción";
             descPlanColumn.Width = 200;
             planesDataGridView.Columns.Add(descPlanColumn);
+            DataGridViewTextBoxColumn especialidadColumn = new DataGridViewTextBoxColumn();
+            especialidadColumn.DataPropertyName = "DescEspecialidad";
+            especialidadColumn.HeaderText = "Especialidad";
+            especialidadColumn.Width = 200;
+            planesDataGridView.Columns.Add(especialidadColumn);
         }
         private void PlanLista_Load(object sender, EventArgs e)
         {

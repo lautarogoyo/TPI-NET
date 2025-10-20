@@ -34,18 +34,6 @@
                                        @bind-Value="model.Clave" />
                         </div>
 
-
-                        <div class="mb-3">
-                            <label class="form-label">Persona</label>
-                            <select class="form-select" @bind="model.IDPersona">
-                                <option value="0">-- Seleccione una persona --</option>
-                                @foreach (var p in personas)
-                                {
-                                    <option value="@p.IDPersona">@p.Nombre</option>
-                                }
-                            </select>
-                        </div>
-
                         @if (!string.IsNullOrEmpty(localError))
                         {
                             <div class="alert alert-danger">@localError</div>
@@ -69,8 +57,6 @@
     private string title = "Nuevo usuario";
     private string localError = string.Empty;
 
-    [Parameter] public List<PersonaDTO> personas { get; set; } = new();
-
     private UsuarioDTO model = new()
         {
             IDUsuario= 0,
@@ -83,7 +69,7 @@
     [Parameter] public EventCallback<string> OnSuccess { get; set; }
     [Parameter] public EventCallback<string> OnError { get; set; }
 
-    public Task ShowAddModal()
+    public Task ShowAddModal(int idPersona)
     {
         title = "Nuevo usuario";
         model = new UsuarioDTO
@@ -91,7 +77,7 @@
                 IDUsuario= 0,
                 NombreUsuario = string.Empty,
                 Clave = string.Empty,
-                IDPersona = 0
+                IDPersona = idPersona
             };
         localError = string.Empty;
         visible = true;
@@ -137,12 +123,6 @@
                 localError = "La clave es obligatoria.";
                 return;
             }
-            if (model.IDPersona <= 0)
-            {
-                localError = "Debe seleccionar una persona.";
-                return;
-            }
-
             if (model.IDUsuario == 0)
             {
                 await UsuarioApi.AddAsync(model);

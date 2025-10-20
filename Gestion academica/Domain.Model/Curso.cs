@@ -13,7 +13,7 @@
         public ComisionMateria ComisionMateria { get; private set; }
 
         // === Navegaciones ===
-        //public ICollection<DocenteCurso> DocenteCursos { get; } = new List<DocenteCurso>();
+        public ICollection<DocenteCurso> DocentesCursos { get; } = new List<DocenteCurso>();
         public ICollection<Inscripcion> Inscripciones { get; private set; } = new List<Inscripcion>();
 
         // EF necesita ctor vacío

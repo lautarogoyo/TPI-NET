@@ -20,136 +20,59 @@ namespace API.Clients
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static async Task<DocenteCurso?> GetAsync(int id)
+        public static async Task<IEnumerable<DocenteCursoDTO>> GetAllAsync()
         {
-            try
-            {
-                var response = await client.GetAsync($"docentecurso/{id}");
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadFromJsonAsync<DocenteCurso>();
-                }
+            var response = await client.GetAsync("docentescursos");
+            response.EnsureSuccessStatusCode();
 
+            return await response.Content.ReadFromJsonAsync<IEnumerable<DocenteCursoDTO>>()
+                   ?? new List<DocenteCursoDTO>();
+        }
+
+        public static async Task<DocenteCursoDTO?> GetAsync(int idDocenteCurso)
+        {
+            var response = await client.GetAsync($"docentescursos/{idDocenteCurso}");
+            if (response.IsSuccessStatusCode)
+                return await response.Content.ReadFromJsonAsync<DocenteCursoDTO>();
+
+            return null;
+        }
+
+        public static async Task AddAsync(DocenteCursoDTO dto)
+        {
+            var response = await client.PostAsJsonAsync("docentescursos", dto);
+            if (!response.IsSuccessStatusCode)
+            {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Error al obtener docente curso con ID {id}. Status: {response.StatusCode}. Detalle: {error}");
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new Exception($"Error de conexión al obtener docente curso con ID {id}: {ex.Message}", ex);
-            }
-            catch (TaskCanceledException ex)
-            {
-                throw new Exception($"Timeout al obtener docente curso con ID {id}: {ex.Message}", ex);
+                throw new Exception($"Error al agregar DocenteCurso: {error}");
             }
         }
 
-        public static async Task<IEnumerable<DocenteCurso>> GetAllAsync()
+        public static async Task UpdateAsync(DocenteCursoDTO dto)
         {
-            try
+            var response = await client.PutAsJsonAsync("docentescursos", dto);
+            if (!response.IsSuccessStatusCode)
             {
-                var response = await client.GetAsync("docentecurso");
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadFromJsonAsync<IEnumerable<DocenteCurso>>() ?? new List<DocenteCurso>();
-                }
-
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Error al obtener docentes curso. Status: {response.StatusCode}. Detalle: {error}");
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new Exception($"Error de conexión al obtener docentes curso: {ex.Message}", ex);
-            }
-            catch (TaskCanceledException ex)
-            {
-                throw new Exception($"Timeout al obtener docentes curso: {ex.Message}", ex);
+                throw new Exception($"Error al actualizar DocenteCurso: {error}");
             }
         }
-
-        public static async Task AddAsync(DocenteCurso dto)
+        public static async Task DeleteAsync(int idDocenteCurso)
         {
-            try
+            var response = await client.DeleteAsync($"docentescursos/{idDocenteCurso}");
+            if (!response.IsSuccessStatusCode)
             {
-                var response = await client.PostAsJsonAsync("docentecurso", dto);
-                if (!response.IsSuccessStatusCode)
-                {
-                    var error = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Error al crear docente curso. Status: {response.StatusCode}. Detalle: {error}");
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new Exception($"Error de conexión al crear docente curso: {ex.Message}", ex);
-            }
-            catch (TaskCanceledException ex)
-            {
-                throw new Exception($"Timeout al crear docente curso: {ex.Message}", ex);
-            }
-        }
-
-        public static async Task UpdateAsync(DocenteCurso dto)
-        {
-            try
-            {
-                var response = await client.PutAsJsonAsync("docentecurso", dto);
-                if (!response.IsSuccessStatusCode)
-                {
-                    var error = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Error al actualizar docente curso. Status: {response.StatusCode}. Detalle: {error}");
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new Exception($"Error de conexión al actualizar docente curso: {ex.Message}", ex);
-            }
-            catch (TaskCanceledException ex)
-            {
-                throw new Exception($"Timeout al actualizar docente curso: {ex.Message}", ex);
-            }
-        }
-
-        public static async Task DeleteAsync(int id)
-        {
-            try
-            {
-                var response = await client.DeleteAsync($"docentecurso/{id}");
-                if (!response.IsSuccessStatusCode)
-                {
-                    var error = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Error al eliminar docente curso con ID {id}. Status: {response.StatusCode}. Detalle: {error}");
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new Exception($"Error de conexión al eliminar docente curso con ID {id}: {ex.Message}", ex);
-            }
-            catch (TaskCanceledException ex)
-            {
-                throw new Exception($"Timeout al eliminar docente curso con ID {id}: {ex.Message}", ex);
-            }
-        }
-
-        public static async Task<IEnumerable<DocenteCurso>> GetByCriteriaAsync(string texto)
-        {
-            try
-            {
-                var response = await client.GetAsync($"docentecurso?q={Uri.EscapeDataString(texto)}");
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadFromJsonAsync<IEnumerable<DocenteCurso>>() ?? new List<DocenteCurso>();
-                }
-
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Error al buscar docentes curso. Status: {response.StatusCode}. Detalle: {error}");
+                throw new Exception($"Error al eliminar DocenteCurso: {error}");
             }
-            catch (HttpRequestException ex)
-            {
-                throw new Exception($"Error de conexión al buscar docentes curso: {ex.Message}", ex);
-            }
-            catch (TaskCanceledException ex)
-            {
-                throw new Exception($"Timeout al buscar docentes curso: {ex.Message}", ex);
-            }
+        }
+        public static async Task<IEnumerable<DocenteCursoDTO>> GetByCriteriaAsync(string texto)
+        {
+            var response = await client.GetAsync($"docentescursos?q={Uri.EscapeDataString(texto)}");
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<IEnumerable<DocenteCursoDTO>>()
+                   ?? new List<DocenteCursoDTO>();
         }
     }
 }

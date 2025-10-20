@@ -1,0 +1,149 @@
+﻿@using DTOs
+@using API.Clients
+@inject ComisionMateriaApi ComisionMateriaApi
+@inject IJSRuntime JSRuntime
+
+@if (Visible)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">@Title</h5>
+                    <button type="button" class="btn-close" @onclick="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger">@errorMessage</div>
+                    }
+
+                    <div class="mb-3">
+                        <label class="form-label">Materia</label>
+                        @if (isEditMode)
+                        {
+                            <input class="form-control" value="@selectedMateriaDesc" disabled />
+                        }
+                        else
+                        {
+                            <select class="form-select" @bind="selectedMateriaId">
+                                <option value="">-- Seleccionar materia --</option>
+                                @foreach (var m in materiasDisponibles)
+                                {
+                                    <option value="@m.IDMateria">@m.Descripcion</option>
+                                }
+                            </select>
+                        }
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Horas Semanales</label>
+                        <input type="number" class="form-control" @bind="modelo.HsSemanales" min="1" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Horas Totales</label>
+                        <input type="number" class="form-control" @bind="modelo.HsTotales" min="1" />
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="Close">Cancelar</button>
+                    <button class="btn btn-primary" @onclick="Save">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public int idComision { get; set; }
+    [Parameter] public List<MateriaDTO> materiasDisponibles { get; set; } = new();
+    [Parameter] public EventCallback OnChange { get; set; }
+    [Parameter] public EventCallback<string> OnSuccess { get; set; }
+    [Parameter] public EventCallback<string> OnError { get; set; }
+
+    private bool Visible = false;
+    private bool isEditMode = false;
+    private string Title = string.Empty;
+    private string errorMessage = string.Empty;
+
+    private ComisionMateriaDTO modelo = new();
+    private string? selectedMateriaId;
+    private string? selectedMateriaDesc;
+
+    public Task ShowAddModal()
+    {
+        modelo = new ComisionMateriaDTO();
+        selectedMateriaId = null;
+        selectedMateriaDesc = null;
+        errorMessage = string.Empty;
+        isEditMode = false;
+        Title = "Agregar materia a la comisión";
+        Visible = true;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    public Task ShowEditModal(ComisionMateriaDTO cm)
+    {
+        modelo = new ComisionMateriaDTO
+            {
+                IDComisionMateria = cm.IDComisionMateria,
+                IDComision = cm.IDComision,
+                IDMateria = cm.IDMateria,
+                HsSemanales = cm.HsSemanales,
+                HsTotales = cm.HsTotales,
+                DescMateria = cm.DescMateria
+            };
+        selectedMateriaId = cm.IDMateria.ToString();
+        selectedMateriaDesc = cm.DescMateria;
+        errorMessage = string.Empty;
+        isEditMode = true;
+        Title = $"Editar materia \"{cm.DescMateria}\"";
+        Visible = true;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    private async Task Save()
+    {
+        try
+        {
+            if (!isEditMode)
+            {
+                if (string.IsNullOrEmpty(selectedMateriaId))
+                {
+                    errorMessage = "Debe seleccionar una materia.";
+                    return;
+                }
+
+                modelo.IDMateria = int.Parse(selectedMateriaId);
+                modelo.IDComision = idComision;
+
+                await ComisionMateriaApi.AddAsync(modelo);
+                await OnSuccess.InvokeAsync("Materia agregada correctamente.");
+            }
+            else
+            {
+                await ComisionMateriaApi.UpdateAsync(modelo);
+                await OnSuccess.InvokeAsync("Materia actualizada correctamente.");
+            }
+
+            await OnChange.InvokeAsync();
+            Close();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            await OnError.InvokeAsync($"Error al guardar: {ex.Message}");
+        }
+    }
+
+    private void Close()
+    {
+        Visible = false;
+        StateHasChanged();
+    }
+}

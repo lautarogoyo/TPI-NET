@@ -93,5 +93,6 @@ app.MapModuloUsuarioEndpoints();
 
 app.MapAuthEndpoints();
 
+app.MapDocenteCursoEndpoints();
 
 app.Run();

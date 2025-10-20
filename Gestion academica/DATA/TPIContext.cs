@@ -257,7 +257,10 @@ namespace Data
             {
                 entity.ToTable("DocentesCursos");
 
-                entity.HasKey(dc => new { dc.IDCurso, dc.IDDocente });
+                entity.HasKey(dc => dc.IdDocenteCurso);
+
+                entity.Property(dc => dc.IdDocenteCurso)
+                      .ValueGeneratedOnAdd();
 
                 entity.Property(dc => dc.Cargo)
                       .IsRequired()
@@ -266,13 +269,16 @@ namespace Data
 
                 entity.HasIndex(dc => new { dc.IDCurso, dc.IDDocente })
                       .IsUnique();
-                /*
+                
                 entity.HasOne(dc => dc.Curso)
-                      .WithMany(c => c.DocenteCursos)
+                      .WithMany(c => c.DocentesCursos)
                       .HasForeignKey(dc => dc.IDCurso)
                       .OnDelete(DeleteBehavior.Restrict);
-                */
 
+                entity.HasOne(dc => dc.Docente)
+                      .WithMany(p => p.DocentesCursos)
+                      .HasForeignKey(dc => dc.IDDocente)
+                      .OnDelete(DeleteBehavior.Restrict);
             });
 
             // --- COMISION --- 
@@ -298,12 +304,6 @@ namespace Data
                       .HasForeignKey(c => c.IDPlan)
                       .HasConstraintName("FK_Comisiones_Planes_IDPLan")
                       .OnDelete(DeleteBehavior.Restrict);
-
-                /*
-
-                entity.HasIndex(dc => new { dc.IDCurso, dc.IDDocente })
-                      .IsUnique();*/
-
 
             });
 

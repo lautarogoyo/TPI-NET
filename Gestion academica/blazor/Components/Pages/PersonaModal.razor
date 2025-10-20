@@ -1,270 +1,242 @@
-﻿@*
-@using DTOs
+﻿@using DTOs
 @using API.Clients
-@inject PersonaApi PersonaApi
-@inject PlanApi PlanApi
+@inject IJSRuntime JSRuntime
 
-@if (visible)
+@if (IsVisible)
 {
-    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,.5);">
+    <div class="modal-backdrop fade show"></div>
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.4);">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">@title</h5>
-                    <button type="button" class="btn-close" @onclick="Hide"></button>
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">@Titulo</h5>
+                    <button type="button" class="btn-close" @onclick="Cerrar"></button>
                 </div>
 
-                <EditForm Model="@model"
-                          OnValidSubmit="@SaveAsync"
-                          FormName="persona-form"
-                          ValidateOnInput="true">
-                    <AntiforgeryToken />
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
+                <div class="modal-body">
+                    <EditForm Model="Persona" OnValidSubmit="Guardar">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
 
-                    <div class="modal-body">
-                        @if (loadingCatalogos)
-                        {
-                            <div class="d-flex justify-content-center my-3">
-                                <div class="spinner-border" role="status">
-                                    <span class="visually-hidden">Cargando catálogos...</span>
-                                </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nombre</label>
+                                <InputText class="form-control" @bind-Value="Persona.Nombre" />
                             </div>
-                        }
-                        else
-                        {
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">Nombre</label>
-                                    <InputText class="form-control" @bind-Value="model.Nombre" />
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Apellido</label>
-                                    <InputText class="form-control" @bind-Value="model.Apellido" />
-                                </div>
 
-                                <div class="col-md-8">
-                                    <label class="form-label">Dirección</label>
-                                    <InputText class="form-control" @bind-Value="model.Direccion" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Teléfono</label>
-                                    <InputText class="form-control" @bind-Value="model.Telefono" />
-                                </div>
-
-                                <div class="col-md-8">
-                                    <label class="form-label">Email</label>
-                                    <InputText type="email" class="form-control" @bind-Value="model.Email" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Fecha de nacimiento</label>
-                                    <InputDate class="form-control" @bind-Value="model.FechaNac" />
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label class="form-label">Legajo</label>
-                                    <InputNumber class="form-control" @bind-Value="model.Legajo" />
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label class="form-label">Tipo de persona</label>
-                                    <!-- Si tu API espera texto libre, dejá InputText; si preferís opciones, reemplazá por InputSelect -->
-                                    <InputText class="form-control" @bind-Value="model.TipoPersona" />
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label class="form-label">Plan</label>
-                                    <InputSelect @bind-Value="model.IDPlan" TValue="int" class="form-select">
-                                        <option value="0" disabled>-- Seleccionar --</option>
-                                        @foreach (var p in planes)
-                                        {
-                                            <option value="@p.IDPlan">@p.DescPlan</option>
-                                        }
-                                    </InputSelect>
-                                </div>
-
-                                @if (model.IDPersona != 0)
-                                {
-                                    <div class="col-12">
-                                        <div class="text-muted"><small>ID persona: @model.IDPersona</small></div>
-                                    </div>
-                                }
-
-                                @if (!string.IsNullOrEmpty(localError))
-                                {
-                                    <div class="col-12">
-                                        <div class="alert alert-danger">@localError</div>
-                                    </div>
-                                }
+                            <div class="col-md-6">
+                                <label class="form-label">Apellido</label>
+                                <InputText class="form-control" @bind-Value="Persona.Apellido" />
                             </div>
-                        }
-                    </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" @onclick="Hide" disabled="@saving">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" disabled="@saving">
-                            <i class="fas fa-save"></i> Guardar
-                        </button>
-                    </div>
-                </EditForm>
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                <InputText class="form-control" @bind-Value="Persona.Email" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Dirección</label>
+                                <InputText class="form-control" @bind-Value="Persona.Direccion" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Teléfono</label>
+                                <InputText class="form-control" @bind-Value="Persona.Telefono" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Legajo</label>
+                                <InputText class="form-control" @bind-Value="Persona.Legajo" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Tipo Documento</label>
+                                <InputSelect class="form-select" @bind-Value="Persona.TipoDoc">
+                                    <option value="">Seleccione...</option>
+                                    @foreach (var doc in TiposDocumento)
+                                    {
+                                        <option value="@doc.Value">@doc.Text</option>
+                                    }
+                                </InputSelect>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">N° Documento</label>
+                                <InputText class="form-control" @bind-Value="Persona.NroDoc" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Fecha Nacimiento</label>
+                                <InputDate class="form-control" @bind-Value="Persona.FechaNac" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Tipo Persona</label>
+                                <InputSelect class="form-select" @bind-Value="Persona.TipoPersona" disabled>
+                                    <option value="1">Alumno</option>
+                                    <option value="2">Profesor</option>
+                                </InputSelect>
+                            </div>
+                        </div>
+                    </EditForm>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="Cerrar">Cancelar</button>
+                    <button class="btn btn-success" @onclick="Guardar">Aceptar</button>
+                </div>
             </div>
         </div>
     </div>
 }
 
 @code {
-    // UI
-    private bool visible;
-    private bool saving;
-    private bool loadingCatalogos;
-    private string title = "Nueva persona";
-    private string localError = string.Empty;
+    private bool IsVisible = false;
+    private string Titulo = string.Empty;
 
-    // Modelo
-    private PersonaDTO model = new()
-        {
-            IDPersona = 0,
-            Nombre = string.Empty,
-            Apellido = string.Empty,
-            Direccion = string.Empty,
-            Email = string.Empty,
-            Telefono = string.Empty,
-            FechaNac = DateTime.Today,
-            Legajo = 0,
-            TipoPersona = string.Empty,
-            IDPlan = 0
-        };
+    private string Tipo = string.Empty;
+    private int Numero;
 
-    // Catálogos
-    private List<PlanDTO> planes = new();
+    private PersonaDTO Persona = new();
 
-    // Callbacks al padre
-    [Parameter] public EventCallback OnPersonaChanged { get; set; }
-    [Parameter] public EventCallback<string> OnSuccess { get; set; }
-    [Parameter] public EventCallback<string> OnError { get; set; }
-
-    public async Task ShowAddModal()
+    private List<(string Text, string Value)> TiposDocumento = new()
     {
-        title = "Nueva persona";
-        model = new PersonaDTO
+        ("DNI", "DNI"),
+        ("Libreta Cívica", "LC"),
+        ("Libreta de Enrolamiento", "LE")
+    };
+
+    private bool EsEdicion = false;
+
+    public void ShowAddModal(int numero, string tipo)
+    {
+        Numero = numero;
+        Tipo = tipo;
+        EsEdicion = false;
+
+        Titulo = $"Agregar {Tipo}";
+        Persona = new PersonaDTO
             {
-                IDPersona = 0,
-                Nombre = string.Empty,
-                Apellido = string.Empty,
-                Direccion = string.Empty,
-                Email = string.Empty,
-                Telefono = string.Empty,
-                FechaNac = DateTime.Today,
-                Legajo = 0,
-                TipoPersona = string.Empty,
-                IDPlan = 0
+                TipoPersona = numero,
+                FechaNac = DateOnly.FromDateTime(DateTime.Today)
             };
-        localError = string.Empty;
-        await EnsureCatalogosLoaded();
-        visible = true;
+
+        IsVisible = true;
         StateHasChanged();
     }
 
-    public async Task ShowEditModal(PersonaDTO dto)
+    public void ShowEditModal(PersonaDTO persona, int numero, string tipo)
     {
-        title = $"Editar persona (ID {dto.IDPersona})";
-        model = new PersonaDTO
+        Numero = numero;
+        Tipo = tipo;
+        EsEdicion = true;
+
+        Titulo = $"Modificar {Tipo}";
+        Persona = new PersonaDTO
             {
-                IDPersona = dto.IDPersona,
-                Nombre = dto.Nombre,
-                Apellido = dto.Apellido,
-                Direccion = dto.Direccion,
-                Email = dto.Email,
-                Telefono = dto.Telefono,
-                FechaNac = dto.FechaNac,
-                Legajo = dto.Legajo,
-                TipoPersona = dto.TipoPersona,
-                IDPlan = dto.IDPlan
+                IDPersona = persona.IDPersona,
+                Nombre = persona.Nombre,
+                Apellido = persona.Apellido,
+                Email = persona.Email,
+                Direccion = persona.Direccion,
+                Telefono = persona.Telefono,
+                Legajo = persona.Legajo,
+                TipoDoc = persona.TipoDoc,
+                NroDoc = persona.NroDoc,
+                FechaNac = persona.FechaNac,
+                TipoPersona = persona.TipoPersona
             };
-        localError = string.Empty;
-        await EnsureCatalogosLoaded();
-        visible = true;
+
+        IsVisible = true;
         StateHasChanged();
     }
 
-    private void Hide()
+    private async Task Guardar()
     {
-        visible = false;
-        localError = string.Empty;
-    }
-
-    private async Task EnsureCatalogosLoaded()
-    {
-        if (planes.Count > 0) return;
+        if (!ValidarCampos())
+            return;
 
         try
         {
-            loadingCatalogos = true;
-            planes = (await PlanApi.GetAllAsync())?.ToList() ?? new();
-        }
-        catch (Exception ex)
-        {
-            localError = $"Error al cargar planes: {ex.Message}";
-        }
-        finally
-        {
-            loadingCatalogos = false;
-        }
-    }
+            if (EsEdicion)
+            {
+                if (Persona.IDPersona <= 0)
+                    throw new InvalidOperationException("ID de persona inválido.");
 
-    private async Task SaveAsync()
-    {
-        try
-        {
-            localError = string.Empty;
-
-            // Validaciones mínimas de UI
-            if (string.IsNullOrWhiteSpace(model.Nombre))
-            {
-                localError = "El nombre es obligatorio.";
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(model.Apellido))
-            {
-                localError = "El apellido es obligatorio.";
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(model.Email))
-            {
-                localError = "El email es obligatorio.";
-                return;
-            }
-            if (model.IDPlan <= 0)
-            {
-                localError = "Debe seleccionar un plan.";
-                return;
-            }
-
-            saving = true;
-
-            if (model.IDPersona == 0)
-            {
-                await PersonaApi.AddAsync(model);
-                await OnSuccess.InvokeAsync("Persona creada correctamente.");
+                await PersonaApi.UpdateAsync(Persona);
+                await JSRuntime.InvokeVoidAsync("alert", $"{Tipo} actualizado exitosamente.");
             }
             else
             {
-                await PersonaApi.UpdateAsync(model);
-                await OnSuccess.InvokeAsync("Persona actualizada correctamente.");
+                await PersonaApi.AddAsync(Persona);
+                await JSRuntime.InvokeVoidAsync("alert", $"{Tipo} agregado exitosamente.");
             }
 
-            Hide();
-            await OnPersonaChanged.InvokeAsync();
+            IsVisible = false;
+            OnPersonaChange.InvokeAsync();
         }
         catch (Exception ex)
         {
-            localError = ex.Message;
-            await OnError.InvokeAsync($"Error al guardar: {ex.Message}");
-        }
-        finally
-        {
-            saving = false;
+            await JSRuntime.InvokeVoidAsync("alert", $"Error al guardar: {ex.Message}");
         }
     }
+
+    private void Cerrar()
+    {
+        IsVisible = false;
+        StateHasChanged();
+    }
+
+    private bool ValidarCampos()
+    {
+        if (string.IsNullOrWhiteSpace(Persona.Nombre))
+        {
+            _ = JSRuntime.InvokeVoidAsync("alert", "El nombre no puede estar vacío.");
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(Persona.Apellido))
+        {
+            _ = JSRuntime.InvokeVoidAsync("alert", "El apellido no puede estar vacío.");
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(Persona.Email))
+        {
+            _ = JSRuntime.InvokeVoidAsync("alert", "El email no puede estar vacío.");
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(Persona.Direccion))
+        {
+            _ = JSRuntime.InvokeVoidAsync("alert", "La dirección no puede estar vacía.");
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(Persona.Telefono))
+        {
+            _ = JSRuntime.InvokeVoidAsync("alert", "El teléfono no puede estar vacío.");
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(Persona.Legajo))
+        {
+            _ = JSRuntime.InvokeVoidAsync("alert", "El legajo no puede estar vacío.");
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(Persona.TipoDoc))
+        {
+            _ = JSRuntime.InvokeVoidAsync("alert", "Debe seleccionar un tipo de documento.");
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(Persona.NroDoc))
+        {
+            _ = JSRuntime.InvokeVoidAsync("alert", "El número de documento no puede estar vacío.");
+            return false;
+        }
+        if (Persona.FechaNac == default)
+        {
+            _ = JSRuntime.InvokeVoidAsync("alert", "Debe seleccionar una fecha de nacimiento válida.");
+            return false;
+        }
+
+        return true;
+    }
+
+    [Parameter] public EventCallback OnPersonaChange { get; set; }
 }
-*@

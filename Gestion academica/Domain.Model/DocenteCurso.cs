@@ -11,19 +11,14 @@
     // Representa la fila de la tabla docentes_cursos
     public class DocenteCurso
     {
-        // PK (id_dictado en la BD)
-        public int Id { get; private set; }
-
-        // FKs
+        public int IdDocenteCurso { get; private set; }
         public int IDCurso { get; private set; }
         public int IDDocente { get; private set; }
 
-        // Datos
         public TiposCargos Cargo { get; private set; }
 
-        // Navegaciones
         public Curso? Curso { get; private set; }
-        //public Persona? Docente { get; private set; } // apunta a personas (tipo = Docente)
+        public Persona? Docente { get; private set; } 
 
         // EF requiere ctor vacío
         private DocenteCurso() { }

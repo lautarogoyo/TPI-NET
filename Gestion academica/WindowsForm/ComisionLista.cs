@@ -1,13 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Dynamic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using API.Clients;
@@ -26,54 +19,82 @@ namespace WindowsForm
         private void ConfiguarColumnas()
         {
             comisionesDataGridView.AutoGenerateColumns = false;
-            DataGridViewTextBoxColumn idColumn = new DataGridViewTextBoxColumn();
-            idColumn.DataPropertyName = "IDComision";
-            idColumn.HeaderText = "ID";
-            idColumn.Width = 50;
+
+            DataGridViewTextBoxColumn idColumn = new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "IDComision",
+                HeaderText = "ID",
+                Width = 50
+            };
             comisionesDataGridView.Columns.Add(idColumn);
-            DataGridViewTextBoxColumn descripcionColumn = new DataGridViewTextBoxColumn();
-            descripcionColumn.DataPropertyName = "Descripcion";
-            descripcionColumn.HeaderText = "Descripción";
-            descripcionColumn.Width = 200;
+
+            DataGridViewTextBoxColumn descripcionColumn = new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Descripcion",
+                HeaderText = "Descripción",
+                Width = 200
+            };
             comisionesDataGridView.Columns.Add(descripcionColumn);
-            DataGridViewTextBoxColumn anioEspecialidadColumn = new DataGridViewTextBoxColumn();
-            anioEspecialidadColumn.DataPropertyName = "AnioEspecialidad";
-            anioEspecialidadColumn.HeaderText = "Año especialidad";
-            anioEspecialidadColumn.Width = 200;
+
+            DataGridViewTextBoxColumn anioEspecialidadColumn = new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "AnioEspecialidad",
+                HeaderText = "Año Especialidad",
+                Width = 150
+            };
             comisionesDataGridView.Columns.Add(anioEspecialidadColumn);
+
+            DataGridViewTextBoxColumn planColumn = new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "DescPlan",
+                HeaderText = "Plan",
+                Width = 200
+            };
+            comisionesDataGridView.Columns.Add(planColumn);
         }
+
         private void ComisionLista_Load(object sender, EventArgs e)
         {
-            this.GetByCriteriaAndLoad();
+            _ = GetByCriteriaAndLoad();
         }
 
-        private void buscarButton_Click(object sender, EventArgs e)
+        private async void buscarButton_Click(object sender, EventArgs e)
         {
-
+            string texto = buscarTextBox.Text.Trim();
+            if (string.IsNullOrWhiteSpace(texto))
+            {
+                await GetByCriteriaAndLoad();
+                return;
+            }
+            await GetByCriteriaAndLoad(texto);
         }
 
         private void comisionesDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
         }
 
         private async void eliminarButton_Click(object sender, EventArgs e)
         {
             try
             {
-                ComisionDTO comision = this.SelectedItem();
+                var comision = this.SelectedItem();
+                if (comision == null)
+                {
+                    MessageBox.Show("Debe seleccionar una comisión.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
                 var confirm = MessageBox.Show(
-               "¿Desea eliminar esta comisión>?",
-               "Confirmar eliminación",
-               MessageBoxButtons.YesNo,
-               MessageBoxIcon.Warning);
+                    "¿Desea eliminar esta comisión?",
+                    "Confirmar eliminación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
 
                 if (confirm == DialogResult.Yes)
                 {
                     await ComisionApi.DeleteAsync(comision.IDComision);
                     MessageBox.Show("Comisión eliminada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.GetByCriteriaAndLoad();
+                    await GetByCriteriaAndLoad();
                 }
             }
             catch (Exception ex)
@@ -82,13 +103,18 @@ namespace WindowsForm
             }
         }
 
-        private async void modificarButton_click(object sender, EventArgs e)
+        private void modificarButton_click(object sender, EventArgs e)
         {
             try
             {
-                ComisionDetalle comisionDetalle = new ComisionDetalle();
-                ComisionDTO comision = this.SelectedItem();
+                var comision = this.SelectedItem();
+                if (comision == null)
+                {
+                    MessageBox.Show("Debe seleccionar una comisión.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
+                ComisionDetalle comisionDetalle = new ComisionDetalle();
                 comisionDetalle.Mode = FormMode.Update;
                 comisionDetalle.Comision = comision;
 
@@ -97,7 +123,7 @@ namespace WindowsForm
                     MessageBox.Show("Comisión actualizada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
-                this.GetByCriteriaAndLoad();
+                _ = GetByCriteriaAndLoad();
             }
             catch (Exception ex)
             {
@@ -108,9 +134,7 @@ namespace WindowsForm
         private void agregarButton_Click(object sender, EventArgs e)
         {
             ComisionDetalle comisionDetalle = new ComisionDetalle();
-
             ComisionDTO comisionNuevo = new ComisionDTO();
-
             comisionDetalle.Mode = FormMode.Add;
             comisionDetalle.Comision = comisionNuevo;
 
@@ -118,69 +142,77 @@ namespace WindowsForm
             {
                 MessageBox.Show("Comisión agregada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            this.GetByCriteriaAndLoad();
+
+            _ = GetByCriteriaAndLoad();
         }
-        private ComisionDTO SelectedItem()
+
+        private ComisionDTO? SelectedItem()
         {
-            ComisionDTO comision;
-            comision = (ComisionDTO)comisionesDataGridView.SelectedRows[0].DataBoundItem;
-            return comision;
+            if (comisionesDataGridView.SelectedRows.Count == 0)
+                return null;
+            return (ComisionDTO)comisionesDataGridView.SelectedRows[0].DataBoundItem;
         }
-        private async void GetByCriteriaAndLoad(string texto = "")
+
+        private async Task GetByCriteriaAndLoad(string texto = "")
         {
             try
             {
-                this.eliminarButton.Enabled = false;
-                this.modificarButton.Enabled = false;
-                this.verMateriasButton.Enabled = false;
-                this.agregarButton.Enabled = false;
-                this.comisionesDataGridView.DataSource = null;
+                eliminarButton.Enabled = false;
+                modificarButton.Enabled = false;
+                verMateriasButton.Enabled = false;
+                agregarButton.Enabled = false;
+                comisionesDataGridView.DataSource = null;
+
                 IEnumerable<ComisionDTO> comisiones;
-                if (string.IsNullOrWhiteSpace(texto))
+                var todas = await ComisionApi.GetAllAsync();
+
+                if (!string.IsNullOrWhiteSpace(texto))
                 {
-                    comisiones = await ComisionApi.GetAllAsync();
+                    comisiones = todas
+                        .Where(c => c.Descripcion != null &&
+                                    c.Descripcion.Contains(texto, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
                 }
                 else
                 {
-                    comisiones = await ComisionApi.GetByCriteriaAsync(texto);
+                    comisiones = todas;
                 }
 
-                this.comisionesDataGridView.DataSource = comisiones;
-                if (this.comisionesDataGridView.Rows.Count > 0)
-                {
-                    this.comisionesDataGridView.Rows[0].Selected = true;
-                    this.eliminarButton.Enabled = true;
-                    this.modificarButton.Enabled = true;
-                    this.verMateriasButton.Enabled = true;
-                }
-                else
-                {
-                    this.eliminarButton.Enabled = false;
-                    this.modificarButton.Enabled = false;
-                    this.verMateriasButton.Enabled = false;
-                }
-                this.agregarButton.Enabled = true;
+                comisionesDataGridView.DataSource = comisiones.ToList();
 
+                bool hayFilas = comisionesDataGridView.Rows.Count > 0;
+                eliminarButton.Enabled = hayFilas;
+                modificarButton.Enabled = hayFilas;
+                verMateriasButton.Enabled = hayFilas;
+                agregarButton.Enabled = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar la lista de comisiones: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.eliminarButton.Enabled = false;
-                this.modificarButton.Enabled = false;
+                MessageBox.Show($"Error al cargar la lista de comisiones: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                eliminarButton.Enabled = false;
+                modificarButton.Enabled = false;
             }
         }
 
-        private void buscarTextBox_TextChanged(object sender, EventArgs e)
+        private async void buscarTextBox_TextChanged(object sender, EventArgs e)
         {
-
+            if (string.IsNullOrWhiteSpace(buscarTextBox.Text))
+                await GetByCriteriaAndLoad();
         }
 
         private void verMateriasButton_Click(object sender, EventArgs e)
         {
-            int idCom = this.SelectedItem().IDComision;
+            var seleccionada = this.SelectedItem();
+            if (seleccionada == null)
+            {
+                MessageBox.Show("Debe seleccionar una comisión.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int idCom = seleccionada.IDComision;
             ComisionMateriaLista cmLista = new ComisionMateriaLista(idCom);
             cmLista.ShowDialog();
-
         }
     }
 }

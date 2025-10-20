@@ -19,6 +19,7 @@ namespace Domain.Model
         public Usuario? Usuario { get; private set; }
 
         public ICollection<Inscripcion> Inscripciones { get; private set; } = new List<Inscripcion>();
+        public ICollection<DocenteCurso> DocentesCursos { get; private set; } = new List<DocenteCurso>();
 
         // Constructor para EF
         protected Persona() { }

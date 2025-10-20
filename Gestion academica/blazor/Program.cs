@@ -1,9 +1,9 @@
-﻿using blazor;
-using blazor.Components;
+﻿using blazor.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 // using Microsoft.AspNetCore.Authentication;            // <- ya no lo necesitamos
 // using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components;
+using blazor;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,7 +32,8 @@ builder.Services.AddScoped<API.Clients.PersonaApi>();
 builder.Services.AddScoped<API.Clients.InscripcionApi>();
 builder.Services.AddScoped<API.Clients.CursoApi>();
 builder.Services.AddScoped<API.Clients.UsuarioApi>();
-builder.Services.AddScoped<API.Clients.AuthApi>();
+
+
 
 
 var app = builder.Build();
