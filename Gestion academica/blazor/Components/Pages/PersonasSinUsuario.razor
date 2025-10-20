@@ -51,6 +51,7 @@
                                 <th>Teléfono</th>
                                 <th>Fecha Nac.</th>
                                 <th>Legajo</th>
+                                <th>Rol</th>
                                 <th class="text-center"></th>
                             </tr>
                         </thead>
@@ -68,6 +69,7 @@
                                         <td>@p.Telefono</td>
                                         <td>@p.FechaNac</td>
                                         <td>@p.Legajo</td>
+                                        <td>@(p.TipoPersona == 1 ? "Alumno" : "Profesor")</td>
                                         <td class="text-center">
                                             <button class="btn btn-sm btn-warning me-2" @onclick="() => OpenAddModal(p.IDPersona)">
                                                 <i class="bi bi-pencil-square"></i> Crear Usuario
