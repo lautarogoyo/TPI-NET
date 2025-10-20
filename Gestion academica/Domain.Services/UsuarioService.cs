@@ -65,10 +65,10 @@ namespace Application.Services
 
             return repo.Update(usuario);
         }
-        public IEnumerable<UsuarioDTO> GetAllWithPersonas()
-        {
+        public List<UsuarioDTO> GetAllWithPersonas()
+        { 
             var repo = new UsuarioRepository();
-            return repo.GetAllWithPersonas().Select(u => new UsuarioDTO
+            var usuarios = repo.GetAllWithPersonas().Select(u => new UsuarioDTO
             {
                 IDUsuario = u.IDUsuario,
                 NombreUsuario = u.NombreUsuario,
@@ -79,6 +79,8 @@ namespace Application.Services
                 Legajo = u.Persona.Legajo,
                 TipoPersona = u.Persona.TipoPersona
             }).ToList();
+            usuarios.RemoveAll(u => u.TipoPersona==3);
+            return usuarios;
         }
     }
 }

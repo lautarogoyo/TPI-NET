@@ -1,4 +1,4 @@
-﻿@page "/usuario/{idU:int}"
+﻿@page "/usuario/{idP:int}"
 @using DTOs
 @using API.Clients
 @inject IJSRuntime JSRuntime
@@ -88,7 +88,7 @@
 </div>
 
 @code {
-    [Parameter] public int IdU { get; set; }
+    [Parameter] public int IdP { get; set; }
     private List<InscripcionDTO> inscripciones = new();
 
     private bool loading = true;
@@ -105,7 +105,7 @@
             loading = true;
             errorMessage = string.Empty;
 
-            inscripciones = await InscripcionApi.GetByAlumno(IdU);
+            inscripciones = await InscripcionApi.GetByAlumno(IdP);
 
             successMessage = string.Empty;
         }
@@ -121,7 +121,7 @@
 
     private void Inscripciones()
     {
-        Navigation.NavigateTo($"/usuario/{IdU}/inscripciones");
+        Navigation.NavigateTo($"/usuario/{IdP}/inscripciones");
     }
 
     private void ShowSuccess(string msg) => successMessage = msg;

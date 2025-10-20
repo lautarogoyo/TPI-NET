@@ -1,4 +1,4 @@
-﻿@page "/usuario/{idU:int}/inscripciones"
+﻿@page "/usuario/{idP:int}/inscripciones"
 @using DTOs
 @using API.Clients
 @inject IJSRuntime JSRuntime
@@ -99,7 +99,7 @@
 </div>
 
 @code {
-    [Parameter] public int IdU { get; set; }
+    [Parameter] public int IdP { get; set; }
     private List<CursoDTO> cursos = new();
     private List<InscripcionDTO> inscripciones = new();
     private InscripcionDTO nuevaInscripcion = new InscripcionDTO();
@@ -116,7 +116,7 @@
         {
             loading = true;
             errorMessage = string.Empty;
-            inscripciones = await InscripcionApi.GetByAlumno(IdU);
+            inscripciones = await InscripcionApi.GetByAlumno(IdP);
             cursos = await CursoApi.GetWithComisionMateria();
             cursos = cursos
                 .Where(c => !inscripciones.Any(i => i.IDCurso == c.IdCurso))
@@ -141,7 +141,7 @@
     private async Task Inscribirse(CursoDTO curso)
     {
         nuevaInscripcion.IDCurso = curso.IdCurso;
-        nuevaInscripcion.IDAlumno = IdU;
+        nuevaInscripcion.IDAlumno = IdP;
         nuevaInscripcion.Condicion = "Cursando";
         nuevaInscripcion.NotaFinal = -1;
         await InscripcionApi.AddAsync(nuevaInscripcion)
@@ -160,7 +160,7 @@
     }
     private void MisCursos()
     {
-        Navigation.NavigateTo($"/usuario/{IdU}/inscripciones");
+        Navigation.NavigateTo($"/usuario/{IdP}/inscripciones");
     }
     private void ShowSuccess(string msg) => successMessage = msg;
     private void ShowError(string msg) => errorMessage = msg;

@@ -80,7 +80,7 @@
             comboBoxCurso.FormattingEnabled = true;
             comboBoxCurso.Location = new Point(190, 161);
             comboBoxCurso.Name = "comboBoxCurso";
-            comboBoxCurso.Size = new Size(151, 28);
+            comboBoxCurso.Size = new Size(247, 28);
             comboBoxCurso.TabIndex = 4;
             // 
             // comboBoxCargo

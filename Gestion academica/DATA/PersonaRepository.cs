@@ -36,7 +36,7 @@ namespace Data
             return context.Personas.Find(id);
         }
 
-        public IEnumerable<Persona> GetAll()
+        public List<Persona> GetAll()
         {
             using var context = CreateContext();
             return context.Personas.ToList();
@@ -77,7 +77,7 @@ namespace Data
             }
             return false;
         }
-        public IEnumerable<Persona> GetPersonasSinUsuario()
+        public List<Persona> GetPersonasSinUsuario()
         {
             using var context = CreateContext();
             return context.Personas

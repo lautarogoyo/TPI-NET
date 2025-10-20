@@ -29,7 +29,7 @@ namespace WindowsForm
             DataGridViewTextBoxColumn descripcionColumn = new DataGridViewTextBoxColumn();
             descripcionColumn.DataPropertyName = "Descripcion";
             descripcionColumn.HeaderText = "Nombre";
-            descripcionColumn.Width = 200;
+            descripcionColumn.Width = 400;
             materiasDataGridView.Columns.Add(descripcionColumn);
         }
 

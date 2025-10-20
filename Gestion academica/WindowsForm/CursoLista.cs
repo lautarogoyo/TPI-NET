@@ -88,7 +88,7 @@ namespace WindowsForm
             {
                 HeaderText = "Curso",
                 DataPropertyName = "Descripcion",
-                Width = 200
+                Width = 300
             });
 
             cursosDataGridView.Columns.Add(new DataGridViewTextBoxColumn

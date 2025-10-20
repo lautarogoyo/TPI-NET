@@ -59,7 +59,7 @@ namespace Data
             return false;
         }
 
-        public IEnumerable<Usuario> GetAllWithPersonas()
+        public List<Usuario> GetAllWithPersonas()
         {
             using var context = CreateContext();
             return context.Usuarios

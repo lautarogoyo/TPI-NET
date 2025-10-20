@@ -39,33 +39,33 @@
             // 
             // btnEliminar
             // 
-            btnEliminar.Location = new Point(407, 379);
+            btnEliminar.Location = new Point(552, 379);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(94, 29);
             btnEliminar.TabIndex = 1;
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = true;
-            btnEliminar.Click += btnEliminar_Click; // ✅ Evento agregado
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // btnModificar
             // 
-            btnModificar.Location = new Point(542, 379);
+            btnModificar.Location = new Point(691, 379);
             btnModificar.Name = "btnModificar";
             btnModificar.Size = new Size(94, 29);
             btnModificar.TabIndex = 2;
             btnModificar.Text = "Modificar";
             btnModificar.UseVisualStyleBackColor = true;
-            btnModificar.Click += btnModificar_Click; // ✅ Evento agregado
+            btnModificar.Click += btnModificar_Click;
             // 
             // btnAgregar
             // 
-            btnAgregar.Location = new Point(672, 379);
+            btnAgregar.Location = new Point(820, 379);
             btnAgregar.Name = "btnAgregar";
             btnAgregar.Size = new Size(94, 29);
             btnAgregar.TabIndex = 3;
             btnAgregar.Text = "Agregar";
             btnAgregar.UseVisualStyleBackColor = true;
-            btnAgregar.Click += btnAgregar_Click; // ✅ Evento agregado
+            btnAgregar.Click += btnAgregar_Click;
             // 
             // txtBuscar
             // 
@@ -81,7 +81,7 @@
             dgvDocentesCursos.Location = new Point(12, 65);
             dgvDocentesCursos.Name = "dgvDocentesCursos";
             dgvDocentesCursos.RowHeadersWidth = 51;
-            dgvDocentesCursos.Size = new Size(624, 263);
+            dgvDocentesCursos.Size = new Size(913, 267);
             dgvDocentesCursos.TabIndex = 5;
             // 
             // btnBuscar
@@ -92,13 +92,13 @@
             btnBuscar.TabIndex = 6;
             btnBuscar.Text = "Buscar";
             btnBuscar.UseVisualStyleBackColor = true;
-            btnBuscar.Click += btnBuscar_Click; // ✅ Evento agregado
+            btnBuscar.Click += btnBuscar_Click;
             // 
             // DocenteCursoLista
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(964, 449);
             Controls.Add(btnBuscar);
             Controls.Add(dgvDocentesCursos);
             Controls.Add(txtBuscar);

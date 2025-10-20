@@ -59,10 +59,10 @@ namespace Application.Services
             };
         }
 
-        public IEnumerable<PersonaDTO> GetAll()
+        public List<PersonaDTO> GetAll()
         {
             var personaRepository = new PersonaRepository();
-            return personaRepository.GetAll().Select(persona => new PersonaDTO
+            var personas = personaRepository.GetAll().Select(persona => new PersonaDTO
             {
                 IDPersona = persona.IDPersona,
                 Nombre = persona.Nombre,
@@ -76,6 +76,8 @@ namespace Application.Services
                 Legajo = persona.Legajo,
                 TipoPersona = persona.TipoPersona
             }).ToList();
+            personas.RemoveAll(p => p.TipoPersona == 3);
+            return personas;
         }
 
         public IEnumerable<PersonaDTO> GetAllAlumnos()
@@ -138,10 +140,10 @@ namespace Application.Services
             return personaRepository.Update(persona);
         }
 
-        public IEnumerable<PersonaDTO> GetPersonasSinUsuario()
+        public List<PersonaDTO> GetPersonasSinUsuario()
         {
             var personaRepository = new PersonaRepository();
-            return personaRepository.GetPersonasSinUsuario().Select(persona => new PersonaDTO
+            var personas = personaRepository.GetPersonasSinUsuario().Select(persona => new PersonaDTO
             {
                 IDPersona = persona.IDPersona,
                 Nombre = persona.Nombre,
@@ -155,6 +157,8 @@ namespace Application.Services
                 Legajo = persona.Legajo,
                 TipoPersona = persona.TipoPersona
             }).ToList();
+            personas.RemoveAll(p => p.TipoPersona == 3);
+            return personas;
         }
     }
 }

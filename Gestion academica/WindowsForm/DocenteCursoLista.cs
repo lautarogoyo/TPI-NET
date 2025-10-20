@@ -38,7 +38,7 @@ namespace WindowsForm
             {
                 DataPropertyName = "DescCurso",
                 HeaderText = "Curso",
-                Width = 150
+                Width = 300
             };
             dgvDocentesCursos.Columns.Add(cursoColumn);
 
@@ -47,7 +47,7 @@ namespace WindowsForm
             {
                 DataPropertyName = "NombreDocente",
                 HeaderText = "Docente",
-                Width = 150
+                Width = 200
             };
             dgvDocentesCursos.Columns.Add(docenteColumn);
 
@@ -114,7 +114,8 @@ namespace WindowsForm
         private void ActualizarBotones()
         {
             bool hayFilas = dgvDocentesCursos.Rows.Count > 0;
-            this.dgvDocentesCursos.Rows[0].Selected = hayFilas;
+            if (hayFilas)
+                this.dgvDocentesCursos.Rows[0].Selected = hayFilas;
             btnEliminar.Enabled = hayFilas;
             btnModificar.Enabled = hayFilas;
         }
