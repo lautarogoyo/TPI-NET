@@ -178,7 +178,7 @@ namespace API.Clients
         {
             try
             {
-                var response = await client.GetAsync($"inscripciones/curso/{idCurso}");
+                var response = await client.GetAsync($"inscripciones/alumnos/{idCurso}");
                 if (response.IsSuccessStatusCode)
                 {
                     return await response.Content.ReadFromJsonAsync<List<InscripcionDTO>>() ?? new List<InscripcionDTO>();
