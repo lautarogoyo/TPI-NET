@@ -16,76 +16,149 @@
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
             </NavLink>
         </div>
+
         <AuthorizeView Context="ctx">
             <Authorized>
-                @if (ctx.User.IsInRole("Alumno"))
+                @if (ctx.User.IsInRole("Admin"))
                 {
-                    <li class="nav-item px-3">
-                        <NavLink class="nav-link" href="/especialidades">Especialidades</NavLink>
-                    </li>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="especialidades">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Especialidades
+                    </NavLink>
+                </div>
                 }
             </Authorized>
         </AuthorizeView>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="especialidades">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Especialidades
-            </NavLink>
-        </div>
+        <AuthorizeView Context="ctx">
+            <Authorized>
+                @if (ctx.User.IsInRole("Admin"))
+                {
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="materias">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Materias
+                    </NavLink>
+                </div>
+                }
+            </Authorized>
+        </AuthorizeView>
+        <AuthorizeView Context="ctx">
+            <Authorized>
+                @if (ctx.User.IsInRole("Admin"))
+                {
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="planes">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Planes
+                    </NavLink>
+                </div>
+                }
+            </Authorized>
+        </AuthorizeView>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="materias">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Materias
-            </NavLink>
-        </div>
+        <AuthorizeView Context="ctx">
+            <Authorized>
+                @if (ctx.User.IsInRole("Admin"))
+                {
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="comisiones">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Comisiones
+                    </NavLink>
+                </div>
+                }
+            </Authorized>
+        </AuthorizeView>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="planes">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Planes
-            </NavLink>
-        </div>
+        <AuthorizeView Context="ctx">
+            <Authorized>
+                @if (ctx.User.IsInRole("Admin"))
+                {
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="cursos">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Curso
+                    </NavLink>
+                </div>
+                }
+            </Authorized>
+        </AuthorizeView>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="comisiones">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Comisiones
-            </NavLink>
-        </div>
+        <AuthorizeView Context="ctx">
+            <Authorized>
+                @if (ctx.User.IsInRole("Admin"))
+                {
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="personas/1/alumnos">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Alumnos
+                    </NavLink>
+                </div>
+                }
+            </Authorized>
+        </AuthorizeView>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="cursos">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Curso
-            </NavLink>
-        </div>
+        <AuthorizeView Context="ctx">
+            <Authorized>
+                @if (ctx.User.IsInRole("Admin"))
+                {
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="personas/2/profesores">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Profesores
+                    </NavLink>
+                </div>
+                }
+            </Authorized>
+        </AuthorizeView>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="personas/1/alumnos">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Alumnos
-            </NavLink>
-        </div>
+        <AuthorizeView Context="ctx">
+            <Authorized>
+                @if (ctx.User.IsInRole("Admin"))
+                {
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="usuarios">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Usuarios
+                    </NavLink>
+                </div>
+                }
+            </Authorized>
+        </AuthorizeView>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="personas/2/profesores">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Profesores
-            </NavLink>
-        </div>
+        <AuthorizeView Context="ctx">
+            <Authorized>
+                @if (ctx.User.IsInRole("Profesor"))
+                {
+                    // Extraemos el claim personaId del token
+                    var idClaim = ctx.User.FindFirst("personaId")?.Value;
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="usuarios">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Usuarios
-            </NavLink>
-        </div>
+                    if (int.TryParse(idClaim, out var idU))
+                    {
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="docentescursos">
+                            <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Docentes-Cursos
+                        </NavLink>
+                    </div>
+                    }
+                }
+            </Authorized>
+        </AuthorizeView>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="docentescursos">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Docentes-Cursos
-            </NavLink>
-        </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="inscripciones">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Inscripciones
-            </NavLink>
-        </div>
+        <AuthorizeView Context="ctx">
+            <Authorized>
+                @if (ctx.User.IsInRole("Alumno"))
+                {
+                    // Extraemos el claim personaId del token
+                    var idClaim = ctx.User.FindFirst("personaId")?.Value;
+
+                    if (int.TryParse(idClaim, out var idU))
+                    {
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href=@($"/usuario/{idU}/inscripciones")>
+                                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Inscripciones
+                            </NavLink>
+                        </div>
+                    }
+                }
+            </Authorized>
+        </AuthorizeView>
+
     </nav>
 </div>
 
