@@ -75,10 +75,13 @@ OnPersonaChange="CargarPersonasAsync" />
 
     private PersonaModal? Modal;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        await CargarPersonasAsync();
+        Personas = null; 
+        StateHasChanged(); 
+        await CargarPersonasAsync(); 
     }
+
 
     private async Task CargarPersonasAsync()
     {

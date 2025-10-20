@@ -83,6 +83,26 @@
 
         <AuthorizeView Context="ctx">
             <Authorized>
+                @if (ctx.User.IsInRole("Alumno"))
+                {
+                    // Extraemos el claim personaId del token
+                    var idClaim = ctx.User.FindFirst("personaId")?.Value;
+
+                    if (int.TryParse(idClaim, out var idP))
+                    {
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href=@($"/usuario/{idP}")>
+                                >
+                                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Mis Cursos
+                            </NavLink>
+                        </div>
+                    }
+                }
+            </Authorized>
+        </AuthorizeView>
+
+        <AuthorizeView Context="ctx">
+            <Authorized>
                 @if (ctx.User.IsInRole("Admin"))
                 {
                 <div class="nav-item px-3">
@@ -122,19 +142,13 @@
 
         <AuthorizeView Context="ctx">
             <Authorized>
-                @if (ctx.User.IsInRole("Profesor"))
+                @if (ctx.User.IsInRole("Admin"))
                 {
-                    // Extraemos el claim personaId del token
-                    var idClaim = ctx.User.FindFirst("personaId")?.Value;
-
-                    if (int.TryParse(idClaim, out var idU))
-                    {
                     <div class="nav-item px-3">
                         <NavLink class="nav-link" href="docentescursos">
                             <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Docentes-Cursos
                         </NavLink>
-                    </div>
-                    }
+                    </div>             
                 }
             </Authorized>
         </AuthorizeView>
@@ -147,10 +161,10 @@
                     // Extraemos el claim personaId del token
                     var idClaim = ctx.User.FindFirst("personaId")?.Value;
 
-                    if (int.TryParse(idClaim, out var idU))
+                    if (int.TryParse(idClaim, out var idP))
                     {
                         <div class="nav-item px-3">
-                            <NavLink class="nav-link" href=@($"/usuario/{idU}/inscripciones")>
+                            <NavLink class="nav-link" href=@($"/usuario/{idP}/inscripciones")>
                                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Inscripciones
                             </NavLink>
                         </div>
