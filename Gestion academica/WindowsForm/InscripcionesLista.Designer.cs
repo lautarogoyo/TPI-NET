@@ -28,12 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "InscripcionesLista";
+            dgvInscriptos = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dgvInscriptos).BeginInit();
+            SuspendLayout();
+            // 
+            // dgvInscriptos
+            // 
+            dgvInscriptos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvInscriptos.Location = new Point(12, 12);
+            dgvInscriptos.Name = "dgvInscriptos";
+            dgvInscriptos.RowHeadersWidth = 51;
+            dgvInscriptos.Size = new Size(776, 426);
+            dgvInscriptos.TabIndex = 0;
+            //dgvInscriptos.CellContentClick += dgvInscriptos_CellContentClick;
+            // 
+            // InscripcionesLista
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(dgvInscriptos);
+            Name = "InscripcionesLista";
+            Text = "InscripcionesLista";
+            Load += InscripcionesLista_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvInscriptos).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion
+
+        private DataGridView dgvInscriptos;
     }
 }

@@ -34,6 +34,7 @@
             eliminarButton = new Button();
             modificarButton = new Button();
             agregarButton = new Button();
+            btnVerInscriptos = new Button();
             ((System.ComponentModel.ISupportInitialize)cursosDataGridView).BeginInit();
             SuspendLayout();
             // 
@@ -94,11 +95,22 @@
             agregarButton.UseVisualStyleBackColor = true;
             agregarButton.Click += agregarButton_Click;
             // 
+            // btnVerInscriptos
+            // 
+            btnVerInscriptos.Location = new Point(34, 429);
+            btnVerInscriptos.Name = "btnVerInscriptos";
+            btnVerInscriptos.Size = new Size(121, 29);
+            btnVerInscriptos.TabIndex = 6;
+            btnVerInscriptos.Text = "Ver inscriptos";
+            btnVerInscriptos.UseVisualStyleBackColor = true;
+            btnVerInscriptos.Click += btnVerInscriptos_Click;
+            // 
             // CursoLista
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1130, 508);
+            Controls.Add(btnVerInscriptos);
             Controls.Add(agregarButton);
             Controls.Add(modificarButton);
             Controls.Add(eliminarButton);
@@ -121,5 +133,6 @@
         private Button eliminarButton;
         private Button modificarButton;
         private Button agregarButton;
+        private Button btnVerInscriptos;
     }
 }

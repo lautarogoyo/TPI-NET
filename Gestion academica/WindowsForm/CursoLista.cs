@@ -23,7 +23,7 @@ namespace WindowsForm
             await CargarCursos();
         }
 
-        
+
         private async Task CargarCursos(string filtro = "")
         {
             try
@@ -33,10 +33,10 @@ namespace WindowsForm
                 agregarButton.Enabled = false;
                 cursosDataGridView.DataSource = null;
 
-                
+
                 var todos = await CursoApi.GetWithComisionMateria();
 
-                
+
                 if (!string.IsNullOrWhiteSpace(filtro))
                 {
                     cursos = todos
@@ -207,18 +207,34 @@ namespace WindowsForm
         {
         }
 
-        
+
         private async void buscarButton_Click(object sender, EventArgs e)
         {
             string filtro = (buscarTextBox.Text ?? "").Trim();
             await CargarCursos(filtro);
         }
 
-        
+
         private async void buscarTextBox_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(buscarTextBox.Text))
                 await CargarCursos();
         }
+
+        private void btnVerInscriptos_Click(object sender, EventArgs e)
+        {
+            if (cursosDataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Debe seleccionar un curso.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var cursoSeleccionado = (CursoDTO)cursosDataGridView.SelectedRows[0].DataBoundItem;
+            int idCurso = cursoSeleccionado.IdCurso;
+
+            InscripcionesLista inscripcionesLista = new InscripcionesLista(idCurso);
+            inscripcionesLista.ShowDialog();
+        }
+
     }
 }
