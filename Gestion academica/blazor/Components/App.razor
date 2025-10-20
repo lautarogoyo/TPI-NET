@@ -1,6 +1,7 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using Microsoft.AspNetCore.Components.Authorization
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,10 +12,12 @@
     <link rel="icon" type="image/png" href="favicon.png" />
     <HeadOutlet />
 </head>
-
 <body>
-    <Routes />
+    <CascadingAuthenticationState>
+        <!-- 👇 Esto hace interactivas TODAS las páginas -->
+        <Routes @rendermode="InteractiveServer" />
+    </CascadingAuthenticationState>
+
     <script src="_framework/blazor.web.js"></script>
 </body>
-
 </html>

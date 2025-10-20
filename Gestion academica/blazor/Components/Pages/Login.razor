@@ -1,0 +1,164 @@
+﻿@page "/login"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Authorization
+@inject NavigationManager Nav
+@using API.Clients
+@inject AuthApi AuthApi
+@attribute [AllowAnonymous]
+@rendermode InteractiveServer
+@inject AuthenticationStateProvider AuthProvider
+@inject blazor.ApiAuthSession ApiSession
+@using Microsoft.AspNetCore.WebUtilities
+
+
+
+<PageTitle>Iniciar sesión</PageTitle>
+
+<div class="container mt-5" style="max-width: 480px;">
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="mb-0">Iniciar sesión</h5>
+        </div>
+
+        <EditForm EditContext="@editContext"
+                  OnValidSubmit="@DoLoginAsync"
+                  OnInvalidSubmit="@OnInvalid"
+                  FormName="login-form"
+                  ValidateOnInput="true">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Usuario</label>
+                    <InputText class="form-control"
+                               @bind-Value="model.Usuario"
+                               autocomplete="username" />
+                    <ValidationMessage For="@(() => model.Usuario)" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Clave</label>
+                    <InputText class="form-control"
+                               @bind-Value="model.Clave"
+                               type="@(_showPwd ? "text" : "password")"
+                               autocomplete="current-password" />
+                    <ValidationMessage For="@(() => model.Clave)" />
+                    <div class="form-text">
+                        <button type="button"
+                                class="btn btn-link p-0"
+                                @onclick="_togglePwd">
+                            @(_showPwd ? "Ocultar" : "Mostrar")
+                        </button>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(error))
+                {
+                    <div class="alert alert-danger">@error</div>
+                }
+            </div>
+
+            <div class="card-footer d-flex gap-2">
+                <button type="submit" class="btn btn-primary" disabled="@loading">
+                    @if (loading)
+                    {
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                    }
+                    Ingresar
+                </button>
+                <button type="button" class="btn btn-outline-secondary" @onclick="Limpiar" disabled="@loading">
+                    Limpiar
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private string error = string.Empty;
+    private bool loading = false;
+    private bool _showPwd = false;
+    private bool ok = false;
+    private LoginVM model = new();
+    private EditContext editContext = default!;
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(model);
+        editContext.OnFieldChanged += (_, __) =>
+        {
+            editContext.Validate();
+            StateHasChanged();
+        };
+    }
+
+    private sealed class LoginVM
+    {
+        [Required(ErrorMessage = "El usuario es obligatorio.")]
+        public string Usuario { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "La clave es obligatoria.")]
+        public string Clave { get; set; } = string.Empty;
+    }
+
+    private void _togglePwd() => _showPwd = !_showPwd;
+
+    private void Limpiar()
+    {
+        model = new();
+        editContext = new EditContext(model);
+        error = string.Empty;
+    }
+
+    private Task OnInvalid(EditContext _)
+    {
+        error = "Completá Usuario y Clave.";
+        return Task.CompletedTask;
+    }
+
+    private async Task DoLoginAsync()
+    {
+        try
+        {
+            error = string.Empty;
+            loading = true;
+
+            model.Usuario = model.Usuario?.Trim() ?? "";
+            model.Clave = model.Clave?.Trim() ?? "";
+
+            // 1️⃣ Llamada al login de tu WebAPI
+            var dto = await AuthApi.LoginAsync(model.Usuario, model.Clave);
+            if (dto is null || string.IsNullOrWhiteSpace(dto.Token))
+            {
+                error = "Usuario o clave inválidos.";
+                return;
+            }
+
+            // 2️⃣ Guardar token en memoria (para las peticiones HTTP)
+            ApiSession.SetToken(dto.Token);
+
+            // 3️⃣ Persistir token + notificar al AuthenticationStateProvider
+            if (AuthProvider is TokenAuthStateProvider p)
+                await p.SetTokenAsync(dto.Token);
+
+            Nav.NavigateTo("/", true);
+        }
+        catch (HttpRequestException httpEx)
+        {
+            error = httpEx.StatusCode switch
+            {
+                System.Net.HttpStatusCode.BadRequest => "Credenciales inválidas.",
+                System.Net.HttpStatusCode.Unauthorized => "No autorizado.",
+                _ => $"Error de red: {httpEx.Message}"
+            };
+        }
+        catch (Exception ex)
+        {
+            error = $"No se pudo iniciar sesión: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+
+}

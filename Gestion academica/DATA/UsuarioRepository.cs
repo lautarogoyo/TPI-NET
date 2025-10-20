@@ -66,5 +66,20 @@ namespace Data
                 .Include(u => u.Persona)
                 .ToList();
         }
+        public Usuario? GetByNombreUsuario(string nombreUsuario)
+        {
+            using var context = CreateContext();
+            return context.Usuarios
+                .AsNoTracking()
+                .FirstOrDefault(u => u.NombreUsuario == nombreUsuario);
+        }
+        public Usuario? GetByNombreUsuarioNormalized(string nombreUsuario)
+        {
+            var normalized = (nombreUsuario ?? string.Empty).Trim().ToLower();
+            using var context = CreateContext();
+            return context.Usuarios
+                .FirstOrDefault(u => u.NombreUsuario.ToLower().Trim() == normalized);
+        }
+
     }
 }

@@ -1,10 +1,13 @@
 ﻿@page "/comisiones"
 @using DTOs
 @using API.Clients
+@using Microsoft.AspNetCore.Authorization
 @inject IJSRuntime JSRuntime
 @inject ComisionApi ComisionApi
 @inject IHttpClientFactory HttpFactory
 @rendermode InteractiveServer
+@attribute [Authorize]
+
 
 <PageTitle>Comisiones</PageTitle>
 

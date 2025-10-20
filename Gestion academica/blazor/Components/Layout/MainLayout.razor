@@ -1,4 +1,7 @@
 ﻿@inherits LayoutComponentBase
+@inject blazor.ApiAuthSession ApiSession
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager Nav
 
 <div class="page">
     <div class="sidebar">
@@ -6,18 +9,34 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
+        <div class="top-row px-4 d-flex justify-content-between align-items-center">
             <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+
+            <AuthorizeView>
+                <Authorized>
+                    <button class="btn btn-sm btn-outline-secondary" @onclick="CerrarSesion">Salir</button>
+                </Authorized>
+            </AuthorizeView>
         </div>
 
         <article class="content px-4">
+            <AuthGuard />
             @Body
         </article>
     </main>
 </div>
 
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+@code {
+    private async Task CerrarSesion()
+    {
+        // 1️⃣ Borrar token en memoria (HttpClient)
+        ApiSession.Clear();
+
+        // 2️⃣ Borrar token persistido y notificar Blazor
+        if (AuthProvider is TokenAuthStateProvider p)
+            await p.SetTokenAsync(null);
+
+        // 3️⃣ Redirigir al login
+        Nav.NavigateTo("/login", true);
+    }
+}

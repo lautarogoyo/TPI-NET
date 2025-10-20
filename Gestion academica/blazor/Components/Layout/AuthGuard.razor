@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager Nav
+@inject IJSRuntime JS
+@inject AuthenticationStateProvider AuthProvider
+
+@code {
+    [CascadingParameter] private Task<AuthenticationState>? AuthTask { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+
+        var token = await JS.InvokeAsync<string>("localStorage.getItem", "authToken");
+        var state = await (AuthTask ?? Task.FromResult<AuthenticationState>(null));
+        var user = state?.User;
+        var isAuth = user?.Identity?.IsAuthenticated ?? false;
+        var isLogin = Nav.Uri.Contains("/login", StringComparison.OrdinalIgnoreCase);
+
+        // Si tengo token pero aún no está autenticado, fuerzo refresco y salgo.
+        if (!isAuth && !string.IsNullOrWhiteSpace(token) && AuthProvider is TokenAuthStateProvider p)
+        {
+            await p.ForceRefreshAsync();
+            StateHasChanged();
+            return;
+        }
+
+        // Si no hay token y no estoy en /login => redirijo
+        if (!isAuth && string.IsNullOrWhiteSpace(token) && !isLogin)
+        {
+            Nav.NavigateTo("/login", true);
+        }
+    }
+}

@@ -1,4 +1,7 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@rendermode InteractiveServer
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">blazor</a>
     </div>
@@ -13,12 +16,19 @@
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
             </NavLink>
         </div>
+        <AuthorizeView Context="ctx">
+            <Authorized>
+                @if (ctx.User.IsInRole("Alumno"))
+                {
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="/especialidades">Especialidades</NavLink>
+                    </li>
+                }
+            </Authorized>
+        </AuthorizeView>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="especialidades">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Especialidad
-            </NavLink>
-        </div>
+
+
 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="materias">
