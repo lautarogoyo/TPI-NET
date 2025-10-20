@@ -1,4 +1,4 @@
-﻿@page "/comisiones/{idComision:int}/materias"
+﻿@page "/comisiones/{idComision:int}/{descComision}/materias"
 @using DTOs
 @using API.Clients
 @inject ComisionMateriaApi ComisionMateriaApi
@@ -12,7 +12,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h3>Materias de la comisión @idComision</h3>
+            <h3>Materias de la comisión @descComision</h3>
 
             @if (!string.IsNullOrEmpty(errorMessage))
             {
@@ -104,6 +104,7 @@
 
 @code {
     [Parameter] public int idComision { get; set; }
+    [Parameter] public string descComision { get; set; }
 
     private List<ComisionMateriaDTO> materiasComision = new();
     private List<MateriaDTO> materiasDisponibles = new();

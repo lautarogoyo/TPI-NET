@@ -11,5 +11,6 @@
         public string? DescMateria { get; set; }
         public string? DescComision { get; set; }
         public int? Anio { get; set; }
+        public PersonaDTO? Alumno { get; set; }
     }
 }

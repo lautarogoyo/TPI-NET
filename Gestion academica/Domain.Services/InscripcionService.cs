@@ -81,6 +81,33 @@ namespace Application.Services
                 Anio = e.Curso.AnioCalendario
             }).ToList();
         }
+        
+        public List<InscripcionDTO> GetByCurso(int id)
+        {
+            var repo = new InscripcionRepository();
+            return repo.GetByCurso(id).Select(e => new InscripcionDTO
+            {
+                IDInscripcion = e.IDInscripcion,
+                IDAlumno = e.IDAlumno,
+                IDCurso = e.IDCurso,
+                Condicion = e.Condicion,
+                NotaFinal = e.NotaFinal,
+                Alumno = new PersonaDTO
+                {
+                    IDPersona = e.Alumno.IDPersona,
+                    Nombre = e.Alumno.Nombre,
+                    Apellido = e.Alumno.Apellido,
+                    Direccion = e.Alumno.Direccion,
+                    Email = e.Alumno.Email,
+                    TipoDoc = e.Alumno.TipoDoc,
+                    NroDoc = e.Alumno.NroDoc,
+                    Telefono = e.Alumno.Telefono,
+                    FechaNac = e.Alumno.FechaNac,
+                    Legajo = e.Alumno.Legajo,
+                    TipoPersona = e.Alumno.TipoPersona
+                }
+            }).ToList();
+        }
 
         public int CuantosInscriptos(int idCurso)
         {

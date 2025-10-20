@@ -74,6 +74,15 @@ namespace Data
                 .ToList();
         }
 
+        public List<Inscripcion> GetByCurso(int id)
+        {
+            using var context = CreateContext();
+            return context.Inscripciones
+                .Include(i => i.Alumno)
+                .Where(i => i.IDCurso == id)
+                .ToList();
+        }
+
         public int CuantosInscriptos(int idCurso)
         {
             using var context = CreateContext();
