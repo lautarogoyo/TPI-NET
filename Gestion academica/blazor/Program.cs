@@ -32,6 +32,9 @@ builder.Services.AddScoped<API.Clients.PersonaApi>();
 builder.Services.AddScoped<API.Clients.InscripcionApi>();
 builder.Services.AddScoped<API.Clients.CursoApi>();
 builder.Services.AddScoped<API.Clients.UsuarioApi>();
+builder.Services.AddScoped<API.Clients.AuthApi>();
+
+
 
 
 
