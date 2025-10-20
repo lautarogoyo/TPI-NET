@@ -13,7 +13,7 @@
         public string Telefono { get; set; }
         public DateOnly FechaNac { get; set; }
         public string Legajo { get; set; }
-        public int TipoPersona { get; set; } // 1=Alumno, 2=Docente
+        public int TipoPersona { get; set; } // 1=Alumno, 2=Docente 3=Admin
         public string NombreCompleto => $"{Nombre} {Apellido}";
     }
 }

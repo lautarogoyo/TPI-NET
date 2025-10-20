@@ -32,7 +32,14 @@ namespace WebAPI
                 var persona = personasRepo.Get(user.IDPersona);
                 if (persona is null) return Results.BadRequest(new { error = "persona-missing" });
 
-                var role = persona.TipoPersona == 2 ? "Profesor" : "Alumno";
+                var role = persona.TipoPersona switch
+                {
+                    1 => "Alumno",
+                    2 => "Profesor",
+                    3 => "Admin",
+                    _ => "Invitado"
+                };
+
                 var token = BuildJwt(app.Configuration, user.NombreUsuario, persona.IDPersona, persona.TipoPersona, role);
 
                 return Results.Ok(new LoginResponseDTO

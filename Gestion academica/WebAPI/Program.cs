@@ -43,6 +43,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization(options =>
 {
+    options.AddPolicy("EsAdmin", p => p.RequireClaim("tipoPersona", "3"));
     options.AddPolicy("EsProfesor", p => p.RequireClaim("tipoPersona", "2"));
     options.AddPolicy("EsAlumno", p => p.RequireClaim("tipoPersona", "1"));
     // También por rol:
