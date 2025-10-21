@@ -3,7 +3,10 @@
 @using DTOs
 @inject InscripcionApi InscripcionApi
 @inject IJSRuntime JS
-
+@inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Components.Authorization           
+@using System.Security.Claims                                  
+@inject AuthenticationStateProvider AuthProvider
 <AuthorizeView Roles="Profesor">
     <Authorized>
         <h3>Alumno Inscriptos a @descCurso</h3>
@@ -78,18 +81,14 @@
     </Authorized>
 
     <NotAuthorized>
-        @code {
-        protected override void OnAfterRender(bool firstRender)
-        {
-            if (firstRender)
-                Navigation.NavigateTo("/denied", true);
-        }
-        }
+        <div class="alert alert-danger m-3">Acceso no autorizado.</div>
+
     </NotAuthorized>
 </AuthorizeView>
 @code {
     [Parameter] public int idCurso { get; set; }
     [Parameter] public string descCurso { get; set; }
+    [CascadingParameter] private Task<AuthenticationState>? AuthTask { get; set; }   // ✅
 
     private List<InscripcionDTO>? inscriptos;
     private bool loading = true;
@@ -101,6 +100,41 @@
 
     protected override async Task OnParametersSetAsync()
     {
+        // ✅ Validaciones de acceso
+        var authState = await (AuthTask ?? AuthProvider.GetAuthenticationStateAsync());
+        var user = authState.User;
+
+        if (!(user?.Identity?.IsAuthenticated ?? false))
+        {
+            Navigation.NavigateTo("/denied", true);
+            return;
+        }
+
+        if (!TryGetPersonaId(user, out var personaId) || personaId <= 0)
+        {
+            Navigation.NavigateTo("/denied", true);
+            return;
+        }
+
+        // ✅ Verificar que este profesor tenga asignado este curso
+        try
+        {
+            var cursosDelDocente = await DocenteCursoApi.GetByDocente(personaId);
+            var tieneCurso = cursosDelDocente?.Any(c => c.IDCurso == idCurso) == true;
+
+            if (!tieneCurso)
+            {
+                Navigation.NavigateTo("/denied", true);
+                return;
+            }
+        }
+        catch
+        {
+            Navigation.NavigateTo("/denied", true);
+            return;
+        }
+
+        // ✅ Cargar inscriptos del curso
         try
         {
             loading = true;
@@ -116,11 +150,43 @@
             loading = false;
         }
     }
-
+    private static bool TryGetPersonaId(ClaimsPrincipal user, out int id)
+    {
+        var keys = new[] { "personaId", "persona_id", "idPersona", ClaimTypes.NameIdentifier, "sub" };
+        foreach (var k in keys)
+        {
+            var v = user.FindFirst(k)?.Value;
+            if (int.TryParse(v, out id)) return true;
+        }
+        id = 0; return false;
+    }
     private async Task ExportPdf()
     {
+        // Oculta la columna "Administrar" (última columna) antes de exportar
+        await JS.InvokeVoidAsync("eval", @"
+            const table = document.querySelector('#tabla-inscriptos');
+            if (table) {
+                const lastTh = table.querySelector('thead tr th:last-child');
+                const lastTds = table.querySelectorAll('tbody tr td:last-child');
+                lastTh.style.display = 'none';
+                lastTds.forEach(td => td.style.display = 'none');
+            }
+        ");
+
+        // Generar PDF
         var curso = inscriptos?.FirstOrDefault()?.DescCurso ?? $"{descCurso}";
         await JS.InvokeVoidAsync("exportTableToPdf", $"Inscriptos - {curso}", "#tabla-inscriptos");
+
+        // Vuelve a mostrar la columna "Administrar" después de exportar
+        await JS.InvokeVoidAsync("eval", @"
+            const table = document.querySelector('#tabla-inscriptos');
+            if (table) {
+                const lastTh = table.querySelector('thead tr th:last-child');
+                const lastTds = table.querySelectorAll('tbody tr td:last-child');
+                lastTh.style.display = '';
+                lastTds.forEach(td => td.style.display = '');
+            }
+        ");
     }
 
     private void ShowSuccess(string msg) => successMessage = msg;

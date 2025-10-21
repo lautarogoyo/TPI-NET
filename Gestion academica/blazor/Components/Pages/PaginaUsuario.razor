@@ -5,6 +5,9 @@
 @inject InscripcionApi InscripcionApi
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@inject AuthenticationStateProvider AuthProvider
 
 <PageTitle>Mis cursos</PageTitle>
 <AuthorizeView Roles="Alumno">
@@ -90,26 +93,52 @@
 </Authorized>
 
     <NotAuthorized>
-        @code {
-        protected override void OnAfterRender(bool firstRender)
-        {
-            if (firstRender)
-                Navigation.NavigateTo("/denied", true);
-        }
-        }
+                <div class="alert alert-danger m-3">Acceso no autorizado.</div>
     </NotAuthorized>
 </AuthorizeView>
 @code {
-    [Parameter] public int IdP { get; set; }
     private List<InscripcionDTO> inscripciones = new();
-
+    [Parameter] public int IdP { get; set; }
+    [CascadingParameter] private Task<AuthenticationState>? AuthTask { get; set; }
     private bool loading = true;
     private string errorMessage = string.Empty;
     private string successMessage = string.Empty;
 
-    protected override async Task OnInitializedAsync()
-        => await LoadCursos();
+    protected override async Task OnParametersSetAsync()
+    {
+        var authState = await (AuthTask ?? AuthProvider.GetAuthenticationStateAsync());
+        var user = authState.User;
 
+        if (!(user?.Identity?.IsAuthenticated ?? false))
+        {
+            Navigation.NavigateTo("/denied", true);
+            return;
+        }
+
+        if (!user.IsInRole("Alumno"))
+        {
+            Navigation.NavigateTo("/denied", true);
+            return;
+        }
+
+        var claimId = user.FindFirst("personaid")?.Value
+                   ?? user.FindFirst("idPersona")?.Value
+                   ?? user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (!int.TryParse(claimId, out var personaId))
+        {
+            Navigation.NavigateTo("/denied", true);
+            return;
+        }
+
+        if (personaId != IdP)
+        {
+            Navigation.NavigateTo("/denied", true);
+            return;
+        }
+
+        await LoadCursos();
+    }
     private async Task LoadCursos()
     {
         try
