@@ -1,29 +1,44 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Collections.Generic;
+
 namespace Domain.Model
 {
     public class Especialidad
     {
-        public int IDEspecialidad { get; private set; }
-        public string Descripcion { get; private set; }
+        public int IDEspecialidad { get; set; }
+        public string Descripcion { get; set; } = string.Empty;
+
+        
         public ICollection<Plan> Planes { get; private set; } = new List<Plan>();
 
-        // Constructor para EF
-        protected Especialidad() { }
+        
+        public Especialidad() { }
 
-        // Constructor para crear nueva
+       
         public Especialidad(string descripcion)
         {
-            if (string.IsNullOrWhiteSpace(descripcion))
-                throw new ArgumentException("La descripción no puede estar vacía.");
-            Descripcion = descripcion;
+            SetDescripcion(descripcion);
         }
 
+        
+        public Especialidad(int id, string descripcion)
+        {
+            IDEspecialidad = id;
+            SetDescripcion(descripcion);
+        }
+
+        
         public void SetDescripcion(string descripcion)
         {
             if (string.IsNullOrWhiteSpace(descripcion))
                 throw new ArgumentException("La descripción no puede estar vacía.");
-            Descripcion = descripcion;
+
+            Descripcion = descripcion.Trim();
+        }
+
+        public override string ToString()
+        {
+            return $"{IDEspecialidad} - {Descripcion}";
         }
     }
-
 }

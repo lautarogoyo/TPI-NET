@@ -8,7 +8,6 @@ namespace Data
 {
     public class TPIContext : DbContext
     {
-        public DbSet<Especialidad> Especialidades { get; set; }
         public DbSet<Plan> Planes { get; set; }
         public DbSet<Comision> Comisiones { get; set; }
         public DbSet<Materia> Materias { get; set; }      
@@ -25,11 +24,9 @@ namespace Data
 
         public TPIContext(DbContextOptions<TPIContext> options) : base(options) { }
 
-        internal TPIContext()
-        {
-            this.Database.EnsureCreated();
-        }
-         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        internal TPIContext() { }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
@@ -47,7 +44,8 @@ namespace Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // --- ESPECIALIDAD ---
+
+            // === ESPECIALIDAD ===
             modelBuilder.Entity<Especialidad>(e =>
             {
                 e.ToTable("Especialidades");
@@ -55,7 +53,7 @@ namespace Data
                 e.Property(x => x.Descripcion).IsRequired().HasMaxLength(100);
             });
 
-            // --- PLAN ---
+            // === PLAN ===
             modelBuilder.Entity<Plan>(entity =>
             {
                 entity.ToTable("Planes");
@@ -63,12 +61,14 @@ namespace Data
                 entity.Property(p => p.DescPlan).IsRequired().HasMaxLength(50);
                 entity.Property(p => p.IDEspecialidad).IsRequired();
 
-                entity.HasOne(p => p.Especialidad)
-                      .WithMany(e => e.Planes)
-                      .HasForeignKey(p => p.IDEspecialidad) // <-- clavec
+                // Relación con Especialidad (principal). No necesitamos navegación en Especialidad.
+                entity.HasOne<Especialidad>()
+                      .WithMany()
+                      .HasForeignKey(p => p.IDEspecialidad)
                       .HasConstraintName("FK_Planes_Especialidades_IDEspecialidad")
                       .OnDelete(DeleteBehavior.Restrict);
             });
+
 
             // --- COMISION --- 
             modelBuilder.Entity<Comision>(entity =>

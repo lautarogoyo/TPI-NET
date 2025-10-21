@@ -1,60 +1,98 @@
-﻿using Domain.Model;
-using Microsoft.EntityFrameworkCore;
-using System.Data.SqlClient;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
+using Domain.Model;
 
 namespace Data
 {
     public class EspecialidadRepository
     {
-        private TPIContext CreateContext()
-        {
-            return new TPIContext();
-        }
+        private readonly string connectionString =
+     "Server=(localdb)\\MSSQLLocalDB;Database=TPI;Trusted_Connection=True;";
 
-        public void Add(Especialidad especialidad)
-        {
-            using var context = CreateContext();
-            context.Especialidades.Add(especialidad);
-            context.SaveChanges();
-        }
 
-        public bool Delete(int id)
+        public IEnumerable<Especialidad> GetAll()
         {
-            using var context = CreateContext();
-            var especialidad = context.Especialidades.Find(id);
-            if (especialidad != null)
+            var lista = new List<Especialidad>();
+
+            using var conn = new SqlConnection(connectionString);
+            conn.Open();
+
+            var query = "SELECT IDEspecialidad, Descripcion FROM Especialidades";
+            using var cmd = new SqlCommand(query, conn);
+            using var reader = cmd.ExecuteReader();
+
+            while (reader.Read())
             {
-                context.Especialidades.Remove(especialidad);
-                context.SaveChanges();
-                return true;
+                lista.Add(new Especialidad(
+                    reader.GetInt32(0),
+                    reader.GetString(1)
+                ));
             }
-            return false;
+
+            return lista;
         }
 
         public Especialidad? Get(int id)
         {
-            using var context = CreateContext();
-            return context.Especialidades.Find(id);
+            using var conn = new SqlConnection(connectionString);
+            conn.Open();
+
+            var query = "SELECT IDEspecialidad, Descripcion FROM Especialidades WHERE IDEspecialidad = @id";
+            using var cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@id", id);
+
+            using var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                return new Especialidad(
+                    reader.GetInt32(0),
+                    reader.GetString(1)
+                );
+            }
+
+            return null;
         }
 
-        public IEnumerable<Especialidad> GetAll()
+        public int Add(Especialidad especialidad)
         {
-            using var context = CreateContext();
-            return context.Especialidades.ToList();
+            using var conn = new SqlConnection(connectionString);
+            conn.Open();
+
+            var query = "INSERT INTO Especialidades (Descripcion) OUTPUT INSERTED.IDEspecialidad VALUES (@desc)";
+            using var cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@desc", especialidad.Descripcion);
+
+            int nuevoId = (int)cmd.ExecuteScalar();
+            especialidad.IDEspecialidad = nuevoId;
+            return nuevoId;
         }
+
+
 
         public bool Update(Especialidad especialidad)
         {
-            using var context = CreateContext();
-            var existingEspecialidad = context.Especialidades.Find(especialidad.IDEspecialidad);
-            if (existingEspecialidad != null)
-            {
-                existingEspecialidad.SetDescripcion(especialidad.Descripcion);
+            using var conn = new SqlConnection(connectionString);
+            conn.Open();
 
-                context.SaveChanges();
-                return true;
-            }
-            return false;
+            var query = "UPDATE Especialidades SET Descripcion = @desc WHERE IDEspecialidad = @id";
+            using var cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@desc", especialidad.Descripcion);
+            cmd.Parameters.AddWithValue("@id", especialidad.IDEspecialidad);
+
+            return cmd.ExecuteNonQuery() > 0;
+        }
+
+        public bool Delete(int id)
+        {
+            using var conn = new SqlConnection(connectionString);
+            conn.Open();
+
+            var query = "DELETE FROM Especialidades WHERE IDEspecialidad = @id";
+            using var cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@id", id);
+
+            return cmd.ExecuteNonQuery() > 0;
         }
     }
 }
