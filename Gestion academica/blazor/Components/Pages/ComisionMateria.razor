@@ -9,99 +9,112 @@
 
 <PageTitle>Materias de Comisión</PageTitle>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <h3>Materias de la comisión @descComision</h3>
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h3>Materias de la comisión @descComision</h3>
 
-            @if (!string.IsNullOrEmpty(errorMessage))
-            {
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    @errorMessage
-                    <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
-                </div>
-            }
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @errorMessage
+                            <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
+                        </div>
+                    }
 
-            @if (!string.IsNullOrEmpty(successMessage))
-            {
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    @successMessage
-                    <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
-                </div>
-            }
+                    @if (!string.IsNullOrEmpty(successMessage))
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @successMessage
+                            <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
+                        </div>
+                    }
 
-            <div class="mb-3 d-flex justify-content-between">
+                    <div class="mb-3 d-flex justify-content-between">
 
-                <button class="btn btn-secondary" @onclick="Volver">
-                    <i class="fas fa-arrow-left"></i> Volver
-                </button>
+                        <button class="btn btn-secondary" @onclick="Volver">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </button>
 
-                <button class="btn btn-primary" @onclick="OpenAddModal">
-                    <i class="fas fa-plus"></i> Agregar materia
-                </button>
-            </div>
-
-            @if (loading)
-            {
-                <div class="d-flex justify-content-center">
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Cargando...</span>
+                        <button class="btn btn-primary" @onclick="OpenAddModal">
+                            <i class="fas fa-plus"></i> Agregar materia
+                        </button>
                     </div>
-                </div>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Materia</th>
-                                <th>Horas Semanales</th>
-                                <th>Horas Totales</th>
-                                <th style="width:160px"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (materiasComision is { Count: > 0 })
-                            {
-                                @foreach (var m in materiasComision)
-                                {
+
+                    @if (loading)
+                    {
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
                                     <tr>
-                                        <td>@m.DescMateria</td>
-                                        <td>@m.HsSemanales</td>
-                                        <td>@m.HsTotales</td>
-                                        <td class="text-end">
-                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(m)">
-                                                <i class="fas fa-edit"></i> Editar
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(m)">
-                                                <i class="fas fa-trash"></i> Eliminar
-                                            </button>
-                                        </td>
+                                        <th>Materia</th>
+                                        <th>Horas Semanales</th>
+                                        <th>Horas Totales</th>
+                                        <th style="width:160px"></th>
                                     </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="4" class="text-center text-muted">No hay materias asociadas.</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                                </thead>
+                                <tbody>
+                                    @if (materiasComision is { Count: > 0 })
+                                    {
+                                        @foreach (var m in materiasComision)
+                                        {
+                                            <tr>
+                                                <td>@m.DescMateria</td>
+                                                <td>@m.HsSemanales</td>
+                                                <td>@m.HsTotales</td>
+                                                <td class="text-end">
+                                                    <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(m)">
+                                                        <i class="fas fa-edit"></i> Editar
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(m)">
+                                                        <i class="fas fa-trash"></i> Eliminar
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted">No hay materias asociadas.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
                 </div>
-            }
+            </div>
         </div>
-    </div>
-</div>
 
-<ComisionMateriaModal @ref="modal"
-                      idComision="@idComision"
-                      materiasDisponibles="@materiasDisponibles"
-                      OnChange="LoadMateriasComision"
-                      OnSuccess="ShowSuccess"
-                      OnError="ShowError" />
+        <ComisionMateriaModal @ref="modal"
+                              idComision="@idComision"
+                              materiasDisponibles="@materiasDisponibles"
+                              OnChange="LoadMateriasComision"
+                              OnSuccess="ShowSuccess"
+                              OnError="ShowError" />
+    </Authorized>
 
+    <NotAuthorized>
+        @code {
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (firstRender)
+                Navigation.NavigateTo("/denied", true);
+        }
+        }
+    </NotAuthorized>
+</AuthorizeView>
 @code {
     [Parameter] public int idComision { get; set; }
     [Parameter] public string descComision { get; set; }

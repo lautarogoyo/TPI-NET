@@ -4,98 +4,115 @@
 @inject IJSRuntime JSRuntime
 @inject UsuarioApi UsuarioApi
 @inject PersonaApi PersonaApi
+@inject NavigationManager Navigation
+
 @rendermode InteractiveServer
 
 <PageTitle>Personas sin usuario</PageTitle>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <h3>Personas sin Usuario</h3>
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h3>Personas sin Usuario</h3>
 
-            @if (!string.IsNullOrEmpty(errorMessage))
-            {
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    @errorMessage
-                    <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
-                </div>
-            }
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @errorMessage
+                            <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
+                        </div>
+                    }
 
-            @if (!string.IsNullOrEmpty(successMessage))
-            {
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    @successMessage
-                    <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
-                </div>
-            }
+                    @if (!string.IsNullOrEmpty(successMessage))
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @successMessage
+                            <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
+                        </div>
+                    }
 
-            @if (loading)
-            {
-                <div class="d-flex justify-content-center">
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Cargando...</span>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Nro Doc</th>
-                                <th>Email</th>
-                                <th>Teléfono</th>
-                                <th>Fecha Nac.</th>
-                                <th>Legajo</th>
-                                <th>Rol</th>
-                                <th class="text-center"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (personas is { Count: > 0 })
-                            {
-                                @foreach (var p in personas)
-                                {
+                    @if (loading)
+                    {
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
                                     <tr>
-                                        <td>@p.IDPersona</td>
-                                        <td>@p.Nombre</td>
-                                        <td>@p.Apellido</td>
-                                        <td>@p.NroDoc</td>
-                                        <td>@p.Email</td>
-                                        <td>@p.Telefono</td>
-                                        <td>@p.FechaNac</td>
-                                        <td>@p.Legajo</td>
-                                        <td>@(p.TipoPersona == 1 ? "Alumno" : "Profesor")</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-warning me-2" @onclick="() => OpenAddModal(p.IDPersona)">
-                                                <i class="bi bi-pencil-square"></i> Crear Usuario
-                                            </button>
-                                        </td>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <th>Nro Doc</th>
+                                        <th>Email</th>
+                                        <th>Teléfono</th>
+                                        <th>Fecha Nac.</th>
+                                        <th>Legajo</th>
+                                        <th>Rol</th>
+                                        <th class="text-center"></th>
                                     </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted">No hay personas sin usuario.</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                                </thead>
+                                <tbody>
+                                    @if (personas is { Count: > 0 })
+                                    {
+                                        @foreach (var p in personas)
+                                        {
+                                            <tr>
+                                                <td>@p.IDPersona</td>
+                                                <td>@p.Nombre</td>
+                                                <td>@p.Apellido</td>
+                                                <td>@p.NroDoc</td>
+                                                <td>@p.Email</td>
+                                                <td>@p.Telefono</td>
+                                                <td>@p.FechaNac</td>
+                                                <td>@p.Legajo</td>
+                                                <td>@(p.TipoPersona == 1 ? "Alumno" : "Profesor")</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-sm btn-warning me-2" @onclick="() => OpenAddModal(p.IDPersona)">
+                                                        <i class="bi bi-pencil-square"></i> Crear Usuario
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted">No hay personas sin usuario.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
                 </div>
-            }
+            </div>
         </div>
-    </div>
-</div>
 
-<UsuarioModal @ref="modal"
-              OnUsuarioChanged="LoadPersonas"
-              OnSuccess="ShowSuccess"
-              OnError="ShowError" />
+        <UsuarioModal @ref="modal"
+                      OnUsuarioChanged="LoadPersonas"
+                      OnSuccess="ShowSuccess"
+                      OnError="ShowError" />
+
+    </Authorized>
+
+    <NotAuthorized>
+        @code {
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (firstRender)
+                Navigation.NavigateTo("/denied", true);
+        }
+        }
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
     private List<PersonaDTO>? personas;

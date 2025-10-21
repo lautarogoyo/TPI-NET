@@ -103,6 +103,26 @@
 
         <AuthorizeView Context="ctx">
             <Authorized>
+                @if (ctx.User.IsInRole("Profesor"))
+                {
+                    // Extraemos el claim personaId del token
+                    var idClaim = ctx.User.FindFirst("personaId")?.Value;
+
+                    if (int.TryParse(idClaim, out var idP))
+                    {
+                        <div class="nav-item px-3">
+                            <NavLink class="nav-link" href=@($"/docente/{idP}")>
+                                >
+                                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Mis cursos
+                            </NavLink>
+                        </div>
+                    }
+                }
+            </Authorized>
+        </AuthorizeView>
+
+        <AuthorizeView Context="ctx">
+            <Authorized>
                 @if (ctx.User.IsInRole("Admin"))
                 {
                 <div class="nav-item px-3">

@@ -5,67 +5,79 @@
 @rendermode InteractiveServer
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <h3>@($"Listado de {Tipo}")</h3>
 
-<h3>@($"Listado de {Tipo}")</h3>
+        <div class="mb-3 d-flex justify-content-between">
+            <input @bind="TextoBusqueda" class="form-control w-50" placeholder="Buscar..." />
+            <button class="btn btn-primary" @onclick="Agregar">Agregar @Tipo</button>
+        </div>
 
-<div class="mb-3 d-flex justify-content-between">
-    <input @bind="TextoBusqueda" class="form-control w-50" placeholder="Buscar..." />
-    <button class="btn btn-primary" @onclick="Agregar">Agregar @Tipo</button>
-</div>
+        @if (Personas is null)
+        {
+            <p>Cargando...</p>
+        }
+        else if (!Personas.Any())
+        {
+            <p>No se encontraron @Tipo.</p>
+        }
+        else
+        {
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Nro Doc</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Fecha Nac.</th>
+                        <th>Legajo</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var persona in Personas)
+                    {
+                        <tr>
+                            <td>@persona.IDPersona</td>
+                            <td>@persona.Nombre</td>
+                            <td>@persona.Apellido</td>
+                            <td>@persona.NroDoc</td>
+                            <td>@persona.Email</td>
+                            <td>@persona.Telefono</td>
+                            <td>@persona.FechaNac</td>
+                            <td>@persona.Legajo</td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-warning me-2" @onclick="() => Modificar(persona)">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </button>
+                                <button class="btn btn-sm btn-danger" @onclick="() => Eliminar(persona)">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
 
-@if (Personas is null)
-{
-    <p>Cargando...</p>
-}
-else if (!Personas.Any())
-{
-    <p>No se encontraron @Tipo.</p>
-}
-else
-{
-    <table class="table table-striped align-middle">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Nro Doc</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>Fecha Nac.</th>
-                <th>Legajo</th>
-                <th class="text-center">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var persona in Personas)
-            {
-                <tr>
-                    <td>@persona.IDPersona</td>
-                    <td>@persona.Nombre</td>
-                    <td>@persona.Apellido</td>
-                    <td>@persona.NroDoc</td>
-                    <td>@persona.Email</td>
-                    <td>@persona.Telefono</td>
-                    <td>@persona.FechaNac</td>
-                    <td>@persona.Legajo</td>
-                    <td class="text-center">
-                        <button class="btn btn-sm btn-warning me-2" @onclick="() => Modificar(persona)">
-                            <i class="bi bi-pencil-square"></i> Editar
-                        </button>
-                        <button class="btn btn-sm btn-danger" @onclick="() => Eliminar(persona)">
-                            <i class="bi bi-trash"></i> Eliminar
-                        </button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+        <PersonaModal @ref="Modal" 
+        OnPersonaChange="CargarPersonasAsync" />
+    </Authorized>
 
-<PersonaModal @ref="Modal" 
-OnPersonaChange="CargarPersonasAsync" />
-
+    <NotAuthorized>
+        @code {
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (firstRender)
+                Navigation.NavigateTo("/denied", true);
+        }
+        }
+    </NotAuthorized>
+</AuthorizeView>
 @code {
     [Parameter] public int Numero { get; set; } // 1 = Alumno, 2 = Profesor
     [Parameter] public string Tipo { get; set; } = string.Empty;

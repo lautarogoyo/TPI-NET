@@ -8,93 +8,106 @@
 
 <PageTitle>Planes</PageTitle>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <h3>Planes</h3>
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h3>Planes</h3>
 
-            @if (!string.IsNullOrEmpty(errorMessage))
-            {
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    @errorMessage
-                    <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
-                </div>
-            }
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @errorMessage
+                            <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
+                        </div>
+                    }
 
-            @if (!string.IsNullOrEmpty(successMessage))
-            {
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    @successMessage
-                    <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
-                </div>
-            }
+                    @if (!string.IsNullOrEmpty(successMessage))
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @successMessage
+                            <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
+                        </div>
+                    }
 
-            <div class="mb-3">
-                <button class="btn btn-primary" @onclick="OpenAddModal">
-                    <i class="fas fa-plus"></i> Agregar
-                </button>
-            </div>
-
-            @if (loading)
-            {
-                <div class="d-flex justify-content-center">
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Cargando...</span>
+                    <div class="mb-3">
+                        <button class="btn btn-primary" @onclick="OpenAddModal">
+                            <i class="fas fa-plus"></i> Agregar
+                        </button>
                     </div>
-                </div>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Id</th>
-                                <th>Descripción</th>
-                                <th>Especialidad</th>
-                                <th style="width:160px"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (planes is { Count: > 0 })
-                            {
-                                @foreach (var plan in planes)
-                                {
+
+                    @if (loading)
+                    {
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
                                     <tr>
-                                        <td>@plan.IDPlan</td>
-                                        <td>@plan.DescPlan</td>
-                                        <td>@GetEspecialidadDesc(plan.IDEspecialidad)</td>
-                                        <td class="text-end">
-                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(plan)">
-                                                <i class="fas fa-edit"></i> Editar
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(plan)">
-                                                <i class="fas fa-trash"></i> Eliminar
-                                            </button>
-                                        </td>
+                                        <th>Id</th>
+                                        <th>Descripción</th>
+                                        <th>Especialidad</th>
+                                        <th style="width:160px"></th>
                                     </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="4" class="text-center text-muted">No hay planes.</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                                </thead>
+                                <tbody>
+                                    @if (planes is { Count: > 0 })
+                                    {
+                                        @foreach (var plan in planes)
+                                        {
+                                            <tr>
+                                                <td>@plan.IDPlan</td>
+                                                <td>@plan.DescPlan</td>
+                                                <td>@GetEspecialidadDesc(plan.IDEspecialidad)</td>
+                                                <td class="text-end">
+                                                    <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(plan)">
+                                                        <i class="fas fa-edit"></i> Editar
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(plan)">
+                                                        <i class="fas fa-trash"></i> Eliminar
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted">No hay planes.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
                 </div>
-            }
+            </div>
         </div>
-    </div>
-</div>
 
-<!-- Si tenés un modal específico para Plan -->
-<PlanModal @ref="modal"
-           OnPlanChanged="LoadData"
-           OnSuccess="ShowSuccess"
-           OnError="ShowError" />
+        <!-- Si tenés un modal específico para Plan -->
+        <PlanModal @ref="modal"
+                   OnPlanChanged="LoadData"
+                   OnSuccess="ShowSuccess"
+                   OnError="ShowError" />
+    </Authorized>
 
+    <NotAuthorized>
+        @code {
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (firstRender)
+                Navigation.NavigateTo("/denied", true);
+        }
+        }
+    </NotAuthorized>
+</AuthorizeView>
 @code {
     private List<PlanDTO> planes = new();
     private List<EspecialidadDTO> especialidades = new();

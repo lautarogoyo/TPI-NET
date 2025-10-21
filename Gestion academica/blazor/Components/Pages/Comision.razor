@@ -11,102 +11,116 @@
 
 <PageTitle>Comisiones</PageTitle>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <h3>Comisiones</h3>
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h3>Comisiones</h3>
 
-            @if (!string.IsNullOrEmpty(errorMessage))
-            {
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    @errorMessage
-                    <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
-                </div>
-            }
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @errorMessage
+                            <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
+                        </div>
+                    }
 
-            @if (!string.IsNullOrEmpty(successMessage))
-            {
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    @successMessage
-                    <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
-                </div>
-            }
+                    @if (!string.IsNullOrEmpty(successMessage))
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @successMessage
+                            <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
+                        </div>
+                    }
 
-            <div class="mb-3">
-                <button class="btn btn-primary" @onclick="OpenAddModal">
-                    <i class="fas fa-plus"></i> Agregar
-                </button>
-            </div>
-
-            @if (loading)
-            {
-                <div class="d-flex justify-content-center">
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Cargando...</span>
+                    <div class="mb-3">
+                        <button class="btn btn-primary" @onclick="OpenAddModal">
+                            <i class="fas fa-plus"></i> Agregar
+                        </button>
                     </div>
-                </div>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Id</th>
-                                <th>Descripción</th>
-                                <th>Año especialidad</th>
-                                <th>Plan</th>
-                                <th style="width:300px"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (comisiones is { Count: > 0 })
-                            {
-                                @foreach (var c in comisiones)
-                                {
+
+                    @if (loading)
+                    {
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
                                     <tr>
-                                        <td>@c.IDComision</td>
-                                        <td>@c.Descripcion</td>
-                                        <td>@c.AnioEspecialidad</td>
-                                        <td>@GetPlanNombre(c.IDPlan)</td>
-                                        <td class="text-end">
-                                            <button class="btn btn-sm btn-outline-info me-1"
-                                            @onclick="() => VerMaterias(c)">
-                                                <i class="fas fa-book"></i> Ver materias
-                                            </button>
-
-                                            <button class="btn btn-sm btn-outline-primary me-1"
-                                            @onclick="() => OpenEditModal(c)">
-                                                <i class="fas fa-edit"></i> Editar
-                                            </button>
-
-                                            <button class="btn btn-sm btn-outline-danger"
-                                            @onclick="() => ConfirmDelete(c)">
-                                                <i class="fas fa-trash"></i> Eliminar
-                                            </button>
-                                        </td>
+                                        <th>Id</th>
+                                        <th>Descripción</th>
+                                        <th>Año especialidad</th>
+                                        <th>Plan</th>
+                                        <th style="width:300px"></th>
                                     </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted">No hay comisiones.</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
-        </div>
-    </div>
-</div>
+                                </thead>
+                                <tbody>
+                                    @if (comisiones is { Count: > 0 })
+                                    {
+                                        @foreach (var c in comisiones)
+                                        {
+                                            <tr>
+                                                <td>@c.IDComision</td>
+                                                <td>@c.Descripcion</td>
+                                                <td>@c.AnioEspecialidad</td>
+                                                <td>@GetPlanNombre(c.IDPlan)</td>
+                                                <td class="text-end">
+                                                    <button class="btn btn-sm btn-outline-info me-1"
+                                                    @onclick="() => VerMaterias(c)">
+                                                        <i class="fas fa-book"></i> Ver materias
+                                                    </button>
 
-<ComisionModal @ref="modal"
-planes="@planes"
-OnComisionChanged="LoadComisiones"
-OnSuccess="ShowSuccess"
-OnError="ShowError" />
+                                                    <button class="btn btn-sm btn-outline-primary me-1"
+                                                    @onclick="() => OpenEditModal(c)">
+                                                        <i class="fas fa-edit"></i> Editar
+                                                    </button>
+
+                                                    <button class="btn btn-sm btn-outline-danger"
+                                                    @onclick="() => ConfirmDelete(c)">
+                                                        <i class="fas fa-trash"></i> Eliminar
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted">No hay comisiones.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <ComisionModal @ref="modal"
+        planes="@planes"
+        OnComisionChanged="LoadComisiones"
+        OnSuccess="ShowSuccess"
+        OnError="ShowError" />
+    </Authorized>
+
+    <NotAuthorized>
+        @code {
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (firstRender)
+                Navigation.NavigateTo("/denied", true);
+        }
+        }
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
     private List<ComisionDTO>? comisiones;

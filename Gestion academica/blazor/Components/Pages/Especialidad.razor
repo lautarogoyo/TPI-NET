@@ -98,7 +98,13 @@
     </Authorized>
 
     <NotAuthorized>
-        @* Nada que mostrar; redirigimos en @code al primer render *@
+        @code {
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (firstRender)
+                Navigation.NavigateTo("/denied", true);
+        }
+        }
     </NotAuthorized>
 </AuthorizeView>
 

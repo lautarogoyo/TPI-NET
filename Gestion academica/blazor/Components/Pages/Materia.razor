@@ -7,91 +7,103 @@
 
 
 <PageTitle>Materias</PageTitle>
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h3>Materias</h3>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <h3>Materias</h3>
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @errorMessage
+                            <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
+                        </div>
+                    }
 
-            @if (!string.IsNullOrEmpty(errorMessage))
-            {
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    @errorMessage
-                    <button type="button" class="btn-close" @onclick="() => errorMessage = string.Empty"></button>
-                </div>
-            }
+                    @if (!string.IsNullOrEmpty(successMessage))
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @successMessage
+                            <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
+                        </div>
+                    }
 
-            @if (!string.IsNullOrEmpty(successMessage))
-            {
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    @successMessage
-                    <button type="button" class="btn-close" @onclick="() => successMessage = string.Empty"></button>
-                </div>
-            }
-
-            <div class="mb-3">
-                <button class="btn btn-primary" @onclick="OpenAddModal">
-                    <i class="fas fa-plus"></i> Agregar
-                </button>
-            </div>
-
-            @if (loading)
-            {
-                <div class="d-flex justify-content-center">
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Cargando...</span>
+                    <div class="mb-3">
+                        <button class="btn btn-primary" @onclick="OpenAddModal">
+                            <i class="fas fa-plus"></i> Agregar
+                        </button>
                     </div>
-                </div>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Id</th>
-                                <th>Descripción</th>
-                                <th style="width:160px"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (materias is { Count: > 0 })
-                            {
-                                @foreach (var mat in materias)
-                                {
+
+                    @if (loading)
+                    {
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
                                     <tr>
-                                        <td>@mat.IDMateria</td>
-                                        <td>@mat.Descripcion</td>
-                                        <td class="text-end">
-                                            <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(mat)">
-                                                <i class="fas fa-edit"></i> Editar
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(mat)">
-                                                <i class="fas fa-trash"></i> Eliminar
-                                            </button>
-                                        </td>
+                                        <th>Id</th>
+                                        <th>Descripción</th>
+                                        <th style="width:160px"></th>
                                     </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td colspan="3" class="text-center text-muted">No hay materias.</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                                </thead>
+                                <tbody>
+                                    @if (materias is { Count: > 0 })
+                                    {
+                                        @foreach (var mat in materias)
+                                        {
+                                            <tr>
+                                                <td>@mat.IDMateria</td>
+                                                <td>@mat.Descripcion</td>
+                                                <td class="text-end">
+                                                    <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => OpenEditModal(mat)">
+                                                        <i class="fas fa-edit"></i> Editar
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger" @onclick="() => ConfirmDelete(mat)">
+                                                        <i class="fas fa-trash"></i> Eliminar
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="3" class="text-center text-muted">No hay materias.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
                 </div>
-            }
+            </div>
         </div>
-    </div>
-</div>
 
-<MateriaModal @ref="modal"
-                   OnMateriaChanged="LoadMaterias"
-                   OnSuccess="ShowSuccess"
-                   OnError="ShowError" />
+        <MateriaModal @ref="modal"
+                           OnMateriaChanged="LoadMaterias"
+                           OnSuccess="ShowSuccess"
+                           OnError="ShowError" />
+    </Authorized>
 
+    <NotAuthorized>
+        @code {
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (firstRender)
+                Navigation.NavigateTo("/denied", true);
+        }
+        }
+    </NotAuthorized>
+</AuthorizeView>
 @code {
     private List<MateriaDTO>? materias;
     private bool loading = true;

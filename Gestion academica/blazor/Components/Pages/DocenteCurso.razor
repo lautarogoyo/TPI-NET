@@ -7,54 +7,66 @@
 @inject IJSRuntime JSRuntime
 
 <h3>@("Listado de docentes y cursos")</h3>
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <div class="mb-3 d-flex justify-content-between">
+            <button class="btn btn-primary" @onclick="Agregar">Agregar</button>
+        </div>
 
-<div class="mb-3 d-flex justify-content-between">
-    <button class="btn btn-primary" @onclick="Agregar">Agregar</button>
-</div>
+        @if (DocentesCursos is null)
+        {
+            <p>Cargando...</p>
+        }
+        else if (!DocentesCursos.Any())
+        {
+            <p>No se encontraron relaciones entre docentes y cursos.</p>
+        }
+        else
+        {
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Curso</th>
+                        <th>Docente</th>
+                        <th>Cargo</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var dc in DocentesCursos)
+                    {
+                        <tr>
+                            <td>@dc.DescCurso</td>
+                            <td>@dc.NombreDocente</td>
+                            <td>@dc.Cargo</td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-warning me-2" @onclick="() => Modificar(dc)">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </button>
+                                <button class="btn btn-sm btn-danger" @onclick="() => Eliminar(dc)">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
 
-@if (DocentesCursos is null)
-{
-    <p>Cargando...</p>
-}
-else if (!DocentesCursos.Any())
-{
-    <p>No se encontraron relaciones entre docentes y cursos.</p>
-}
-else
-{
-    <table class="table table-striped align-middle">
-        <thead>
-            <tr>
-                <th>Curso</th>
-                <th>Docente</th>
-                <th>Cargo</th>
-                <th class="text-center"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var dc in DocentesCursos)
-            {
-                <tr>
-                    <td>@dc.DescCurso</td>
-                    <td>@dc.NombreDocente</td>
-                    <td>@dc.Cargo</td>
-                    <td class="text-center">
-                        <button class="btn btn-sm btn-warning me-2" @onclick="() => Modificar(dc)">
-                            <i class="bi bi-pencil-square"></i> Editar
-                        </button>
-                        <button class="btn btn-sm btn-danger" @onclick="() => Eliminar(dc)">
-                            <i class="bi bi-trash"></i> Eliminar
-                        </button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+        <DocenteCursoModal @ref="Modal"
+                      OnDCChange="CargarDCAsync" />
+    </Authorized>
 
-<DocenteCursoModal @ref="Modal"
-              OnDCChange="CargarDCAsync" />
-
+    <NotAuthorized>
+        @code {
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (firstRender)
+                Navigation.NavigateTo("/denied", true);
+        }
+        }
+    </NotAuthorized>
+</AuthorizeView>
 @code {
 
     private List<DocenteCursoDTO>? DocentesCursos;
