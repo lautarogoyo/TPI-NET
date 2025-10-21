@@ -256,6 +256,7 @@ namespace WindowsForm
 
                 // Habilitamos o deshabilitamos botones según si hay registros
                 bool hayFilas = dgvDocentesCursos.Rows.Count > 0;
+                if (hayFilas) this.dgvDocentesCursos.Rows[0].Selected = true;
                 btnEliminar.Enabled = hayFilas;
                 btnModificar.Enabled = hayFilas;
                 btnAgregar.Enabled = true;

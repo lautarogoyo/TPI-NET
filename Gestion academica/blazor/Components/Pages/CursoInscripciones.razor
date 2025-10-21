@@ -33,10 +33,9 @@ else
     <table id="tabla-inscriptos" class="table table-striped table-hover">
         <thead class="table-dark">
             <tr>
-                <th>ID Inscripción</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
+                <th>Alumno</th>
                 <th>Email</th>
+                <th>Legajo</th>
                 <th>Condición</th>
                 <th>Nota Final</th>
             </tr>
@@ -45,10 +44,9 @@ else
             @foreach (var insc in inscriptos)
             {
                 <tr>
-                    <td>@insc.IDInscripcion</td>
-                    <td>@insc.Alumno?.Nombre</td>
-                    <td>@insc.Alumno?.Apellido</td>
+                    <td>@insc.NombreAlumno</td>
                     <td>@insc.Alumno?.Email</td>
+                    <td>@insc.Alumno?.Legajo</td>
                     <td>@insc.Condicion</td>
                     <td>@(insc.NotaFinal == -1 ? "-" : insc.NotaFinal)</td>
                 </tr>

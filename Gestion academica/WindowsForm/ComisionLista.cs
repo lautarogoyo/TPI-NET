@@ -181,6 +181,7 @@ namespace WindowsForm
                 comisionesDataGridView.DataSource = comisiones.ToList();
 
                 bool hayFilas = comisionesDataGridView.Rows.Count > 0;
+                if (hayFilas) this.comisionesDataGridView.Rows[0].Selected = true;
                 eliminarButton.Enabled = hayFilas;
                 modificarButton.Enabled = hayFilas;
                 verMateriasButton.Enabled = hayFilas;

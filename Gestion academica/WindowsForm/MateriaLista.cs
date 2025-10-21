@@ -160,6 +160,7 @@ namespace WindowsForm
 
                 
                 bool hayFilas = materiasDataGridView.Rows.Count > 0;
+                if (hayFilas) this.materiasDataGridView.Rows[0].Selected = true;
                 eliminarButton.Enabled = hayFilas;
                 modificarButton.Enabled = hayFilas;
                 agregarButton.Enabled = true;

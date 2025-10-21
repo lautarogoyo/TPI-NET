@@ -32,53 +32,62 @@ namespace WindowsForm
 
             dgvInscriptos.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "ID Inscripción",
-                DataPropertyName = "IDInscripcion",
-                Width = 100
-            });
-
-            dgvInscriptos.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "Nombre",
+                HeaderText = "Alumno",
                 DataPropertyName = "NombreAlumno",
-                Width = 150
+                Width = 200
             });
 
             dgvInscriptos.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Apellido",
-                DataPropertyName = "ApellidoAlumno",
-                Width = 150
+                HeaderText = "Email",
+                DataPropertyName = "EmailAlumno",
+                Width = 200
+            });
+
+            dgvInscriptos.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Legajo",
+                DataPropertyName = "LegajoAlumno",
+                Width = 100
             });
 
             dgvInscriptos.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Condición",
                 DataPropertyName = "Condicion",
-                Width = 120
+                Width = 100
             });
 
             dgvInscriptos.Columns.Add(new DataGridViewTextBoxColumn
             {
                 HeaderText = "Nota Final",
                 DataPropertyName = "NotaFinal",
-                Width = 100
+                Width = 80
             });
+
+            dgvInscriptos.CellFormatting += (s, e) =>
+            {
+                if (dgvInscriptos.Columns[e.ColumnIndex].DataPropertyName == "NotaFinal")
+                {
+                    if (e.Value != null)
+                    {
+                        e.Value = (int)e.Value == -1 ? "     -" : $"{e.Value}";
+                        e.FormattingApplied = true;
+                    }
+                }
+            };
         }
 
         private async Task CargarInscriptosAsync()
         {
             try
             {
-                var todas = await InscripcionApi.GetAllAsync();
-                inscripciones = todas
-                    .Where(i => i.IDCurso == idCurso)
-                    .ToList();
-
+                var inscripciones = await InscripcionApi.GetByCurso(idCurso);
                 dgvInscriptos.DataSource = inscripciones;
 
                 if (inscripciones.Count == 0)
                     MessageBox.Show("No hay alumnos inscriptos en este curso.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
             }
             catch (Exception ex)
             {
