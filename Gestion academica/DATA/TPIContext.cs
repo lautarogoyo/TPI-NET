@@ -44,15 +44,6 @@ namespace Data
         {
             base.OnModelCreating(modelBuilder);
 
-
-            // === ESPECIALIDAD ===
-            modelBuilder.Entity<Especialidad>(e =>
-            {
-                e.ToTable("Especialidades");
-                e.HasKey(x => x.IDEspecialidad);
-                e.Property(x => x.Descripcion).IsRequired().HasMaxLength(100);
-            });
-
             // === PLAN ===
             modelBuilder.Entity<Plan>(entity =>
             {
@@ -60,13 +51,6 @@ namespace Data
                 entity.HasKey(p => p.IDPlan);
                 entity.Property(p => p.DescPlan).IsRequired().HasMaxLength(50);
                 entity.Property(p => p.IDEspecialidad).IsRequired();
-
-                // Relación con Especialidad (principal). No necesitamos navegación en Especialidad.
-                entity.HasOne<Especialidad>()
-                      .WithMany()
-                      .HasForeignKey(p => p.IDEspecialidad)
-                      .HasConstraintName("FK_Planes_Especialidades_IDEspecialidad")
-                      .OnDelete(DeleteBehavior.Restrict);
             });
 
 

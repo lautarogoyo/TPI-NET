@@ -46,13 +46,24 @@ namespace Application.Services
 
         public IEnumerable<PlanDTO> GetAll()
         {
-            var repo = new PlanRepository();
-            return repo.GetAll().Select(p => new PlanDTO
+            var planRepo = new PlanRepository(); 
+            var especialidadRepo = new EspecialidadRepository(); 
+
+            var planes = planRepo.GetAll().ToList();
+
+            return planes.Select(p =>
             {
-                IDPlan = p.IDPlan,
-                DescPlan = p.DescPlan,
-                IDEspecialidad = p.IDEspecialidad,
-                DescEspecialidad = p.Especialidad.Descripcion
+                var dto = new PlanDTO
+                {
+                    IDPlan = p.IDPlan,
+                    DescPlan = p.DescPlan,
+                    IDEspecialidad = p.IDEspecialidad
+                };
+
+                var esp = especialidadRepo.Get(p.IDEspecialidad);
+                dto.DescEspecialidad = esp?.Descripcion ?? "N/A";
+
+                return dto;
             }).ToList();
         }
 

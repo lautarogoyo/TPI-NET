@@ -1,13 +1,17 @@
-﻿namespace Domain.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain.Model
 {
     public class Plan
     {
         public int IDPlan { get; private set; }
         public string DescPlan { get; private set; }
         public int IDEspecialidad { get; private set; }
-
-        public Especialidad Especialidad { get; private set; }   // navegación
+        
         public ICollection<Comision> Comisiones { get; private set; } = new List<Comision>();
+
+        [NotMapped]
+        public Especialidad? Especialidad { get; set; }
 
 
         // Constructor para EF

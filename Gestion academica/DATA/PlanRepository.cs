@@ -39,7 +39,7 @@ namespace Data
         public IEnumerable<Plan> GetAll()
         {
             using var context = CreateContext();
-            return context.Planes.Include(p => p.Especialidad).ToList();
+            return context.Planes.ToList();
         }
 
         public bool Update(Plan plan)

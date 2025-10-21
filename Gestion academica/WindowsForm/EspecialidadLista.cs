@@ -159,6 +159,7 @@ namespace WindowsForm
 
                 
                 bool hayFilas = especialidadesDataGridView.Rows.Count > 0;
+                if (hayFilas) this.especialidadesDataGridView.Rows[0].Selected = true;
                 eliminarButton.Enabled = hayFilas;
                 modificarButton.Enabled = hayFilas;
                 agregarButton.Enabled = true;

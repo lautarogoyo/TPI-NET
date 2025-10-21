@@ -3,6 +3,7 @@ using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,8 +57,27 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<TPIContext>();
-    db.Database.EnsureCreated();  
-    Console.WriteLine("✅ Base de datos verificada o creada correctamente.");
+    db.Database.EnsureCreated();
+
+    var sql = @"
+    IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Especialidades')
+    BEGIN
+        CREATE TABLE Especialidades (
+            IDEspecialidad INT IDENTITY(1,1) PRIMARY KEY,
+            Descripcion NVARCHAR(100) NOT NULL
+        );
+    END
+
+    IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE name = 'FK_Planes_Especialidades')
+    BEGIN
+        ALTER TABLE Planes
+        ADD CONSTRAINT FK_Planes_Especialidades
+        FOREIGN KEY (IDEspecialidad)
+        REFERENCES Especialidades(IDEspecialidad);
+    END
+    ";
+
+    db.Database.ExecuteSqlRaw(sql);
 }
 
 app.UseAuthentication();
