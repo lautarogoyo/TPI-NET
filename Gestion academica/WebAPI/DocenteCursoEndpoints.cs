@@ -64,6 +64,15 @@ namespace WebAPI
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
+
+            app.MapGet("/docentescursos/docente/{idDocente}", (int idDocente) =>
+            {
+                var service = new DocenteCursoService();
+                return Results.Ok(service.GetByDocente(idDocente));
+            })
+            .WithName("GetByDocente")
+            .Produces<List<DocenteCursoDTO>>(StatusCodes.Status200OK)
+            .WithOpenApi();
         }
     }
 }

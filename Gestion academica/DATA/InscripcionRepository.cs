@@ -31,10 +31,11 @@ namespace Data
             return false;
         }
 
-        public Inscripcion? Get(int id)
+        public Inscripcion? Get(int idCurso, int idAlumno)
         {
             using var context = CreateContext();
-            return context.Inscripciones.Find(id);
+            return context.Inscripciones
+                .SingleOrDefault(i => i.IDCurso == idCurso && i.IDAlumno == idAlumno);
         }
 
         public IEnumerable<Inscripcion> GetAll()

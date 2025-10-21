@@ -74,5 +74,27 @@ namespace API.Clients
             return await response.Content.ReadFromJsonAsync<IEnumerable<DocenteCursoDTO>>()
                    ?? new List<DocenteCursoDTO>();
         }
+        public static async Task<List<DocenteCursoDTO>> GetByDocente(int idDocente)
+        {
+            try
+            {
+                var response = await client.GetAsync($"docentescursos/docente/{idDocente}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<List<DocenteCursoDTO>>() ?? new List<DocenteCursoDTO>();
+                }
+
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Error al obtener cursos. Status: {response.StatusCode}. Detalle: {error}");
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception($"Error de conexión al obtener cursos: {ex.Message}", ex);
+            }
+            catch (TaskCanceledException ex)
+            {
+                throw new Exception($"Timeout al obtener cursos: {ex.Message}", ex);
+            }
+        }
     }
 }

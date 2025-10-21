@@ -234,6 +234,9 @@ namespace Data
                       .HasForeignKey(i => i.IDCurso)
                       .HasConstraintName("FK_Inscripciones_Cursos_IDCurso")
                       .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasIndex(dc => new { dc.IDCurso, dc.IDAlumno })
+                      .IsUnique();
             });
 
             // --- DOCENTE CURSO ---

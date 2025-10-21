@@ -12,8 +12,8 @@
         public string? DescComision { get; set; }
         public int? Anio { get; set; }
         public PersonaDTO? Alumno { get; set; }
-        public string? NombreAlumno => $"{Alumno.Nombre} {Alumno.Apellido}";
-        public string? LegajoAlumno => Alumno.Legajo;
-        public string? EmailAlumno => Alumno.Email;
+        public string? NombreAlumno => $"{Alumno?.Nombre} {Alumno?.Apellido}";
+        public string? LegajoAlumno => Alumno?.Legajo;
+        public string? EmailAlumno => Alumno?.Email;
     }
 }

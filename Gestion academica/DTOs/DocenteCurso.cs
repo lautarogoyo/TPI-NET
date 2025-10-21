@@ -16,5 +16,8 @@
         public int IDDocente { get; set; }
         public string? NombreDocente { get; set; }
         public string? DescCurso { get; set; }
+        public string? DescMateria { get; set; }
+        public string? DescComision { get; set; }
+        public int? Anio { get; set; }
     }
 }

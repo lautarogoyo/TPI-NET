@@ -77,5 +77,20 @@ namespace Application.Services
 
             return repo.Update(dc);
         }
+        public IEnumerable<DocenteCursoDTO> GetByDocente(int idDocente)
+        {
+            var repo = new DocenteCursoRepository();
+            return repo.GetByDocente(idDocente).Select(dc => new DocenteCursoDTO
+            {
+                IdDocenteCurso = dc.IdDocenteCurso,
+                IDDocente = dc.IDDocente,
+                IDCurso = dc.IDCurso,
+                Cargo = (TiposCargos)dc.Cargo,
+                DescCurso = dc.Curso.Descripcion,
+                DescMateria = dc.Curso.ComisionMateria.Materia.Descripcion,
+                DescComision = dc.Curso.ComisionMateria.Comision.Descripcion,
+                Anio = dc.Curso.AnioCalendario
+            }).ToList();
+        }
     }
 }

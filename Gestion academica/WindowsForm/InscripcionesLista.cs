@@ -71,7 +71,7 @@ namespace WindowsForm
                 {
                     if (e.Value != null)
                     {
-                        e.Value = (int)e.Value == -1 ? "     -" : $"{e.Value}";
+                        e.Value = (int)e.Value == -1 ? "     -" : $"     {e.Value}";
                         e.FormattingApplied = true;
                     }
                 }

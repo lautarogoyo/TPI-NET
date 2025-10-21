@@ -60,5 +60,18 @@ namespace Data
             }
             return false;
         }
+        public IEnumerable<DocenteCurso> GetByDocente(int id)
+        {
+            using var context = CreateContext();
+            return context.DocentesCursos
+                .Include(dc => dc.Curso)
+                .ThenInclude(c => c.ComisionMateria)
+                .ThenInclude(cm => cm.Materia)
+                .Include(dc => dc.Curso)
+                .ThenInclude(c => c.ComisionMateria)
+                .ThenInclude(cm => cm.Comision)
+                .Where(dc => dc.IDDocente == id)
+                .ToList();
+        }
     }
 }

@@ -1,0 +1,141 @@
+﻿@using DTOs
+@using API.Clients
+@inject InscripcionApi InscripcionApi
+
+@if (Visible)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Administrar Inscripción</h5>
+                    <button type="button" class="btn-close" @onclick="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    @if (loading)
+                    {
+                        <div class="text-center">
+                            <div class="spinner-border" role="status"></div>
+                        </div>
+                    }
+                    else if (inscripcion != null)
+                    {
+                        <div class="mb-3">
+                            <label class="form-label">Condición</label>
+                            <select class="form-select"
+                                    value="@inscripcion.Condicion"
+                                    @onchange="CondicionChanged">
+                                <option value="Cursando">Cursando</option>
+                                <option value="Regular">Regular</option>
+                                <option value="Aprobado">Aprobado</option>
+                                <option value="Libre">Libre</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nota Final</label>
+                            <select class="form-select" @bind="notaSeleccionada" disabled="@(!notaHabilitada)">
+                                <option value="">-- Seleccione nota --</option>
+                                @for (int i = 6; i <= 10; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">No se pudo cargar la inscripción.</div>
+                    }
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="Close">Cancelar</button>
+                    <button class="btn btn-primary" @onclick="Guardar" disabled="@(loading || inscripcion == null)">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public EventCallback OnInsChange { get; set; }
+    [Parameter] public EventCallback<string> OnSuccess { get; set; }
+    [Parameter] public EventCallback<string> OnError { get; set; }
+
+    private bool Visible;
+    private bool loading;
+    private bool notaHabilitada;
+    private string? notaSeleccionada;
+    private InscripcionDTO? inscripcion;
+
+    private int idCurso;
+    private int idAlumno;
+
+    public async Task OpenAdministrarModal(InscripcionDTO ins)
+    {
+        Visible = true;
+        loading = true;
+        idCurso = ins.IDCurso;
+        idAlumno = ins.IDAlumno;
+
+        try
+        {
+            inscripcion = await InscripcionApi.GetAsync(idCurso, idAlumno);
+            notaSeleccionada = inscripcion.NotaFinal > 0 ? inscripcion.NotaFinal.ToString() : "";
+            notaHabilitada = inscripcion.Condicion == "Aprobado";
+        }
+        catch (Exception ex)
+        {
+            await OnError.InvokeAsync($"Error al cargar inscripción: {ex.Message}");
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private void CondicionChanged(ChangeEventArgs e)
+    {
+        inscripcion.Condicion = e.Value?.ToString() ?? "Cursando";
+        notaHabilitada = inscripcion.Condicion == "Aprobado";
+
+        if (!notaHabilitada)
+        {
+            notaSeleccionada = "";
+            inscripcion.NotaFinal = -1;
+        }
+    }
+
+    private async Task Guardar()
+    {
+        if (inscripcion == null)
+            return;
+
+        try
+        {
+            if (notaHabilitada && int.TryParse(notaSeleccionada, out int nota))
+                inscripcion.NotaFinal = nota;
+            else if (!notaHabilitada)
+                inscripcion.NotaFinal = -1;
+
+            await InscripcionApi.UpdateAsync(inscripcion);
+            await OnSuccess.InvokeAsync("Inscripción actualizada correctamente.");
+            await OnInsChange.InvokeAsync();
+            Close();
+        }
+        catch (Exception ex)
+        {
+            await OnError.InvokeAsync($"Error al actualizar: {ex.Message}");
+        }
+    }
+
+    private void Close()
+    {
+        Visible = false;
+        inscripcion = null;
+        notaSeleccionada = "";
+        notaHabilitada = false;
+    }
+}

@@ -20,26 +20,26 @@ namespace API.Clients
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static async Task<InscripcionDTO?> GetAsync(int id)
+        public static async Task<InscripcionDTO?> GetAsync(int idCurso, int idAlumno)
         {
             try
             {
-                var response = await client.GetAsync($"inscripciones/{id}");
+                var response = await client.GetAsync($"inscripciones/{idCurso}/{idAlumno}");
                 if (response.IsSuccessStatusCode)
                 {
                     return await response.Content.ReadFromJsonAsync<InscripcionDTO>();
                 }
 
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Error al obtener inscripción Id {id}. Status: {response.StatusCode}. Detalle: {error}");
+                throw new Exception($"Error al obtener inscripción. Status: {response.StatusCode}. Detalle: {error}");
             }
             catch (HttpRequestException ex)
             {
-                throw new Exception($"Error de conexión al obtener inscripción Id {id}: {ex.Message}", ex);
+                throw new Exception($"Error de conexión al obtener inscripción: {ex.Message}", ex);
             }
             catch (TaskCanceledException ex)
             {
-                throw new Exception($"Timeout al obtener inscripción Id {id}: {ex.Message}", ex);
+                throw new Exception($"Timeout al obtener inscripción: {ex.Message}", ex);
             }
         }
 

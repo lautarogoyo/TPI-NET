@@ -21,10 +21,10 @@ namespace Application.Services
             return repo.Delete(id);
         }
 
-        public InscripcionDTO? Get(int id)
+        public InscripcionDTO? Get(int idCurso, int idAlumno)
         {
             var repo = new InscripcionRepository();
-            var entity = repo.Get(id);
+            var entity = repo.Get(idCurso, idAlumno);
 
             if (entity == null) return null;
 
@@ -54,7 +54,7 @@ namespace Application.Services
         public bool Update(InscripcionDTO dto)
         {
             var repo = new InscripcionRepository();
-            var i = repo.Get(dto.IDInscripcion);
+            var i = repo.Get(dto.IDCurso, dto.IDAlumno);
             if (i == null) return false;
 
             i.SetIDAlumno(dto.IDAlumno);

@@ -35,6 +35,7 @@ builder.Services.AddScoped<API.Clients.CursoApi>();
 builder.Services.AddScoped<API.Clients.UsuarioApi>();
 builder.Services.AddScoped<API.Clients.AuthApi>();
 builder.Services.AddScoped<API.Clients.ComisionMateriaApi>();
+builder.Services.AddScoped<API.Clients.DocenteCursoApi>();
 
 
 

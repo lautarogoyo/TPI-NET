@@ -7,10 +7,10 @@ namespace WebAPI
     {
         public static void MapInscripcionEndpoints(this WebApplication app)
         {
-            app.MapGet("/inscripciones/{id}", (int id) =>
+            app.MapGet("/inscripciones/{idCurso}/{idAlumno}", (int idCurso, int idAlumno) =>
             {
                 var service = new InscripcionService();
-                var dto = service.Get(id);
+                var dto = service.Get(idCurso, idAlumno);
                 return dto == null ? Results.NotFound() : Results.Ok(dto);
             })
             .WithName("GetInscripcion")
