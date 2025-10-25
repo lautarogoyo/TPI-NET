@@ -5,6 +5,8 @@
 @rendermode InteractiveServer
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Authorization
 
 <h3>@("Listado de docentes y cursos")</h3>
 <AuthorizeView Roles="Admin">
@@ -58,16 +60,11 @@
     </Authorized>
 
     <NotAuthorized>
-        @code {
-        protected override void OnAfterRender(bool firstRender)
-        {
-            if (firstRender)
-                Navigation.NavigateTo("/denied", true);
-        }
-        }
+        
     </NotAuthorized>
 </AuthorizeView>
 @code {
+    [CascadingParameter] private Task<AuthenticationState>? AuthTask { get; set; }
 
     private List<DocenteCursoDTO>? DocentesCursos;
     private string TextoBusqueda = string.Empty;
@@ -78,7 +75,18 @@
     {
         await CargarDCAsync();
     }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || AuthTask is null) return;
 
+        var user = (await AuthTask).User;
+        var isAuth = user?.Identity?.IsAuthenticated ?? false;
+
+        if (!isAuth)
+            Navigation.NavigateTo("/login", true);
+        else if (!user.IsInRole("Admin"))
+            Navigation.NavigateTo("/denied");
+    }
     private async Task CargarDCAsync()
     {
         try

@@ -69,16 +69,12 @@
     </Authorized>
 
     <NotAuthorized>
-        @code {
-        protected override void OnAfterRender(bool firstRender)
-        {
-            if (firstRender)
-                Navigation.NavigateTo("/denied", true);
-        }
-        }
+        
     </NotAuthorized>
 </AuthorizeView>
 @code {
+    [CascadingParameter] private Task<AuthenticationState>? AuthTask { get; set; }
+
     [Parameter] public int Numero { get; set; } // 1 = Alumno, 2 = Profesor
     [Parameter] public string Tipo { get; set; } = string.Empty;
 
@@ -86,7 +82,18 @@
     private string TextoBusqueda = string.Empty;
 
     private PersonaModal? Modal;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || AuthTask is null) return;
 
+        var user = (await AuthTask).User;
+        var isAuth = user?.Identity?.IsAuthenticated ?? false;
+
+        if (!isAuth)
+            Navigation.NavigateTo("/login", true);
+        else if (!user.IsInRole("Admin"))
+            Navigation.NavigateTo("/denied");
+    }
     protected override async Task OnParametersSetAsync()
     {
         Personas = null; 

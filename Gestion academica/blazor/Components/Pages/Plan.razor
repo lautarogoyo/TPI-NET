@@ -5,6 +5,9 @@
 @inject PlanApi PlanApi
 @inject EspecialidadApi EspecialidadApi
 @inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Authorization
+
 
 @rendermode InteractiveServer
 
@@ -101,16 +104,12 @@
     </Authorized>
 
     <NotAuthorized>
-        @code {
-        protected override void OnAfterRender(bool firstRender)
-        {
-            if (firstRender)
-                Navigation.NavigateTo("/denied", true);
-        }
-        }
+        
     </NotAuthorized>
 </AuthorizeView>
 @code {
+    [CascadingParameter] private Task<AuthenticationState>? AuthTask { get; set; }
+
     private List<PlanDTO> planes = new();
     private List<EspecialidadDTO> especialidades = new();
     private Dictionary<int, string> especialidadById = new();
@@ -119,6 +118,18 @@
     private string successMessage = string.Empty;
     private PlanModal modal = null!;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || AuthTask is null) return;
+
+        var user = (await AuthTask).User;
+        var isAuth = user?.Identity?.IsAuthenticated ?? false;
+
+        if (!isAuth)
+            Navigation.NavigateTo("/login", true);
+        else if (!user.IsInRole("Admin"))
+            Navigation.NavigateTo("/denied");
+    }
     protected override async Task OnInitializedAsync() => await LoadData();
 
     private async Task LoadData()

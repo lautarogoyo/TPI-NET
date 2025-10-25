@@ -98,13 +98,7 @@
     </Authorized>
 
     <NotAuthorized>
-        @code {
-        protected override void OnAfterRender(bool firstRender)
-        {
-            if (firstRender)
-                Nav.NavigateTo("/denied", true);
-        }
-        }
+        
     </NotAuthorized>
 </AuthorizeView>
 

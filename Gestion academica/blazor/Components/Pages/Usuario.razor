@@ -6,6 +6,9 @@
 @inject UsuarioApi UsuarioApi
 @inject PersonaApi PersonaApi
 @rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Authorization
+
 
 <PageTitle>Usuarios</PageTitle>
 <AuthorizeView Roles="Admin">
@@ -105,16 +108,12 @@
     </Authorized>
 
     <NotAuthorized>
-        @code {
-        protected override void OnAfterRender(bool firstRender)
-        {
-            if (firstRender)
-                Navigation.NavigateTo("/denied", true);
-        }
-        }
+        
     </NotAuthorized>
 </AuthorizeView>
 @code {
+    [CascadingParameter] private Task<AuthenticationState>? AuthTask { get; set; }
+
     private List<UsuarioDTO>? usuarios;
     private bool loading = true;
 
@@ -122,6 +121,18 @@
     private string successMessage = string.Empty;
     private UsuarioModal? modal;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || AuthTask is null) return;
+
+        var user = (await AuthTask).User;
+        var isAuth = user?.Identity?.IsAuthenticated ?? false;
+
+        if (!isAuth)
+            Navigation.NavigateTo("/login", true);
+        else if (!user.IsInRole("Admin"))
+            Navigation.NavigateTo("/denied");
+    }
     protected override async Task OnInitializedAsync()
     {
         await LoadUsuarios();         

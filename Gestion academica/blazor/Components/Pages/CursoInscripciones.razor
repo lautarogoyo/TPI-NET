@@ -4,6 +4,8 @@
 @inject InscripcionApi InscripcionApi
 @inject IJSRuntime JS
 @inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Authorization
 
 <h3>Alumno Inscriptos a @descCurso</h3>
 
@@ -60,16 +62,12 @@
     </Authorized>
 
     <NotAuthorized>
-        @code {
-        protected override void OnAfterRender(bool firstRender)
-        {
-            if (firstRender)
-                Navigation.NavigateTo("/denied", true);
-        }
-        }
+        
     </NotAuthorized>
 </AuthorizeView>
 @code {
+    [CascadingParameter] private Task<AuthenticationState>? AuthTask { get; set; }
+
     [Parameter] public int idCurso { get; set; }
     [Parameter] public string descCurso { get; set; }
 
@@ -94,7 +92,18 @@
             loading = false;
         }
     }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || AuthTask is null) return;
 
+        var user = (await AuthTask).User;
+        var isAuth = user?.Identity?.IsAuthenticated ?? false;
+
+        if (!isAuth)
+            Navigation.NavigateTo("/login", true);
+        else if (!user.IsInRole("Admin"))
+            Navigation.NavigateTo("/denied");
+    }
     private async Task ExportPdf()
     {
         var curso = inscriptos?.FirstOrDefault()?.DescCurso ?? $"{descCurso}";

@@ -1,13 +1,15 @@
 ﻿@page "/comisiones"
 @using DTOs
 @using API.Clients
-@using Microsoft.AspNetCore.Authorization
 @inject IJSRuntime JSRuntime
 @inject ComisionApi ComisionApi
 @inject IHttpClientFactory HttpFactory
 @rendermode InteractiveServer
-@attribute [Authorize]
 @inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Authorization
+
+
 
 <PageTitle>Comisiones</PageTitle>
 
@@ -112,17 +114,12 @@
     </Authorized>
 
     <NotAuthorized>
-        @code {
-        protected override void OnAfterRender(bool firstRender)
-        {
-            if (firstRender)
-                Navigation.NavigateTo("/denied", true);
-        }
-        }
+        
     </NotAuthorized>
 </AuthorizeView>
 
 @code {
+    [CascadingParameter] private Task<AuthenticationState>? AuthTask { get; set; }
     private List<ComisionDTO>? comisiones;
     private List<PlanDTO> planes = new();
     private bool loading = true;
@@ -158,6 +155,18 @@
         {
             loading = false;
         }
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || AuthTask is null) return;
+
+        var user = (await AuthTask).User;
+        var isAuth = user?.Identity?.IsAuthenticated ?? false;
+
+        if (!isAuth)
+            Navigation.NavigateTo("/login", true);
+        else if (!user.IsInRole("Admin"))
+            Navigation.NavigateTo("/denied");
     }
     private async Task LoadPlanes()
     {

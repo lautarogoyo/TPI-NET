@@ -5,6 +5,8 @@
 @inject MateriaApi MateriaApi
 @rendermode InteractiveServer
 @inject NavigationManager Navigation
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
 
 
 <PageTitle>Materias</PageTitle>
@@ -96,22 +98,30 @@
     </Authorized>
 
     <NotAuthorized>
-        @code {
-        protected override void OnAfterRender(bool firstRender)
-        {
-            if (firstRender)
-                Navigation.NavigateTo("/denied", true);
-        }
-        }
+        
     </NotAuthorized>
 </AuthorizeView>
 @code {
+    [CascadingParameter] private Task<AuthenticationState>? AuthTask { get; set; }
+
     private List<MateriaDTO>? materias;
     private bool loading = true;
     private string errorMessage = string.Empty;
     private string successMessage = string.Empty;
     private MateriaModal modal = null!;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || AuthTask is null) return;
+
+        var user = (await AuthTask).User;
+        var isAuth = user?.Identity?.IsAuthenticated ?? false;
+
+        if (!isAuth)
+            Navigation.NavigateTo("/login", true);
+        else if (!user.IsInRole("Admin"))
+            Navigation.NavigateTo("/denied");
+    }
     protected override async Task OnInitializedAsync()
         => await LoadMaterias();
 
