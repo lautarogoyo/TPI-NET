@@ -114,7 +114,8 @@
     </Authorized>
 
     <NotAuthorized>
-        
+        <div class="alert alert-danger m-3">Acceso no autorizado.</div>
+
     </NotAuthorized>
 </AuthorizeView>
 
@@ -163,9 +164,7 @@
         var user = (await AuthTask).User;
         var isAuth = user?.Identity?.IsAuthenticated ?? false;
 
-        if (!isAuth)
-            Navigation.NavigateTo("/login", true);
-        else if (!user.IsInRole("Admin"))
+        if (!user.IsInRole("Admin"))
             Navigation.NavigateTo("/denied");
     }
     private async Task LoadPlanes()

@@ -125,9 +125,7 @@
         var user = (await AuthTask).User;
         var isAuth = user?.Identity?.IsAuthenticated ?? false;
 
-        if (!isAuth)
-            Navigation.NavigateTo("/login", true);
-        else if (!user.IsInRole("Admin"))
+        if (!user.IsInRole("Admin"))
             Navigation.NavigateTo("/denied");
     }
     protected override async Task OnInitializedAsync() => await LoadData();

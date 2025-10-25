@@ -122,9 +122,7 @@
         var user = (await AuthTask).User;
         var isAuth = user?.Identity?.IsAuthenticated ?? false;
 
-        if (!isAuth)
-            Nav.NavigateTo("/login", true);
-        else if (!user.IsInRole("Admin"))
+        if (!user.IsInRole("Admin"))
             Nav.NavigateTo("/denied");
     }
 
